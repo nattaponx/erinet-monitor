@@ -23,8 +23,12 @@ router.get('/duc', function(req, res, next) {
   res.sendFile(path.join(__dirname, '../views', 'duc.html'));
 });
 
-router.get('/inst', function(req, res, next) {
-  res.sendFile(path.join(__dirname, '../views', 'inst.html'));
+router.get('/performance', function(req, res, next) {
+  res.sendFile(path.join(__dirname, '../views', 'performance.html'));
+});
+
+router.get('/dashboard', function(req, res, next) {
+  res.sendFile(path.join(__dirname, '../views', 'dashboard.html'));
 });
 
 module.exports = router;
