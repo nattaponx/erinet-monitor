@@ -158,6 +158,7 @@
         <section class="content-header">
           <h1>
             PDC
+            <button class="btn btn-primary btn-sm right" id="toggleModule">Hide Panel</button>
           </h1>
         </section>
  
@@ -168,11 +169,10 @@
         <!-- Main content -->
         <section class="content">
                    
-          <div id="pdc-container"></div>
+          <div id="pdc-search"></div>
+          <div id="pdc-output"></div>
         </section><!-- /.content -->
- 
- 
- 
+
  
       </div><!-- /.content-wrapper -->
  
@@ -266,8 +266,7 @@
  
  
  
-    <!-- REQUIRED JS SCRIPTS -->
- 
+
     <!-- jQuery 2.1.4 -->
     <script src="/node_modules/jQuery/dist/jquery.min.js"></script>
     <!-- Bootstrap 3.3.2 JS -->
@@ -277,10 +276,16 @@
  
     <script data-main="/public/js/pages/pdc.js" src="/node_modules/requirejs/require.js"></script>
  
-    <!-- Optionally, you can add Slimscroll and FastClick plugins.
-         Both of these plugins are recommended to enhance the
-         user experience. Slimscroll is required when using the
-         fixed layout. -->
+    <script>
+      $("#toggleModule").click(function(){
+          var $target = $('#pdc-search'),
+              $toggle = $(this);
+
+          $target.slideToggle( 500, function () {
+              $toggle.text(($target.is(':visible') ? 'Hide' : 'Show') + ' Panel');
+          });
+      });
+    </script> 
   </body>
 </html>
 
