@@ -2,8 +2,8 @@
  * Network Topology
  * 
  */
-define(["node_modules/d3/d3.js"],function (d3) {
-	return{
+define(["node_modules/d3/d3.js"], function(d3) {
+	return {
 
 		//Widget properties
 		properties: {
@@ -24,6 +24,7 @@ define(["node_modules/d3/d3.js"],function (d3) {
 			
 			//Set properties
 			this.properties.type = type;
+			this.properties.title = title;
 
 			var box = d3.select('#' + parent_container)
 				.append('div')
