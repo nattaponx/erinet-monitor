@@ -2856,6 +2856,7 @@ table.text-center th {
   z-index: 5;
   display: inline-block;
   margin-top: -20px;
+  color: black; /* 2015-07-07 */
 }
 /*
  * Component: modal
