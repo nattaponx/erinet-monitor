@@ -2,12 +2,14 @@
 define(["node_modules/d3/d3.js"], function(d3) {
 	return {
 
-		initSearchModule: function(parent_container){
+		initModule: function(parent_container,btn_control){
 
 			var container = d3.select(parent_container);
+			var searchContainer = container.append('div').attr('id','searchModule');
+			var outputContainer = container.append('div').attr('id','outputModule');
 
-			var toprow = container.append('div').attr('class','row');
-			var middlerow = container.append('div').attr('class','row');
+			var toprow = searchContainer.append('div').attr('class','row');
+			var middlerow = searchContainer.append('div').attr('class','row');
 
 			var toppane = toprow.append('div').attr('class','col-xs-12');
 			var leftpane = middlerow.append('div').attr('class','col-md-6 col-sm-6 col-xs-12');
@@ -54,18 +56,24 @@ define(["node_modules/d3/d3.js"], function(d3) {
 			bodyright.append('button').attr({'class':'btn btn-default buttonGroup2','id':'excelBtn'}).text('Excel');
 			bodyright.append('button').attr({'class':'btn btn-default buttonGroup2','id':'candiBtn'}).text('Candi');
 
-		},
-
-		initOutputModule: function(parent_container){
-			var container = d3.select(parent_container);
-			var btmrow = container.append('div').attr('class','row');
+			//output module
+			var btmrow = outputContainer.append('div').attr('class','row');
 			var btmpane = btmrow.append('div').attr('class','col-xs-12');
 			var innerbtm = btmpane.append('div').attr('class','box box-primary');
 			innerbtm.append('h3').attr('class','box-title').text("Output");
 			var bodybtm = innerbtm.append('div').attr('class','box-body');
+		    
+
+		    $(btn_control).click(function(){
+		          var $target = $('#searchModule'),
+		              $toggle = $(this);
+
+		          $target.slideToggle( 500, function () {
+		              $toggle.text(($target.is(':visible') ? 'Hide' : 'Show') + ' Panel');
+		          });
+		    });
 
 		}
-
 
 	}
 
