@@ -4,38 +4,30 @@ define(["node_modules/d3/d3.js"], function(d3) {
 
 		initModule: function(parent_container,btn_control){
 
-			var container = d3.select(parent_container);
-			var searchContainer = container.append('div').attr('id','searchModule');
-			var outputContainer = container.append('div').attr('id','outputModule');
+			var container = d3.select(parent_container),
+				searchContainer = container.append('div').attr('id','searchModule'),
+				outputContainer = container.append('div').attr('id','outputModule'),
+				toprow = searchContainer.append('div').attr('class','row'),
+				middlerow = searchContainer.append('div').attr('class','row');
 
-			var toprow = searchContainer.append('div').attr('class','row');
-			var middlerow = searchContainer.append('div').attr('class','row');
+			var toppane = toprow.append('div').attr('class','col-xs-12'),
+				leftpane = middlerow.append('div').attr('class','col-md-6 col-sm-6 col-xs-12'),
+				rightpane = middlerow.append('div').attr('class','col-md-6 col-sm-6 col-xs-12');
 
-			var toppane = toprow.append('div').attr('class','col-xs-12');
-			var leftpane = middlerow.append('div').attr('class','col-md-6 col-sm-6 col-xs-12');
-			var rightpane = middlerow.append('div').attr('class','col-md-6 col-sm-6 col-xs-12');
+			var innertop = toppane.append('div').attr('class','box box-primary'),
+				innerleft = leftpane.append('div').attr('class','box box-primary'),
+				innerright = rightpane.append('div').attr('class','box box-primary');
 
-			var innertop = toppane.append('div').attr('class','box box-primary');
-			var innerleft = leftpane.append('div').attr('class','box box-primary');
-			var innerright = rightpane.append('div').attr('class','box box-primary');
-
-			innertop.append('h3').attr('class','box-title');
 			innerleft.append('h5').attr('class','box-title left-space10').text("select view");
 			innerright.append('h5').attr('class','box-title left-space10').text("select export");
 
-			var bodytop = innertop.append('div').attr('class','box-body');
-			var bodyleft = innerleft.append('div').attr('class','box-body');
-			var bodyright = innerright.append('div').attr('class','box-body');
+			var bodytopRow1 = innertop.append('div').attr('class','box-body'),
+				bodytopRow2 = innertop.append('div').attr('class','box-body'),
+				bodyleft = innerleft.append('div').attr('class','box-body'),
+				bodyright = innerright.append('div').attr('class','box-body');
 
-			bodytop.append('div').style('margin-bottom','10px').append('select').attr('id','node').style('width','130px');
-			bodytop.append('select').attr({'multiple':'','id':'gsn_version'}).style({'min-width':'100px','width':'12.5%','height':'180px'});
-			bodytop.append('select').attr({'multiple':'','id':'hardware'}).style({'min-width':'100px','width':'12.5%','height':'180px'});
-			bodytop.append('select').attr({'multiple':'','id':'region'}).style({'min-width':'100px','width':'12.5%','height':'180px'});
-			bodytop.append('select').attr({'multiple':'','id':'country'}).style({'min-width':'100px','width':'12.5%','height':'180px'});
-			bodytop.append('select').attr({'multiple':'','id':'customer_name'}).style({'min-width':'100px','width':'12.5%','height':'180px'});
-			bodytop.append('select').attr({'multiple':'','id':'timespan'}).style({'min-width':'100px','width':'12.5%','height':'180px'});
-			bodytop.append('select').attr({'multiple':'','id':'node_id'}).style({'min-width':'100px','width':'12.5%','height':'180px'});
-			bodytop.append('select').attr({'multiple':'','id':'report'}).style({'min-width':'100px','width':'12.5%','height':'180px'});
+			bodytopRow1.append('select').attr('id','node').style('width','130px');
+			initSelectGroup(bodytopRow2,['gsn_version','hardware','region','country','customer_name','timespan','node_id','report']);
 
 			setPlaceholder('node','Select Nodes');
 			setPlaceholder('gsn_version','Select Releases');
@@ -54,24 +46,29 @@ define(["node_modules/d3/d3.js"], function(d3) {
 			bodyright.append('button').attr({'class':'btn btn-default buttonGroup2','id':'excelBtn'}).text('Excel');
 			bodyright.append('button').attr({'class':'btn btn-default buttonGroup2','id':'candiBtn'}).text('Candi');
 
-			//output module
-			var btmrow = outputContainer.append('div').attr('class','row');
-			var btmpane = btmrow.append('div').attr('class','col-xs-12');
-			var innerbtm = btmpane.append('div').attr('class','box box-primary');
-			// innerbtm.append('h3').attr('class','box-title').text("Output");
-			var bodybtmDiv = innerbtm.append('div').attr('class','box-body').append('div');
-		    initTabWidget(bodybtmDiv, ['Network_Information','Network_Graph','Node_Information']);
+			////// Output Module ///////
+			var btmrow = outputContainer.append('div').attr('class','row'),
+				btmpane = btmrow.append('div').attr('class','col-xs-12'),
+				innerbtm = btmpane.append('div').attr('class','box box-primary'),
+				bodybtmDiv = innerbtm.append('div').attr('class','box-body').append('div');
 
+			var tabs = ['Network_Information','Network_Graph','Node_Information'];
+		    initTabWidget(bodybtmDiv, tabs);
+		    
 
+		    var records = [
+			    {id: 12, user: 'test', date:'2015-07-08', reason:'hello world'},
+			    {id: 13, user: 'test', date:'2015-07-08', reason:'hello world'},
+			    {id: 14, user: 'test', date:'2015-07-08', reason:'hello world'},
+			    {id: 15, user: 'test', date:'2015-07-08', reason:'hello world'}
+			];
 
-		    $(btn_control).click(function(){
-		          var $target = $('#searchModule'),
-		              $toggle = $(this);
+		    for(var key in tabs){
+		    	initTable(tabs[key], records, ['id','user','date','reason']);
+		    }	    	
 
-		          $target.slideToggle( 500, function () {
-		              $toggle.text(($target.is(':visible') ? 'Hide' : 'Show') + ' Panel');
-		          });
-		    });
+		    runTogglePanel(btn_control);
+
 
 		}
 
@@ -81,8 +78,16 @@ define(["node_modules/d3/d3.js"], function(d3) {
 		d3.select('#'+ elemId).append('option').attr({'disabled':'','selected':''}).text(title);
 	}
 
-	function initTabWidget(divObj, tabs){
+	function initSelectGroup(divObj, columns){
+		divObj.selectAll('select').data(columns).enter().append('select')
+		.attr('multiple','')
+		.attr('id', function(d){
+			return d;
+		})
+		.style({'min-width':'100px','width':'12.5%','height':'180px'});
+	}
 
+	function initTabWidget(divObj, tabs){
 		var ulObj = divObj.append('ul').attr({'class':'nav nav-tabs','role':'tablist'});
 		var innerDiv = divObj.append('div').attr('class','tab-content');
 		
@@ -113,8 +118,49 @@ define(["node_modules/d3/d3.js"], function(d3) {
 			return d;
 		});
 	
+	}
+
+	function initTable(divId, records, columns){
+
+		var divObj = d3.select('#' + divId);
+		var table = divObj.append('div').attr('class','row')
+						.append('div').attr('class','col-xs-12')
+						.append('div').attr('class','box')
+						.append('div').attr('class','box-body table-responsive no-padding')
+						.append('table').attr('class','table table-hover');
+
+		var thead = table.append('thead'),
+			tbody = table.append('tbody');
+
+		thead.append('tr').selectAll('th').data(columns).enter().append('th')
+		.text(function(d) {
+			return d;
+		});
+
+		var rows = tbody.selectAll('tr').data(records).enter().append('tr');
+
+		var cells = rows.selectAll("td").data(function(row) {
+            return columns.map(function(d) {
+                return {column: d, value: row[d]};
+            });
+        }).enter().append("td").text(function(d) { return d.value; });
+
+		table.selectAll("thead th")
+	    .text(function(d) {
+	        return d.charAt(0).toUpperCase() + d.substr(1);
+	    });
 
 	}
 
+	function runTogglePanel(btnId){
+		$(btnId).click(function(){
+		    var $target = $('#searchModule'),
+		        $toggle = $(this);
+
+		        $target.slideToggle( 500, function () {
+		              $toggle.text(($target.is(':visible') ? 'Hide' : 'Show') + ' Panel');
+		        });
+		});
+	}
 
 });
