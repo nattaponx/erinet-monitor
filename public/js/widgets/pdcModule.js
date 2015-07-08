@@ -28,8 +28,6 @@ define(["node_modules/d3/d3.js"], function(d3) {
 			var bodyright = innerright.append('div').attr('class','box-body');
 
 			bodytop.append('div').style('margin-bottom','10px').append('select').attr('id','node').style('width','130px');
-			bodytop.append('div');
-
 			bodytop.append('select').attr({'multiple':'','id':'gsn_version'}).style({'min-width':'100px','width':'12.5%','height':'180px'});
 			bodytop.append('select').attr({'multiple':'','id':'hardware'}).style({'min-width':'100px','width':'12.5%','height':'180px'});
 			bodytop.append('select').attr({'multiple':'','id':'region'}).style({'min-width':'100px','width':'12.5%','height':'180px'});
@@ -60,9 +58,11 @@ define(["node_modules/d3/d3.js"], function(d3) {
 			var btmrow = outputContainer.append('div').attr('class','row');
 			var btmpane = btmrow.append('div').attr('class','col-xs-12');
 			var innerbtm = btmpane.append('div').attr('class','box box-primary');
-			innerbtm.append('h3').attr('class','box-title').text("Output");
-			var bodybtm = innerbtm.append('div').attr('class','box-body');
-		    
+			// innerbtm.append('h3').attr('class','box-title').text("Output");
+			var bodybtmDiv = innerbtm.append('div').attr('class','box-body').append('div');
+		    initTabWidget(bodybtmDiv, ['Network_Information','Network_Graph','Node_Information']);
+
+
 
 		    $(btn_control).click(function(){
 		          var $target = $('#searchModule'),
@@ -79,6 +79,41 @@ define(["node_modules/d3/d3.js"], function(d3) {
 
 	function setPlaceholder(elemId,title){
 		d3.select('#'+ elemId).append('option').attr({'disabled':'','selected':''}).text(title);
+	}
+
+	function initTabWidget(divObj, tabs){
+
+		var ulObj = divObj.append('ul').attr({'class':'nav nav-tabs','role':'tablist'});
+		var innerDiv = divObj.append('div').attr('class','tab-content');
+		
+		ulObj.selectAll('li').data(tabs).enter().append('li').attr({'role':'presentation'})
+		.attr('class', function(d,idx){
+			if(idx == 0)
+				return 'active';
+			else return '';
+		}).append('a')
+		.attr('href', function(d){
+			return '#' + d;
+		})
+		.attr('aria-controls', function(d){
+			return d;
+		})
+		.attr({'role':'tab','data-toggle':'tab'}).text(function(d){ return d; });
+
+		innerDiv.selectAll('div').data(tabs).enter().append('div').attr('role','tabpanel')
+		.attr('class', function(d,idx){
+			if(idx == 0)
+				return 'tab-pane active';
+			else return 'tab-pane';
+		})
+		.attr('id', function(d){
+			return d;
+		}).style('margin-top','10px')
+		.text(function(d){
+			return d;
+		});
+	
+
 	}
 
 
