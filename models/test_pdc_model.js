@@ -7,9 +7,9 @@ requirejs.config({
     nodeRequire: require
 });
 
-requirejs(["pdc_model.js"], function(dummy) {
+requirejs(["pdc_model.js"], function(model) {
 
-	dummy.fetchPdcPayloadPersec(function(data){
+	model.fetchPdcPayloadPersec(function(data){
 		console.log(data);
 	});
 
