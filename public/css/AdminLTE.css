@@ -2851,11 +2851,11 @@ table.text-center th {
 }
 .carousel-control > .fa {
   font-size: 40px;
-  position: absolute;
+  /*position: absolute; */
   top: 50%;
   z-index: 5;
   display: inline-block;
-  margin-top: -20px;
+  margin-top: 100px;
   color: black; /* 2015-07-07 */
 }
 /*

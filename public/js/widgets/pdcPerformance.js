@@ -10,6 +10,7 @@ define(["node_modules/d3/d3.js", "/public/plugins/chartjs/Chart.js"],function (d
 		properties: {
 			title: '',
 			type: '',
+			data: '',
 		},
 
 		/**
@@ -48,8 +49,7 @@ define(["node_modules/d3/d3.js", "/public/plugins/chartjs/Chart.js"],function (d
 			// chart canvas
 			var chart1 = box_body.append('canvas')
 				.attr('id', data)
-  				.attr("width", 400)
-  				.attr("height", 300);
+				.attr('width', 450);
  
 
 			//////////
@@ -57,7 +57,7 @@ define(["node_modules/d3/d3.js", "/public/plugins/chartjs/Chart.js"],function (d
 			//////////
 
 			var dData = function() {
-  				return Math.random();
+  				return Math.round(Math.random()*50) / 100;
   			};	
 
 			// testData1
@@ -80,9 +80,8 @@ define(["node_modules/d3/d3.js", "/public/plugins/chartjs/Chart.js"],function (d
 
         	// testData2
         	var testData2 = [
-				{ value : dData(), color:"#878BB6"},
-                { value : dData(), color : "#4ACAB4"},
-            	{ value : dData(), color : "#FF8153"}
+				{ value : dData(), color:"#878BB6", label : 'CPU1', highlight: "#FF5A5E"},
+                { value : dData(), color : "#F6F6F6"}
         	]
 
         	// testData3
@@ -105,12 +104,14 @@ define(["node_modules/d3/d3.js", "/public/plugins/chartjs/Chart.js"],function (d
 			///////////////////
 			// line chart options
             var lineOptions = {
-				scaleShowGridLines : false,
+				scaleShowGridLines : true,
             }
 			// pie chart options
             var doughnutOptions = {
-                 segmentShowStroke : true,
+                 segmentShowStroke : false,
                  animateScale : true,
+                 tooltipTemplate: "<%if (label){%><%=label%>: <%}%><%= value %>",
+                 percentageInnerCutout : 70
             }
             var barOptions = {
             }
