@@ -67,8 +67,9 @@ define(["node_modules/d3/d3.js"], function(d3) {
 		    	initTable(tabs[key], records, ['id','user','date','reason']);
 		    }	    	
 
-		    runTogglePanel(btn_control);
 
+		    ////// Show/Hide Panel run function ///////
+		    runTogglePanel(btn_control);
 
 		}
 

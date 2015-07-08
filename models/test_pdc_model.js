@@ -7,11 +7,9 @@ requirejs.config({
     nodeRequire: require
 });
 
-requirejs(["../api/connect"], function(connect) {
+requirejs(["pdc_model.js"], function(dummy) {
 
-	connect.fetchFromQuery('select top 10 [Id],[Time],[Uplink traffic],[Downlink traffic]' + 
-										'from dbo._EriNetGgsnPdcPayloadPerSec', function(data){
-
+	dummy.fetchPdcPayloadPersec(function(data){
 		console.log(data);
 	});
 
