@@ -3,7 +3,7 @@
  * PDC Performance view
  * 
  */
-define(["node_modules/d3/d3.js", "/public/plugins/chartjs/Chart.min.js"],function (d3, Chart) {
+define(["node_modules/d3/d3.js", "/public/plugins/chartjs/Chart.js"],function (d3, Chart) {
 	return{
 
 		//Widget properties
@@ -48,13 +48,18 @@ define(["node_modules/d3/d3.js", "/public/plugins/chartjs/Chart.min.js"],functio
 			// chart canvas
 			var chart1 = box_body.append('canvas')
 				.attr('id', data)
-				.attr('width','400px')
-				.attr('height','220px')
-				.attr('position', 'absolute');
+  				.attr("width", 400)
+  				.attr("height", 300);
+ 
 
 			//////////
 			// DATA //
-			//////////		
+			//////////
+
+			var dData = function() {
+  				return Math.random();
+  			};	
+
 			// testData1
 			var testData1 = {
             	labels : ["January","February","March","April","May","June", "July"],
@@ -63,21 +68,21 @@ define(["node_modules/d3/d3.js", "/public/plugins/chartjs/Chart.min.js"],functio
 	                strokeColor : "#0040FF",
 	                pointColor : "#fff",
 	                pointStrokeColor : "#0040FF",
-	                data : [203,456,939,251,305,247,450]
+	                data : [dData(),dData(),dData(),dData(),dData(),dData(),dData()]
             	},{
 	                fillColor : "rgba(245,0,61,0.4)",
 	                strokeColor : "#FF3366",
 	                pointColor : "#fff",
 	                pointStrokeColor : "#FF3366",
-	                data : [1000,715,402,302,110,385,905]
+	                data : [dData(),dData(),dData(),dData(),dData(),dData(),dData()]
             	}]
         	}
 
         	// testData2
         	var testData2 = [
-				{ value : 20, color:"#878BB6"},
-                { value : 40, color : "#4ACAB4"},
-            	{ value : 10, color : "#FF8153"}
+				{ value : dData(), color:"#878BB6"},
+                { value : dData(), color : "#4ACAB4"},
+            	{ value : dData(), color : "#FF8153"}
         	]
 
         	// testData3
@@ -86,11 +91,11 @@ define(["node_modules/d3/d3.js", "/public/plugins/chartjs/Chart.min.js"],functio
                 datasets : [{
                 	fillColor : "#48A497",
                     strokeColor : "#48A4D1",
-                    data : [456,479,324,569,702,600]
+                    data : [dData(),dData(),dData(),dData(),dData(),dData()]
                 },{
                     fillColor : "rgba(73,188,170,0.4)",
                     strokeColor : "rgba(72,174,209,0.4)",
-                    data : [364,504,605,400,345,320]
+                    data : [dData(),dData(),dData(),dData(),dData(),dData()]
                 }]
             }
 			
@@ -100,32 +105,29 @@ define(["node_modules/d3/d3.js", "/public/plugins/chartjs/Chart.min.js"],functio
 			///////////////////
 			// line chart options
             var lineOptions = {
-				scaleShowGridLines : false
+				scaleShowGridLines : false,
             }
 			// pie chart options
             var doughnutOptions = {
                  segmentShowStroke : true,
-                 animateRotate : true,
-                 animateScale : true
+                 animateScale : true,
             }
-			// bar chart options
             var barOptions = {
             }
-
 
 			/////////////////
 			// LOAD CHARTS //
 			/////////////////           
 
-	        var test = document.getElementById(data).getContext('2d');
+	        //var test = document.getElementById(data).getContext('2d');
 
 	        // draw charts
 	        if(data=='data_bearers')
-	        	new Chart(test).Line(testData1, lineOptions);
+	        	new Chart(document.getElementById(data).getContext('2d')).Line(testData1, lineOptions);
 	    	else if(data=='data_cpuloads')
-	    		new Chart(test).Doughnut(testData2, doughnutOptions);
+	    		new Chart(document.getElementById(data).getContext('2d')).Doughnut(testData2, doughnutOptions);
 	    	else if(data=='data_packets')
-	    		new Chart(test).Bar(testData3, barOptions);
+	    		new Chart(document.getElementById(data).getContext('2d')).Bar(testData3, barOptions);
 			},
 
 
