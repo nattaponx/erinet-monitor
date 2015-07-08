@@ -1,0 +1,33 @@
+html,body{
+	height: 100%;
+}
+
+.content-container{
+	height: 100%
+}
+
+.cell{
+	display: inline-block;
+	width: 33.33%;
+	height: 33.33%;
+	position: relative;
+}
+
+.cell-container{
+	overflow: auto;
+	width: 100%;
+	height: 100%;
+}
+
+.content{
+	min-height: 800px;
+	position: absolute;
+}
+
+.box{
+	height: 95%;
+}
+
+.box-body{
+	height: 95%;
+}
