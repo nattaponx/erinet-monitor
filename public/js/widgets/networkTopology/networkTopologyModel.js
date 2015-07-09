@@ -28,7 +28,7 @@ define([],function () {
 		},
 
 		/**
-		 * Fetching the components in the current network
+		 * Fetching the network components in the current network
 		 * 
 		 */
 		fetchNetworkComponents: function () {

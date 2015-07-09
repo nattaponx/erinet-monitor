@@ -28,7 +28,6 @@ define(["node_modules/d3/d3.js"], function (d3) {
 
 			var box_body = box.append('div')
 				.attr('class', 'box-body')
-				.attr('overflow', 'auto')
 				.style('background-color', 'lightblue');
 
 			this.createSvgContainer(box_body);
@@ -69,10 +68,12 @@ define(["node_modules/d3/d3.js"], function (d3) {
 		        	//console.log('window_height >= sidebar_height');
 	          		$(".content").css('min-height', diff);
 	          		$(".content-container").css('min-height', diff - 50);
-	          		$(".box").css('height', diff - 70);
+	          		$(".box").css('height', diff - 50);
 
-	          		$(".svg-container").css('height', $(".cell-container").height());
+	          		$(".box-body").css('height', diff-91);
+
 	          		$(".svg-container").css('width', $(".cell-container").width()); 
+	          		$(".svg-container").css('height', $(".cell-container").height());
 		        } else {
 		        	console.log('else');
 	          		$(".content").css('min-height', sidebar_height);	
@@ -103,47 +104,11 @@ define(["node_modules/d3/d3.js"], function (d3) {
 				.attr('id', 'cell-container')
 				.attr('class', 'cell-container')
 				
-				/*
-				.attr('overflow', 'auto')
-				.attr('width', '100%');
-				*/
-			
-			/*
-			var cellContainer = d3.select('#cell-container')
-				.attr('id', 'cell-container')
-				.attr('overflow', 'auto')
-				.attr('width', '100%')
-				.attr('height', '300px');
-			*/
+			for (var i = 1; i < 10; i++) {
+				this.createCell(cellContainer, 'c' + i);
+			};
 
-			this.createCell(cellContainer, 'c1');
-			this.createCell(cellContainer, 'c2');
-			this.createCell(cellContainer, 'c3');
-			this.createCell(cellContainer, 'c4');
-			this.createCell(cellContainer, 'c5');
-			this.createCell(cellContainer, 'c6');
-			this.createCell(cellContainer, 'c7');
-			this.createCell(cellContainer, 'c8');
-			this.createCell(cellContainer, 'c9');
-
-			/*
-			var	front = '0';
-			var middle = '33%';
-			var end = '66%';
-
-			this.createCell(cellContainer, 'c1', front, front);
-			this.createCell(cellContainer, 'c2', middle, front);
-			this.createCell(cellContainer, 'c3', end, front);							
-			this.createCell(cellContainer, 'c4', front, middle);
-			this.createCell(cellContainer, 'c5', middle, middle);
-			this.createCell(cellContainer, 'c6', end, middle);
-			this.createCell(cellContainer, 'c7', front, end);
-			this.createCell(cellContainer, 'c8', middle, end);
-			this.createCell(cellContainer, 'c9', end, end);
-			*/
 		},
-
-		//createCell: function(containerObj, id, pos_x, pos_y){
 		
 		/**
 		 * Creates a cell(div) that will be used in the gridlayout
@@ -155,9 +120,6 @@ define(["node_modules/d3/d3.js"], function (d3) {
 			var div = containerObj.append('div')
 				.attr('id', id)
 				.attr('class', 'cell')
-
-			div.append('img')
-				.attr('src', 'http://dummyimage.com/200x100/000000/fff')
 		}
 	}
 });
