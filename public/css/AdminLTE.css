@@ -2848,6 +2848,7 @@ table.text-center th {
  */
 .carousel-control {
   background-image: none!important;
+  width: 20%
 }
 .carousel-control > .fa {
   font-size: 70px;
