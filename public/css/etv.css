@@ -2,15 +2,29 @@ html,body{
 	height: 100%;
 }
 
+.content{
+	position: absolute;
+}
+
 .content-container{
 	
 }
 
-.cell{
-	display: inline-block;
-	width: 33.33%;
-	height: 33.33%;
-	position: relative;
+.box{
+}
+
+.box-body{
+	height: 100%;
+}
+
+
+.svg-container{
+	position: absolute;
+	background-color: red;
+	opacity: 0.5;
+	/*width: 98%;
+	z-index: -10;
+	height: 97%*/
 }
 
 .cell-container{
@@ -19,13 +33,10 @@ html,body{
 	height: 100%;
 }
 
-.content{
-	position: absolute;
-}
-
-.box{
-}
-
-.box-body{
-	height: 100%;
+.cell{
+	display: inline-block;
+	width: 33.33%;
+	height: 33.33%;
+	position: relative;
+	border: 1px solid; 
 }

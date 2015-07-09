@@ -31,7 +31,7 @@ define(["node_modules/d3/d3.js"], function (d3) {
 				.attr('overflow', 'auto')
 				.style('background-color', 'lightblue');
 
-			//this.createSvgContainer(box_body);
+			this.createSvgContainer(box_body);
 			this.createGrid(box_body);
 
 			this.resize();
@@ -69,7 +69,10 @@ define(["node_modules/d3/d3.js"], function (d3) {
 		        	//console.log('window_height >= sidebar_height');
 	          		$(".content").css('min-height', diff);
 	          		$(".content-container").css('min-height', diff - 50);
-	          		$(".box").css('height', diff - 70);  
+	          		$(".box").css('height', diff - 70);
+
+	          		$(".svg-container").css('height', $(".cell-container").height());
+	          		$(".svg-container").css('width', $(".cell-container").width()); 
 		        } else {
 		        	console.log('else');
 	          		$(".content").css('min-height', sidebar_height);	
@@ -80,11 +83,12 @@ define(["node_modules/d3/d3.js"], function (d3) {
 		createSvgContainer: function(containerObj) {
 			var svgContainer = containerObj.append('div')
 				.attr('id', 'svg-container')
-				.attr('z-index', '-10');
+				.attr('class', 'svg-container');
 
 			svgContainer.append('svg')
-				.attr('id', 'svg')
+				.attr('id', 'svg-drawingboard')
 				.attr('width', '100%')
+				.attr('height', '100%');
 		},
 
 		/**
@@ -152,17 +156,8 @@ define(["node_modules/d3/d3.js"], function (d3) {
 				.attr('id', id)
 				.attr('class', 'cell')
 
-				/*
-				.attr('display', 'inline-block')
-				.attr('position', 'relative')
-				.attr('width', '33%');
-				*/
 			div.append('img')
 				.attr('src', 'http://dummyimage.com/200x100/000000/fff')
-				/*
-				.attr('margin-left', pos_x)
-				.attr('margin-top', pos_y);
-				*/
 		}
 	}
 });
