@@ -48,7 +48,7 @@ define(["node_modules/d3/d3.js", "/public/plugins/chartjs/Chart.js"],function (d
 				.attr('class', 'box-header with-border');
 
 			//Append title	
-			box_header.append('h3')
+			var box_header_title = box_header.append('h3')
 				.attr('class', 'box-title')
 				.text(title);
 
@@ -79,8 +79,15 @@ define(["node_modules/d3/d3.js", "/public/plugins/chartjs/Chart.js"],function (d
    						.attr('class', 'box box-' +type).attr('id', 'detail-box')
       					.style('width','90%').style('margin', 'auto')
       					.append('div').attr('class', 'box-header with-border')
-      					.append('h3').attr('class', 'box-title').text(title)
-      					.append('div').attr('class', 'box-body');
+      					.append('h3').attr('class', 'box-title').text(title);
+
+      // 				var box_tools = detailBox.append('div')
+						// .attr('class', 'box-tools pull-right')
+						// .append('button').attr('class','btn btn-box-tool')
+						// .attr('data-widget','remove')
+						// .append('i').attr('class','fa fa-times');
+
+					detailBox.append('div').attr('class', 'box-body');
 
       				var detailBox_body =  detailBox.append('canvas')
 						.attr('id', data)
