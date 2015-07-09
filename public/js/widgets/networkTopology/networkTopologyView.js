@@ -42,6 +42,13 @@ define(["node_modules/d3/d3.js"], function (d3) {
 
 		},
 
+		/**
+		 * Resizes the different containers inside the container-wrapper.
+		 * Makes them take up all of the empty space inside the container-wrapper.
+		 * The affected containers are:
+		 * content 
+		 * 
+		 */
 		resize: function(){
 			console.log('resize');
 
@@ -49,17 +56,20 @@ define(["node_modules/d3/d3.js"], function (d3) {
 	      	var window_height 	      = $(window).height();
 	      	var sidebar_height 		  = $(".sidebar").height();
 	      	var content_header_height = $('.content-header').outerHeight();
+	      	var diff = window_height - neg - content_header_height;
 
 	    	if ($("body").hasClass("fixed")) {
 	    		console.log('body is fixed');
 		        $(".content")
 		        	.css('min-height', window_height - 
         			$('.main-footer').outerHeight() - 
-	        		$('.content-header').outerHeight());
+	        		content_header_height);
 	     	} else {
 		        if (window_height >= sidebar_height) {
-		        	console.log('window_height >= sidebar_height');
-	          		$(".content").css('min-height', window_height - neg - content_header_height);
+		        	//console.log('window_height >= sidebar_height');
+	          		$(".content").css('min-height', diff);
+	          		$(".content-container").css('min-height', diff - 50);
+	          		$(".box").css('height', diff - 70);  
 		        } else {
 		        	console.log('else');
 	          		$(".content").css('min-height', sidebar_height);	
@@ -77,6 +87,11 @@ define(["node_modules/d3/d3.js"], function (d3) {
 				.attr('width', '100%')
 		},
 
+		/**
+		 * Creates a 3x3 grid with divs
+		 * 
+		 * @param  {String} containerObj [id of the parent container]
+		 */
 		createGrid: function(containerObj) {
 
 			
@@ -125,6 +140,13 @@ define(["node_modules/d3/d3.js"], function (d3) {
 		},
 
 		//createCell: function(containerObj, id, pos_x, pos_y){
+		
+		/**
+		 * Creates a cell(div) that will be used in the gridlayout
+		 *  
+		 * @param  {String} containerObj [id of the parent container]
+		 * @param  {String} id           [id for the cell]
+		 */
 		createCell: function(containerObj, id){
 			var div = containerObj.append('div')
 				.attr('id', id)
@@ -135,9 +157,6 @@ define(["node_modules/d3/d3.js"], function (d3) {
 				.attr('position', 'relative')
 				.attr('width', '33%');
 				*/
-			
-
-
 			div.append('img')
 				.attr('src', 'http://dummyimage.com/200x100/000000/fff')
 				/*

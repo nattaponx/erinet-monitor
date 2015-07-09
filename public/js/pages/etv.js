@@ -7,7 +7,7 @@ require.config({
  });
 
 
-require(["widgets/networkTopology/networkTopologyController"], function (NetworkTopology) {
+require(["topology/networkTopologyController"], function (NetworkTopology) {
 	
 	NetworkTopology.init('content-container', 'primary', 'Erinet');
 

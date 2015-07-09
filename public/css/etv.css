@@ -3,7 +3,7 @@ html,body{
 }
 
 .content-container{
-	height: 100%
+	
 }
 
 .cell{
@@ -20,14 +20,12 @@ html,body{
 }
 
 .content{
-	min-height: 800px;
 	position: absolute;
 }
 
 .box{
-	height: 95%;
 }
 
 .box-body{
-	height: 95%;
+	height: 100%;
 }
