@@ -9,6 +9,7 @@ define(["node_modules/d3/d3.js", "/public/plugins/chartjs/Chart.js"],function (d
 			title: '',
 			type: '',
 			data: '',
+			carousel_num: '',
 		},
 
 		/**
@@ -20,16 +21,29 @@ define(["node_modules/d3/d3.js", "/public/plugins/chartjs/Chart.js"],function (d
 		 * 
 		 */
 
-		init: function(parent_container, type, title, data){
+		init: function(parent_container, type, title, data, carousel_num){
 			console.log('init PDC Performance View Widget');
 			
 			//Set properties
 			this.properties.type = type;
+			
+			//add indicators
+			var indicators = d3.select('#indicators')
+				.append('li').attr('data-target', '#carousel')
+				.attr('data-slide-to', ''+carousel_num)
+				.attr('class', function activeF(){if(carousel_num=='0') return 'active';});
 
-			var box = d3.select('#' + parent_container)
-				.append('div')
+			//Generate dashboards class
+			var cId = parseInt(carousel_num)+1;
+			var item = d3.select('#inner')
+				.append('div').attr('class', function activeF(){if(carousel_num=='0') return "item active"; else return "item";})
+				.append('div').attr('id','corousel-chart-'+ cId).attr('class','corousel-chart');
+
+			//Box
+			var box = item.append('div')
 				.attr('class', 'box box-' + type);
 
+			////Box title
 			var box_header = box.append('div')
 				.attr('class', 'box-header with-border');
 
@@ -38,12 +52,12 @@ define(["node_modules/d3/d3.js", "/public/plugins/chartjs/Chart.js"],function (d
 				.attr('class', 'box-title')
 				.text(title);
 
+			//Box body
 			var box_body = box.append('div')
 				.attr('class', 'box-body')
 				.style('background-color', '#FAFAFA')
 				.style('margin', 'auto')
 				.style('text-align', 'center');
-
 
 			// chart canvas
 			var chart1 = box_body.append('canvas')
@@ -60,17 +74,17 @@ define(["node_modules/d3/d3.js", "/public/plugins/chartjs/Chart.js"],function (d
    				if(d3.select('#detail-box')){
    					d3.select("#detail-box").remove();
    				}
-   				if (ok === true) {     
-      				d3.select('#details').append('div')
-      				.attr('class', 'box box-' +type).attr('id', 'detail-box')
-      				.style('width','90%')
-      				.style('margin-left', 'auto')
-      				.style('margin-right', 'auto')
-      				.append('div').attr('class', 'box-header with-border')
-      				.append('h3').attr('class', 'box-title').text(title)
-      				.append('div').attr('class', 'box-body')
-      				.style('text-align', 'center')
-      				.text('details shown here');
+   				if (ok === true) {
+   					var detailBox = d3.select('#details').append('div')
+   						.attr('class', 'box box-' +type).attr('id', 'detail-box')
+      					.style('width','90%').style('margin', 'auto')
+      					.append('div').attr('class', 'box-header with-border')
+      					.append('h3').attr('class', 'box-title').text(title)
+      					.append('div').attr('class', 'box-body');
+
+      				var detailBox_body =  detailBox.append('canvas')
+						.attr('id', data)
+						.attr({'width': '450', 'height': '130'});
    				}
 			}
 			document.getElementById(data).addEventListener('click',seeDetails);
@@ -152,6 +166,8 @@ define(["node_modules/d3/d3.js", "/public/plugins/chartjs/Chart.js"],function (d
 	        }else if(data=='data_cpuloads')
 	    		new Chart(document.getElementById(data).getContext('2d')).Doughnut(testData2, doughnutOptions);
 	    	else if(data=='data_packets')
+	    		new Chart(document.getElementById(data).getContext('2d')).Bar(testData3, barOptions);
+	    	else
 	    		new Chart(document.getElementById(data).getContext('2d')).Bar(testData3, barOptions);
 			},
 

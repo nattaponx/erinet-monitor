@@ -9,23 +9,7 @@
 		overflow: auto;
 	}
 
-	.corousel-chart-1{
-		top: 0%;
-		margin:0 auto;
-		width: 50%;
-		height: 50%;
-		margin-bottom: 10px;
-	}
-
-	.corousel-chart-2{
-		top: 0%;
-		margin:0 auto;
-		width: 50%;
-		height: 50%;
-		margin-bottom: 10px;
-	}
-
-	.corousel-chart-3{
+	.corousel-chart{
 		top: 0%;
 		margin:0 auto;
 		width: 50%;
