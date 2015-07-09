@@ -2848,14 +2848,16 @@ table.text-center th {
  */
 .carousel-control {
   background-image: none!important;
+  width: 20%
 }
 .carousel-control > .fa {
-  font-size: 40px;
-  position: absolute;
+  font-size: 70px;
+  /*position: absolute; */
   top: 50%;
   z-index: 5;
   display: inline-block;
-  margin-top: -20px;
+  margin-top: 50%;
+  color: black; /* 2015-07-07 */
 }
 /*
  * Component: modal

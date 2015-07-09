@@ -7,7 +7,7 @@
     <title>Performance</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
     <!-- Bootstrap 3.3.4 -->
-    <link href="/node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="/node_modules/bootstrap/dist/css/bootstrap.css" rel="stylesheet"/>
     <!-- Font Awesome Icons -->
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
     <!-- Ionicons -->
@@ -19,6 +19,8 @@
     <!-- Dashboard CSS  -->
     <link href="/public/css/performance.css" rel="stylesheet" type="text/css" />
    
+
+
   </head>
  
   <body class="skin-blue sidebar-mini">
@@ -146,12 +148,7 @@
         <!-- /.sidebar -->
       </aside>
  
- 
- 
- 
- 
- 
- 
+
       <!-- Content Wrapper. Contains page content -->
       <div class="content-wrapper">
         <!-- Content Header (Page header) -->
@@ -161,25 +158,30 @@
           </h1>
         </section>
  
- 
- 
- 
- 
+
         <!-- Main content -->
         <section class="content">
-          
-          
-           
- 
+          <div class="dashboard-content-container">
+            <!-- carousel -->
+            <div id="carousel" class="carousel slide" data-ride="carousel">
+              <ol id="indicators" class="carousel-indicators">
+                <!-- will be generated -->
+              </ol>
+              <div id="inner" class="carousel-inner">
+                <!-- will be generated -->
+              </div>
+              <a class="left carousel-control" href="#carousel" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left"></span></a>
+              <a class="right carousel-control" href="#carousel" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right"></span></a>
+            </div>
+          </div>
+          <!-- detail-box -->
+          <div id='details'>
+            <!-- will be generated -->
+          </div>
         </section><!-- /.content -->
- 
- 
- 
- 
       </div><!-- /.content-wrapper -->
- 
- 
- 
  
  
  
@@ -264,10 +266,6 @@
  
  
  
- 
- 
- 
- 
     <!-- REQUIRED JS SCRIPTS -->
  
     <!-- jQuery 2.1.4 -->
@@ -276,7 +274,9 @@
     <script src="/node_modules/bootstrap/dist/js/bootstrap.min.js" type="text/javascript"></script>
     <!-- AdminLTE App -->
     <script src="/public/js/app.min.js" type="text/javascript"></script>
- 
+    <!-- ChartJS -->
+    <script src='/public/plugins/chartjs/Chart.js'></script>
+
     <script data-main="/public/js/pages/performance.js" src="/node_modules/requirejs/require.js"></script>
  
     <!-- Optionally, you can add Slimscroll and FastClick plugins.
