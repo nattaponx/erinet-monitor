@@ -31,7 +31,7 @@ define(["node_modules/d3/d3.js", "/public/plugins/chartjs/Chart.js"],function (d
 				.attr('class', 'box box-' + type);
 
 			var box_header = box.append('div')
-				.attr('class', 'box-header with-border')
+				.attr('class', 'box-header with-border');
 
 			//Append title	
 			box_header.append('h3')
@@ -48,7 +48,7 @@ define(["node_modules/d3/d3.js", "/public/plugins/chartjs/Chart.js"],function (d
 			// chart canvas
 			var chart1 = box_body.append('canvas')
 				.attr('id', data)
-				.attr({'width': '600', 'height': '250'});
+				.attr({'width': '450', 'height': '230'});
  
 
 			/////////////
@@ -62,12 +62,13 @@ define(["node_modules/d3/d3.js", "/public/plugins/chartjs/Chart.js"],function (d
    				}
    				if (ok === true) {     
       				d3.select('#details').append('div')
-      				.attr('class', 'box box-info').attr('id', 'detail-box')
+      				.attr('class', 'box box-' +type).attr('id', 'detail-box')
+      				.style('width','700px')
       				.append('div').attr('class', 'box-header with-border')
       				.append('h3').attr('class', 'box-title').text(title)
       				.append('div').attr('class', 'box-body')
       				.style('text-align', 'center')
-      				.text('detials shown here');
+      				.text('details shown here');
    				}
 			}
 			document.getElementById(data).addEventListener('click',seeDetails);
@@ -82,19 +83,19 @@ define(["node_modules/d3/d3.js", "/public/plugins/chartjs/Chart.js"],function (d
 
 			// testData1
 			var testData1 = {
-            	labels : ["January","February","March","April","May","June", "July"],
+            	labels : ["January","February","March","April","May","June", "July", "August"],
             	datasets : [{
 	                fillColor : "rgba(0,61,245,0.4)",
 	                strokeColor : "#0040FF",
 	                pointColor : "#fff",
 	                pointStrokeColor : "#0040FF",
-	                data : [dData(),dData(),dData(),dData(),dData(),dData(),dData()]
+	                data : [dData(),dData(),dData(),dData(),dData(),dData(),dData(),dData()]
             	},{
 	                fillColor : "rgba(245,0,61,0.4)",
 	                strokeColor : "#FF3366",
 	                pointColor : "#fff",
 	                pointStrokeColor : "#FF3366",
-	                data : [dData(),dData(),dData(),dData(),dData(),dData(),dData()]
+	                data : [dData(),dData(),dData(),dData(),dData(),dData(),dData(),dData()]
             	}]
         	}
 
@@ -151,7 +152,6 @@ define(["node_modules/d3/d3.js", "/public/plugins/chartjs/Chart.js"],function (d
 	    	else if(data=='data_packets')
 	    		new Chart(document.getElementById(data).getContext('2d')).Bar(testData3, barOptions);
 			},
-
 
 		/////////////////
 		//Get functions//
