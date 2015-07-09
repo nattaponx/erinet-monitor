@@ -62,7 +62,7 @@ define(["node_modules/d3/d3.js", "/public/plugins/chartjs/Chart.js"],function (d
 			// chart canvas
 			var chart1 = box_body.append('canvas')
 				.attr('id', data)
-				.attr({'width': '450', 'height': '230'});
+				//.attr({'width': '450', 'height': '230'});
  
 
 			/////////////
