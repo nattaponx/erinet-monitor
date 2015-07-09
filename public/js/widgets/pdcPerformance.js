@@ -63,7 +63,9 @@ define(["node_modules/d3/d3.js", "/public/plugins/chartjs/Chart.js"],function (d
    				if (ok === true) {     
       				d3.select('#details').append('div')
       				.attr('class', 'box box-' +type).attr('id', 'detail-box')
-      				.style('width','700px')
+      				.style('width','90%')
+      				.style('margin-left', 'auto')
+      				.style('margin-right', 'auto')
       				.append('div').attr('class', 'box-header with-border')
       				.append('h3').attr('class', 'box-title').text(title)
       				.append('div').attr('class', 'box-body')
