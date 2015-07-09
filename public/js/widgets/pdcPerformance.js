@@ -1,11 +1,9 @@
-
 /**
  * PDC Performance view
  * 
  */
 define(["node_modules/d3/d3.js", "/public/plugins/chartjs/Chart.js"],function (d3, Chart) {
 	return{
-
 		//Widget properties
 		properties: {
 			title: '',
@@ -46,19 +44,41 @@ define(["node_modules/d3/d3.js", "/public/plugins/chartjs/Chart.js"],function (d
 				.style('margin', 'auto')
 				.style('text-align', 'center');
 
+
 			// chart canvas
 			var chart1 = box_body.append('canvas')
 				.attr('id', data)
-				.attr('width', 450);
+				.attr({'width': '600', 'height': '250'});
  
+
+			/////////////
+			// onclick //
+			/////////////
+			var seeDetails = function(){
+   				var ok = true;
+   				//check if details-box exists
+   				if(d3.select('#detail-box')){
+   					d3.select("#detail-box").remove();
+   				}
+   				if (ok === true) {     
+      				d3.select('#details').append('div')
+      				.attr('class', 'box box-info').attr('id', 'detail-box')
+      				.append('div').attr('class', 'box-header with-border')
+      				.append('h3').attr('class', 'box-title').text(title)
+      				.append('div').attr('class', 'box-body')
+      				.style('text-align', 'center')
+      				.text('detials shown here');
+   				}
+			}
+			document.getElementById(data).addEventListener('click',seeDetails);
+
 
 			//////////
 			// DATA //
 			//////////
-
 			var dData = function() {
   				return Math.round(Math.random()*50) / 100;
-  			};	
+  			};
 
 			// testData1
 			var testData1 = {
@@ -105,16 +125,17 @@ define(["node_modules/d3/d3.js", "/public/plugins/chartjs/Chart.js"],function (d
 			// line chart options
             var lineOptions = {
 				scaleShowGridLines : true,
-            }
+
+            };
 			// pie chart options
             var doughnutOptions = {
                  segmentShowStroke : false,
                  animateScale : true,
                  tooltipTemplate: "<%if (label){%><%=label%>: <%}%><%= value %>",
                  percentageInnerCutout : 70
-            }
+            };
             var barOptions = {
-            }
+            };
 
 			/////////////////
 			// LOAD CHARTS //
@@ -123,9 +144,9 @@ define(["node_modules/d3/d3.js", "/public/plugins/chartjs/Chart.js"],function (d
 	        //var test = document.getElementById(data).getContext('2d');
 
 	        // draw charts
-	        if(data=='data_bearers')
-	        	new Chart(document.getElementById(data).getContext('2d')).Line(testData1, lineOptions);
-	    	else if(data=='data_cpuloads')
+	        if(data=='data_bearers'){
+	        	new Chart(document.getElementById(data).getContext('2d')).Line(testData1, lineOptions);	
+	        }else if(data=='data_cpuloads')
 	    		new Chart(document.getElementById(data).getContext('2d')).Doughnut(testData2, doughnutOptions);
 	    	else if(data=='data_packets')
 	    		new Chart(document.getElementById(data).getContext('2d')).Bar(testData3, barOptions);
@@ -161,3 +182,5 @@ define(["node_modules/d3/d3.js", "/public/plugins/chartjs/Chart.js"],function (d
 	}
 
 });
+
+

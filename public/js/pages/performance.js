@@ -4,4 +4,3 @@ require(['public/js/widgets/pdcPerformance.js'],function (pdcPerf) {
 	pdcPerf.init('corousel-chart-3', 'danger', 'Packets', 'data_packets');
 	//pdcPerf.init('dashboard-container-wide', 'info', 'Bearers');
 });
-

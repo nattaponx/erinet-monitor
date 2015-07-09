@@ -2850,12 +2850,12 @@ table.text-center th {
   background-image: none!important;
 }
 .carousel-control > .fa {
-  font-size: 40px;
+  font-size: 70px;
   /*position: absolute; */
   top: 50%;
   z-index: 5;
   display: inline-block;
-  margin-top: 100px;
+  margin-top: 50%;
   color: black; /* 2015-07-07 */
 }
 /*
