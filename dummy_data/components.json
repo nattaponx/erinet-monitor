@@ -1,0 +1,44 @@
+{
+   "data":
+   {
+       "components":
+       [
+           {
+               "id": "DC-1011",
+               "name": "EPG01",
+               "status": "ACTIVE"
+           },
+           {
+               "id": "DC-1140",
+               "name": "EPG03",
+               "status": "ACTIVE"
+           },
+           {
+               "id": "DC-1239",
+               "name": "vMME01",
+               "status": "ACTIVE"
+           },
+           {
+               "id": "DC-1400",
+               "name": "vMME01",
+               "status": "ACTIVE"
+           },
+           {
+               "id": "DC-2421",
+               "name": "vSAPC",
+               "status": "ACTIVE"
+           },
+           {
+               "id": "DC-2171",
+               "name": "EPG05",
+               "status": "ACTIVE"
+           },
+           {
+               "id": "DC-1921",
+               "name": "SASN01",
+               "status": "ACTIVE"
+           }
+       ]
+   }
+}
+

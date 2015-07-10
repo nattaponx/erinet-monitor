@@ -32,7 +32,18 @@ define([],function () {
 		 * 
 		 */
 		fetchNetworkComponents: function () {
-			// body...
+			$.ajax({
+		        type: 'GET',
+		        url: 'data/data.json',
+		        datatype: 'JSON',
+		        success: function(data)
+		        {
+		            if (data) 
+		            {
+		                console.log(data);
+		            }
+		        }
+		    });
 		},
 
 
