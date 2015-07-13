@@ -31,7 +31,7 @@ define([], function(){
 					this.properties.name   = component.name;
 					this.properties.status = component.status;
 
-					var url = 'public/img';
+					var url = '/public/img/';
 
 					//Assign properties based on the type of the component
 					if(component.name.toUpperCase().indexOf('EPG') > -1){

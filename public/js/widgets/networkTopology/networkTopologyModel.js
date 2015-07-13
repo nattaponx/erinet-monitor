@@ -27,14 +27,13 @@ define(['topology/networkComponent'],function (nc) {
 			this.properties.type  = type;
 			this.properties.title = title;
 
-			this.fetchNetworkComponents();
+			this.syncFetchNetworkComponents();
 		},
 
 		/**
 		 * Fetching the network components in the current network
-		 * 
 		 */
-		fetchNetworkComponents: function () {
+		syncFetchNetworkComponents: function () {
 			$.ajax({
 		        type: 'GET',
 		        url: 'dummy_data/components.json',

@@ -45,7 +45,9 @@ define(["node_modules/d3/d3.js"], function (d3) {
 			this.resize();
 
 			$(window).resize(function () {
-		    	this.resize();
+		    	setTimeout(function(){ 
+		    		this.resize() 
+		    	}.bind(this), 1000);
 			}.bind(this));
 
 		},
@@ -83,6 +85,8 @@ define(["node_modules/d3/d3.js"], function (d3) {
 
 	          		$(".svg-container").css('width', $(".cell-container").width()); 
 	          		$(".svg-container").css('height', $(".cell-container").height());
+
+	          		$('.component-div').css('width', $('.cell').width()*0.3);
 		        } else {
 		        	console.log('else');
 	          		$(".content").css('min-height', sidebar_height);	
@@ -159,7 +163,7 @@ define(["node_modules/d3/d3.js"], function (d3) {
 						break;
 
 					case 'SASN':
-						cell = 'c5';
+						cell = 'c6';
 						this.containers.c6_SASN_Array.push(component);
 						break;
 
@@ -171,19 +175,21 @@ define(["node_modules/d3/d3.js"], function (d3) {
 
 				var div = d3.select('#' + cell).append('div')
 					.attr('id', 'component-' + component.getId())
-					.attr('class', 'component-div')
-					.attr('position', 'absolute');
+					.attr('class', 'component-div');
 
+				/*
 				var svg = div.append('svg')
 					.attr('class', 'component-svg')
 					.attr('width', '100%')
 					.attr('height', '100%');
+				*/
+				div.append('img')
+					.attr('class', 'component-img')
+					.attr('width', '100%')
+					.attr('height', '100%')
+					.attr('src', component.getActiveImg());
 
 				/*
-				svg.append('img')
-					.attr('class', 'component-img')
-					.attr('xlink:href', component.getActiveImg());
-
 				svg.append('text')
 					.attr('class', 'component-text')
 					.text(component.getName());
@@ -193,15 +199,19 @@ define(["node_modules/d3/d3.js"], function (d3) {
 			}.bind(this));
 
 			//Update the positions
-			//updateComponentPositions();
+			this.updateComponentPositions();
 		},
 
 
 		updateComponentPositions: function(){
 
+
+			$('.component-div').css('width', $('.cell').width()*0.3);
+			/*
 			this.containers.forEach(function(cellArray){
 
 			});
+			*/
 		}
 	}
 });
