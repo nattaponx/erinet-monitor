@@ -2,7 +2,7 @@
  * Network Topology Model
  * Author: Victor Larsson (elarvic)
  */
-define([],function () {
+define(['topology/networkComponent'],function (nc) {
 	return {
 
 		//Widget properties
@@ -10,7 +10,7 @@ define([],function () {
 			title: '',
 			type: '',
 			parent_container: '',
-			components: ''
+			components: []
 		},
 
 		/**
@@ -38,7 +38,7 @@ define([],function () {
 			$.ajax({
 		        type: 'GET',
 		        url: 'dummy_data/components.json',
-		        //async: false,
+		        async: false,
 		        datatype: 'JSON',
 		        success: function(data)
 		        {
@@ -46,13 +46,15 @@ define([],function () {
 		            {
 		                console.log(data.data.components);
 
-		                /*
-		                data.data.forEach(function(component){
-		                	this.properties.components.push()
-		                });
+		                data.data.components.forEach(function(component){
+		                	var componentInstance = nc.getInstance();
 
-		                this.properties.components = data.data.components;
-		                */
+		                	componentInstance.init(component)
+
+		                	this.properties.components.push(componentInstance);
+		                }.bind(this));
+
+		                console.log(this.properties.components);
 		            }
 		        }.bind(this)
 		    });
