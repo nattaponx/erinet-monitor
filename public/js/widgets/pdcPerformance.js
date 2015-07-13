@@ -2,7 +2,7 @@
  * PDC Performance view
  * 
  */
-define(["node_modules/d3/d3.js", "/public/plugins/chartjs/Chart.js"],function (d3, Chart) {
+define(["node_modules/d3/d3.js", "/public/plugins/chartjs/Chart.js", "/public/plugins/flot/jquery.flot.min.js"],function (d3, Chart, FlotChart) {
 	return{
 		//Widget properties
 		properties: {
@@ -20,7 +20,6 @@ define(["node_modules/d3/d3.js", "/public/plugins/chartjs/Chart.js"],function (d
 		 * @param  {String}    title            [title for the widget]
 		 * 
 		 */
-
 		init: function(parent_container, type, title, data, carousel_num){
 			console.log('init PDC Performance View Widget');
 			
@@ -56,13 +55,18 @@ define(["node_modules/d3/d3.js", "/public/plugins/chartjs/Chart.js"],function (d
 			var box_body = box.append('div')
 				.attr('class', 'box-body')
 				.style('background-color', '#FAFAFA')
-				.style('margin', 'auto')
-				.style('text-align', 'center');
+				.style('margin', 'auto');
+
+
+			var placeholder = box_body.append('div')
+				.attr('id', data)
+				.style('width', '300px')
+				.style('height', '200px');
 
 			// chart canvas
-			var chart1 = box_body.append('canvas')
-				.attr('id', data)
-				//.attr({'width': '450', 'height': '230'});
+			// var chart1 = box_body.append('canvas')
+			// 	.attr('id', data)
+			// 	//.attr({'width': '450', 'height': '230'});
  
 
 			/////////////
@@ -91,77 +95,82 @@ define(["node_modules/d3/d3.js", "/public/plugins/chartjs/Chart.js"],function (d
 
 					detailBox.append('div').attr('class', 'box-body');
 
-      				var detailBox_body =  detailBox.append('canvas')
+      				var detailBox_body =  detailBox.append('div')
 						.attr('id', data)
+						.style('width', '200px')
+						.style('height', '100px');
 						//.attr({'width': '450', 'height': '130'});
    				}
 			}
 			document.getElementById(data).addEventListener('click',seeDetails);
-
+			
 
 			//////////
 			// DATA //
 			//////////
-			var dData = function() {
-  				return Math.round(Math.random()*50) / 100;
-  			};
+			var data_bearers = [ [[0, 0], [1, 1]] ];
+			var data_cpuloads = [ [[1, 1], [0, 0]] ];
 
-			// testData1
-			var testData1 = {
-            	labels : ["January","February","March","April","May","June", "July", "August"],
-            	datasets : [{
-	                fillColor : "rgba(0,61,245,0.4)",
-	                strokeColor : "#0040FF",
-	                pointColor : "#fff",
-	                pointStrokeColor : "#0040FF",
-	                data : [dData(),dData(),dData(),dData(),dData(),dData(),dData(),dData()]
-            	},{
-	                fillColor : "rgba(245,0,61,0.4)",
-	                strokeColor : "#FF3366",
-	                pointColor : "#fff",
-	                pointStrokeColor : "#FF3366",
-	                data : [dData(),dData(),dData(),dData(),dData(),dData(),dData(),dData()]
-            	}]
-        	}
+			// var dData = function() {
+  	// 			return Math.round(Math.random()*50) / 100;
+  	// 		};
 
-        	// testData2
-        	var testData2 = [
-				{ value : dData(), color:"#878BB6", label : 'CPU1', highlight: "#FF5A5E"},
-                { value : dData(), color : "#F6F6F6"}
-        	]
+			// // testData1
+			// var testData1 = {
+   //          	labels : ["January","February","March","April","May","June", "July", "August"],
+   //          	datasets : [{
+	  //               fillColor : "rgba(0,61,245,0.4)",
+	  //               strokeColor : "#0040FF",
+	  //               pointColor : "#fff",
+	  //               pointStrokeColor : "#0040FF",
+	  //               data : [dData(),dData(),dData(),dData(),dData(),dData(),dData(),dData()]
+   //          	},{
+	  //               fillColor : "rgba(245,0,61,0.4)",
+	  //               strokeColor : "#FF3366",
+	  //               pointColor : "#fff",
+	  //               pointStrokeColor : "#FF3366",
+	  //               data : [dData(),dData(),dData(),dData(),dData(),dData(),dData(),dData()]
+   //          	}]
+   //      	}
 
-        	// testData3
-			var testData3 = {
-                labels : ["January","February","March","April","May","June"],
-                datasets : [{
-                	fillColor : "#48A497",
-                    strokeColor : "#48A4D1",
-                    data : [dData(),dData(),dData(),dData(),dData(),dData()]
-                },{
-                    fillColor : "rgba(73,188,170,0.4)",
-                    strokeColor : "rgba(72,174,209,0.4)",
-                    data : [dData(),dData(),dData(),dData(),dData(),dData()]
-                }]
-            }
+   //      	// testData2
+   //      	var testData2 = [
+			// 	{ value : dData(), color:"#878BB6", label : 'CPU1', highlight: "#FF5A5E"},
+   //              { value : dData(), color : "#F6F6F6"}
+   //      	]
+
+   //      	// testData3
+			// var testData3 = {
+   //              labels : ["January","February","March","April","May","June"],
+   //              datasets : [{
+   //              	fillColor : "#48A497",
+   //                  strokeColor : "#48A4D1",
+   //                  data : [dData(),dData(),dData(),dData(),dData(),dData()]
+   //              },{
+   //                  fillColor : "rgba(73,188,170,0.4)",
+   //                  strokeColor : "rgba(72,174,209,0.4)",
+   //                  data : [dData(),dData(),dData(),dData(),dData(),dData()]
+   //              }]
+   //          }
 			
 
-			///////////////////
-			// CHART OPTIONS //
-			///////////////////
-			// line chart options
-            var lineOptions = {
-				scaleShowGridLines : true,
+			// ///////////////////
+			// // CHART OPTIONS //
+			// ///////////////////
+			// // line chart options
+   //          var lineOptions = {
+			// 	scaleShowGridLines : true,
 
-            };
-			// pie chart options
-            var doughnutOptions = {
-                 segmentShowStroke : false,
-                 animateScale : true,
-                 tooltipTemplate: "<%if (label){%><%=label%>: <%}%><%= value %>",
-                 percentageInnerCutout : 70
-            };
-            var barOptions = {
-            };
+   //          };
+			// // pie chart options
+   //          var doughnutOptions = {
+   //               segmentShowStroke : false,
+   //               animateScale : true,
+   //               tooltipTemplate: "<%if (label){%><%=label%>: <%}%><%= value %>",
+   //               percentageInnerCutout : 70
+   //          };
+   //          var barOptions = {
+   //          };
 
 			/////////////////
 			// LOAD CHARTS //
@@ -171,13 +180,15 @@ define(["node_modules/d3/d3.js", "/public/plugins/chartjs/Chart.js"],function (d
 
 	        // draw charts
 	        if(data=='data_bearers'){
-	        	new Chart(document.getElementById(data).getContext('2d')).Line(testData1, lineOptions);	
-	        }else if(data=='data_cpuloads')
-	    		new Chart(document.getElementById(data).getContext('2d')).Doughnut(testData2, doughnutOptions);
-	    	else if(data=='data_packets')
-	    		new Chart(document.getElementById(data).getContext('2d')).Bar(testData3, barOptions);
-	    	else
-	    		new Chart(document.getElementById(data).getContext('2d')).Bar(testData3, barOptions);
+	        	$.plot($("#"+data), data_bearers, { yaxis: { max: 1 } });
+	        	//new Chart(document.getElementById(data).getContext('2d')).Line(testData1, lineOptions);	
+	        }else if(data=='data_cpuloads'){
+	    		$.plot($("#"+data), data_cpuloads, { yaxis: { max: 1 } });
+	    		//new Chart(document.getElementById(data).getContext('2d')).Bar(testData3, barOptions);
+	    	}else{
+	    		$.plot($("#"+data), data_bearers, { yaxis: { max: 1 } });
+
+	   		}
 			},
 
 		/////////////////
