@@ -6,11 +6,11 @@ define(["node_modules/d3/d3.js"], function (d3) {
 	return{
 
 		containers: {
-			c1_MME_Array: '',
-			c2_SAPC_Array: '',
-			c4_undefined_Array: '',
-			c5_EPG_Array: '',
-			c6_SASN_Array: ''
+			c1_MME_Array: [],
+			c2_SAPC_Array: [],
+			c4_undefined_Array: [],
+			c5_EPG_Array: [],
+			c6_SASN_Array: []
 		},
 
 		/**
@@ -145,35 +145,34 @@ define(["node_modules/d3/d3.js"], function (d3) {
 				switch(component.getType()){
 					case 'EPG':
 						cell = 'c5';
-						c5_EPG_Array.push(component);
+						this.containers.c5_EPG_Array.push(component);
 						break;
 					
 					case 'MME':
 						cell = 'c1';
-						c1_MME_Array.push(component);
+						this.containers.c1_MME_Array.push(component);
 						break;
 
 					case 'SAPC':
 						cell = 'c2';
-						c2_SAPC_Array.push(component);
+						this.containers.c2_SAPC_Array.push(component);
 						break;
 
 					case 'SASN':
 						cell = 'c5';
-						c6_SASN_Array.push(component);
+						this.containers.c6_SASN_Array.push(component);
 						break;
 
 					default:
 						cell = 'c4';
-						c4_undefined_Array.push(component);
+						this.containers.c4_undefined_Array.push(component);
 						break;
 				}
 
 				var div = d3.select('#' + cell).append('div')
 					.attr('id', 'component-' + component.getId())
 					.attr('class', 'component-div')
-					.attr('position', 'absolute')
-					.attr('width', '20%');
+					.attr('position', 'absolute');
 
 				var svg = div.append('svg')
 					.attr('class', 'component-svg')
@@ -191,7 +190,7 @@ define(["node_modules/d3/d3.js"], function (d3) {
 				*/
 
 
-			});
+			}.bind(this));
 
 			//Update the positions
 			//updateComponentPositions();

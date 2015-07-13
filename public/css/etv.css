@@ -36,5 +36,12 @@ html,body{
 	width: 33.33%;
 	height: 33.33%;
 	position: relative;
+	text-align: center;
 	border: 1px solid; 
+}
+
+.component-div{
+	display: inline-block;
+	margin: auto;
+	width:25%;
 }
