@@ -2,7 +2,7 @@
 define(["node_modules/d3/d3.js"], function(d3) {
 	return {
 
-		initModule: function(parent_container,btn_control){
+		initModule: function(parent_container){
 
 			var container = d3.select(parent_container),
 				searchContainer = container.append('div').attr('id','searchModule'),
@@ -29,7 +29,7 @@ define(["node_modules/d3/d3.js"], function(d3) {
 			bodytopRow1.append('select').attr('id','node').style('width','130px');
 			initSelectGroup(bodytopRow2,['gsn_version','hardware','region','country','customer_name','timespan','node_id','report']);
 
-			setPlaceholder('node','Select Nodes');
+			// setPlaceholder('node','Select Nodes');
 			setPlaceholder('gsn_version','Select Releases');
 			setPlaceholder('hardware','Select Hardwares');
 			setPlaceholder('region','Select Regions');
@@ -67,9 +67,6 @@ define(["node_modules/d3/d3.js"], function(d3) {
 		    	initTable(tabs[key], records, ['id','user','date','reason']);
 		    }	    	
 
-
-		    ////// Show/Hide Panel run function ///////
-		    runTogglePanel(btn_control);
 
 		}
 
@@ -153,15 +150,5 @@ define(["node_modules/d3/d3.js"], function(d3) {
 
 	}
 
-	function runTogglePanel(btnId){
-		$(btnId).click(function(){
-		    var $target = $('#searchModule'),
-		        $toggle = $(this);
-
-		        $target.slideToggle( 500, function () {
-		              $toggle.text(($target.is(':visible') ? 'Hide' : 'Show') + ' Panel');
-		        });
-		});
-	}
 
 });
