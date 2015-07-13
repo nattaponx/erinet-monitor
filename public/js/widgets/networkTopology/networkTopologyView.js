@@ -1,8 +1,17 @@
 /**
  * Network Topology View
+ * Author: Victor Larsson (elarvic)
  */
 define(["node_modules/d3/d3.js"], function (d3) {
 	return{
+
+		containers: {
+			c1_MME_Array: '',
+			c2_SAPC_Array: '',
+			c4_undefined_Array: '',
+			c5_EPG_Array: '',
+			c6_SASN_Array: ''
+		},
 
 		/**
 		 * Initialise the network topology view
@@ -120,6 +129,80 @@ define(["node_modules/d3/d3.js"], function (d3) {
 			var div = containerObj.append('div')
 				.attr('id', id)
 				.attr('class', 'cell')
+		},
+
+		/**
+		 * Appends the network components on the grid.
+		 * 
+		 * @param  {Array[components]} components [components in the network]
+		 */
+		drawComponents: function(components){
+
+			var cell;
+
+			components.forEach(function(component){
+
+				switch(component.getType()){
+					case 'EPG':
+						cell = 'c5';
+						c5_EPG_Array.push(component);
+						break;
+					
+					case 'MME':
+						cell = 'c1';
+						c1_MME_Array.push(component);
+						break;
+
+					case 'SAPC':
+						cell = 'c2';
+						c2_SAPC_Array.push(component);
+						break;
+
+					case 'SASN':
+						cell = 'c5';
+						c6_SASN_Array.push(component);
+						break;
+
+					default:
+						cell = 'c4';
+						c4_undefined_Array.push(component);
+						break;
+				}
+
+				var div = d3.select('#' + cell).append('div')
+					.attr('id', 'component-' + component.getId())
+					.attr('class', 'component-div')
+					.attr('position', 'absolute')
+					.attr('width', '20%');
+
+				var svg = div.append('svg')
+					.attr('class', 'component-svg')
+					.attr('width', '100%')
+					.attr('height', '100%');
+
+				/*
+				svg.append('img')
+					.attr('class', 'component-img')
+					.attr('xlink:href', component.getActiveImg());
+
+				svg.append('text')
+					.attr('class', 'component-text')
+					.text(component.getName());
+				*/
+
+
+			});
+
+			//Update the positions
+			//updateComponentPositions();
+		},
+
+
+		updateComponentPositions: function(){
+
+			this.containers.forEach(function(cellArray){
+
+			});
 		}
 	}
 });

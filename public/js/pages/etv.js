@@ -1,3 +1,7 @@
+/**
+ * Etv
+ * Author: Victor Larsson (elarvic)
+ */
 require.config({
     baseUrl: "/public/js",
     paths: {

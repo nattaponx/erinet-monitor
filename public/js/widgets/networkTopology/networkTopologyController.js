@@ -1,6 +1,6 @@
 /**
  * Network Topology Controller
- * 
+ * Author: Victor Larsson (elarvic)
  */
 define(["node_modules/d3/d3.js", "topology/networkTopologyModel", "topology/networkTopologyView"],function (d3, ntm, ntv) {
 	return{
@@ -18,6 +18,8 @@ define(["node_modules/d3/d3.js", "topology/networkTopologyModel", "topology/netw
 
 			ntm.init(parent_container, type, title);
 			ntv.init(parent_container, type, title);
+
+			//ntv.drawComponents(ntm.getComponents());
 
 
 		},

@@ -1,5 +1,6 @@
 /**
  * Network Topology Model
+ * Author: Victor Larsson (elarvic)
  */
 define([],function () {
 	return {
@@ -9,7 +10,7 @@ define([],function () {
 			title: '',
 			type: '',
 			parent_container: '',
-			componets: ''
+			components: ''
 		},
 
 		/**
@@ -25,6 +26,8 @@ define([],function () {
 			//Set properties
 			this.properties.type  = type;
 			this.properties.title = title;
+
+			this.fetchNetworkComponents();
 		},
 
 		/**
@@ -34,15 +37,24 @@ define([],function () {
 		fetchNetworkComponents: function () {
 			$.ajax({
 		        type: 'GET',
-		        url: 'data/data.json',
+		        url: 'dummy_data/components.json',
+		        //async: false,
 		        datatype: 'JSON',
 		        success: function(data)
 		        {
 		            if (data) 
 		            {
-		                console.log(data);
+		                console.log(data.data.components);
+
+		                /*
+		                data.data.forEach(function(component){
+		                	this.properties.components.push()
+		                });
+
+		                this.properties.components = data.data.components;
+		                */
 		            }
-		        }
+		        }.bind(this)
 		    });
 		},
 
@@ -57,6 +69,14 @@ define([],function () {
 
 		getType: function(){
 			return this.properties.type;
+		},
+
+		getParentContainer: function(){
+			return this.properties.parent_container;
+		},
+
+		getComponents: function(){
+			return this.properties.components;
 		},
 
 		/////////////////

@@ -15,17 +15,17 @@
            },
            {
                "id": "DC-1239",
-               "name": "vMME01",
+               "name": "MME01",
                "status": "ACTIVE"
            },
            {
                "id": "DC-1400",
-               "name": "vMME01",
+               "name": "MME02",
                "status": "ACTIVE"
            },
            {
                "id": "DC-2421",
-               "name": "vSAPC",
+               "name": "SAPC",
                "status": "ACTIVE"
            },
            {
