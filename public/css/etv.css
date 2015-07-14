@@ -1,9 +1,7 @@
 /* Phones */
 @media only screen and (min-width: 320px){
 	.svg-container{
-		position: absolute;
 		background-color: red;
-		opacity: 0.5;
 	}
 
 	.component-div{
@@ -23,9 +21,7 @@
 /* Extra small devices */
 @media only screen and (min-width: 480px){
 	.svg-container{
-		position: absolute;
 		background-color: blue;
-		opacity: 0.5;
 	}
 
 	.component-div{
@@ -45,9 +41,7 @@
 /* Small devices, tablets */
 @media only screen and (min-width: 768px){
 	.svg-container{
-		position: absolute;
 		background-color: green;
-		opacity: 0.5;
 	}
 
 	.component-div{
@@ -67,9 +61,7 @@
 /* Large devices, wide screens */
 @media only screen and (min-width: 1200px){
 	.svg-container{
-		position: absolute;
 		background-color: white;
-		opacity: 0.5;
 	}
 
 	.component-div{
@@ -87,12 +79,10 @@
 	}
 }
 
-/* Medium devices, desktops */
+/* Really large devices, desktops */
 @media only screen and (min-width: 1550px){
 	.svg-container{
-		position: absolute;
 		background-color: yellow;
-		opacity: 0.5;
 	}
 
 	.component-div{
@@ -109,23 +99,15 @@
 	}
 }
 
-
-
 /* Common for all resolutions */
 
 .content{
 	position: relative;
 }
 
-.content-container{
-	
-}
-
-.box{
-}
-
-.box-body{
-	
+.svg-container{
+	position: absolute;
+	opacity: 0.5;
 }
 
 .cell-container{

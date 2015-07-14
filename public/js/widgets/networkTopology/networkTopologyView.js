@@ -39,7 +39,7 @@ define(["node_modules/d3/d3.js"], function (d3) {
 				.attr('class', 'box-body')
 				.style('background-color', 'lightblue');
 
-			this.createSvgContainer(box_body);
+			this.createSvgDrawingboard(box_body);
 			this.createGrid(box_body);
 
 			this.resize();
@@ -68,35 +68,22 @@ define(["node_modules/d3/d3.js"], function (d3) {
 	      	var content_header_height = $('.content-header').outerHeight();
 	      	var diff = window_height - neg - content_header_height;
 
-	    	if ($("body").hasClass("fixed")) {
-	    		console.log('body is fixed');
-		        $(".content")
-		        	.css('min-height', window_height - 
-        			$('.main-footer').outerHeight() - 
-	        		content_header_height);
-	     	} else {
-		        if (window_height >= sidebar_height) {
-		        	//console.log('window_height >= sidebar_height');
-	          		$(".content").css('min-height', diff);
-	          		$(".content-container").css('min-height', diff - 50);
-	          		$(".box").css('height', diff - 50);
+      		$(".content").css('min-height', diff);
+      		$(".content-container").css('min-height', diff - 50);
+      		$(".box").css('height', diff - 50);
 
-	          		$(".box-body").css('height', diff-91);
+      		$(".box-body").css('height', diff-91);
 
-	          		$(".svg-container").css('width', $(".cell-container").width()); 
-	          		$(".svg-container").css('height', $(".cell-container").height());
-
-	          		//$('.component-div').css('width', $('.cell').width()*0.3);
-	          		//$('.component-div').css('padding-top', $('.cell').height()*0.15);
-
-		        } else {
-		        	console.log('else');
-	          		$(".content").css('min-height', sidebar_height);	
-		        }
-			}
+      		$(".svg-container").css('width', $(".cell-container").width()); 
+      		$(".svg-container").css('height', $(".cell-container").height());
 		},
 
-		createSvgContainer: function(containerObj) {
+		/**
+		 * Creates the drawingboard where the connections will be drawn.
+		 * 
+		 * @param  {HTML element} containerObj [Parent container]
+		 */
+		createSvgDrawingboard: function(containerObj) {
 			var svgContainer = containerObj.append('div')
 				.attr('id', 'svg-container')
 				.attr('class', 'svg-container');
@@ -212,33 +199,7 @@ define(["node_modules/d3/d3.js"], function (d3) {
                         	img.attr('src', component.getActiveImg());
                         }      
                     });
-
-				/*
-				svg.append('text')
-					.attr('class', 'component-text')
-					.text(component.getName());
-				*/
-
-
 			}.bind(this));
-
-			//Update the positions
-			this.updateComponentPositions();
 		},
-
-
-		updateComponentPositions: function(){
-
-
-
-			//$('.component-div').css('width', $('.cell').width()*0.3);
-			//$('.component-div').css('padding-top', $('.cell').height()*0.15);
-			
-			/*
-			this.containers.forEach(function(cellArray){
-
-			});
-			*/
-		}
 	}
 });
