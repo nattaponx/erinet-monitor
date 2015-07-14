@@ -2,7 +2,7 @@
  * Network Topology View
  * Author: Victor Larsson (elarvic)
  */
-define(["node_modules/d3/d3.js"], function (d3) {
+define(["node_modules/d3/d3.js", "topology/connections"], function (d3, connections) {
 	return{
 
 		containers: {
@@ -14,7 +14,7 @@ define(["node_modules/d3/d3.js"], function (d3) {
 		},
 
 		/**
-		 * Initialise the network topology view
+		 * Initialises the network topology view
 		 * 
 		 * @param  {container} parent_container [parent container for the widget]
 		 * @param  {String}    type             [type of the box]
@@ -200,6 +200,9 @@ define(["node_modules/d3/d3.js"], function (d3) {
                         }      
                     });
 			}.bind(this));
+
+			connections.connect(this.containers.c5_EPG_Array[0], this.containers.c2_SAPC_Array[0]);
+
 		},
 	}
 });
