@@ -179,13 +179,39 @@ define(["node_modules/d3/d3.js"], function (d3) {
 					.attr('id', 'component-' + component.getId())
 					.attr('class', 'component-div');
 
-				div.append('img')
+				var img = div.append('img')
 					.attr('class', 'component-img')
-					.attr('src', component.getActiveImg());
+					.attr('src', component.getActiveImg())
+					.on('click', function(){
+                        console.log('clicked ' + component.getName());
+                    })
+                    .on('mouseover', function(){
+                        if(component.getStatus() == 'ACTIVE'){
+                        	img.attr('src', component.getHoverImg());
+                        }                   
+                    })
+                    .on('mouseout', function(){
+                        if(component.getStatus() == 'ACTIVE'){
+                        	img.attr('src', component.getActiveImg());
+                        }      
+                    });
 
 				div.append('text')
 					.attr('class', 'component-text')
-                    .text(component.getName());
+                    .text(component.getName())
+                    .on('click', function(){
+                        console.log('clicked ' + component.getName());
+                    })
+                    .on('mouseover', function(){
+                        if(component.getStatus() == 'ACTIVE'){
+                        	img.attr('src', component.getHoverImg());
+                        }                   
+                    })
+                    .on('mouseout', function(){
+                        if(component.getStatus() == 'ACTIVE'){
+                        	img.attr('src', component.getActiveImg());
+                        }      
+                    });
 
 				/*
 				svg.append('text')
