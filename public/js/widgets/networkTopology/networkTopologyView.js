@@ -86,8 +86,8 @@ define(["node_modules/d3/d3.js"], function (d3) {
 	          		$(".svg-container").css('width', $(".cell-container").width()); 
 	          		$(".svg-container").css('height', $(".cell-container").height());
 
-	          		$('.component-div').css('width', $('.cell').width()*0.3);
-	          		$('.component-div').css('padding-top', $('.cell').height()*0.15);
+	          		//$('.component-div').css('width', $('.cell').width()*0.3);
+	          		//$('.component-div').css('padding-top', $('.cell').height()*0.15);
 
 		        } else {
 		        	console.log('else');
@@ -179,22 +179,12 @@ define(["node_modules/d3/d3.js"], function (d3) {
 					.attr('id', 'component-' + component.getId())
 					.attr('class', 'component-div');
 
-				/*
-				var svg = div.append('svg')
-					.attr('class', 'component-svg')
-					.attr('width', '100%')
-					.attr('height', '100%');
-				*/
 				div.append('img')
 					.attr('class', 'component-img')
-					.attr('width', '100%')
-					.attr('height', '100%')
 					.attr('src', component.getActiveImg());
 
 				div.append('text')
 					.attr('class', 'component-text')
-					//.attr('text-anchor', 'middle')
-                    .attr('font-family', 'Arial')
                     .text(component.getName());
 
 				/*
@@ -215,8 +205,8 @@ define(["node_modules/d3/d3.js"], function (d3) {
 
 
 
-			$('.component-div').css('width', $('.cell').width()*0.3);
-			$('.component-div').css('padding-top', $('.cell').height()*0.15);
+			//$('.component-div').css('width', $('.cell').width()*0.3);
+			//$('.component-div').css('padding-top', $('.cell').height()*0.15);
 			
 			/*
 			this.containers.forEach(function(cellArray){
