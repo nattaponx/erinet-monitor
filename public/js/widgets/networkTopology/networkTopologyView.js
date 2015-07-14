@@ -47,7 +47,7 @@ define(["node_modules/d3/d3.js"], function (d3) {
 			$(window).resize(function () {
 		    	setTimeout(function(){ 
 		    		this.resize() 
-		    	}.bind(this), 1000);
+		    	}.bind(this), 650);
 			}.bind(this));
 
 		},
@@ -87,6 +87,8 @@ define(["node_modules/d3/d3.js"], function (d3) {
 	          		$(".svg-container").css('height', $(".cell-container").height());
 
 	          		$('.component-div').css('width', $('.cell').width()*0.3);
+	          		$('.component-div').css('padding-top', $('.cell').height()*0.15);
+
 		        } else {
 		        	console.log('else');
 	          		$(".content").css('min-height', sidebar_height);	
@@ -189,6 +191,12 @@ define(["node_modules/d3/d3.js"], function (d3) {
 					.attr('height', '100%')
 					.attr('src', component.getActiveImg());
 
+				div.append('text')
+					.attr('class', 'component-text')
+					//.attr('text-anchor', 'middle')
+                    .attr('font-family', 'Arial')
+                    .text(component.getName());
+
 				/*
 				svg.append('text')
 					.attr('class', 'component-text')
@@ -206,7 +214,10 @@ define(["node_modules/d3/d3.js"], function (d3) {
 		updateComponentPositions: function(){
 
 
+
 			$('.component-div').css('width', $('.cell').width()*0.3);
+			$('.component-div').css('padding-top', $('.cell').height()*0.15);
+			
 			/*
 			this.containers.forEach(function(cellArray){
 

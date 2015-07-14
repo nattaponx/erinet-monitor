@@ -1,6 +1,93 @@
-html,body{
-	height: 100%;
+/* Phones */
+@media only screen and (min-width: 320px){
+	.svg-container{
+		position: absolute;
+		background-color: red;
+		opacity: 0.5;
+	}
+
+	.component-text{
+		z-index: 5;
+		position: absolute;
+		font-family: Arial;
+		text-align: center;
+		top: 75%;
+		left: 0;
+		width: 100%;
+		font-size: 1.5vw; 
+	}
 }
+
+/* Extra small devices */
+@media only screen and (min-width: 480px){
+	.svg-container{
+		position: absolute;
+		background-color: blue;
+		opacity: 0.5;
+	}
+
+	.component-text{
+		z-index: 5;
+		position: absolute;
+		font-family: Arial;
+		text-align: center;
+		top: 75%;
+		left: 0;
+		width: 100%;
+		font-size: 1.5vw; 
+	}
+}
+
+/* Small devices, tablets */
+@media only screen and (min-width: 768px){
+	.svg-container{
+		position: absolute;
+		background-color: green;
+		opacity: 0.5;
+	}
+}
+
+/* Medium devices, desktops */
+@media only screen and (min-width: 992px){
+	.svg-container{
+		position: absolute;
+		background-color: yellow;
+		opacity: 0.5;
+	}
+
+	.component-text{
+		z-index: 5;
+		position: absolute;
+		font-family: Arial;
+		text-align: center;
+		top: 75%;
+		left: 0;
+		width: 100%;
+		font-size: 1.5vw; 
+	}
+}
+
+/* Large devices, wide screens */
+@media only screen and (min-width: 1200px){
+	.svg-container{
+		position: absolute;
+		background-color: white;
+		opacity: 0.5;
+	}
+
+	.component-text{
+		z-index: 5;
+		position: absolute;
+		font-family: Arial;
+		text-align: center;
+		top: 75%;
+		left: 0;
+		width: 100%;
+		font-size: 1.5vw; 
+	}
+}
+
+
 
 .content{
 	position: relative;
@@ -17,13 +104,13 @@ html,body{
 	
 }
 
-
+/*
 .svg-container{
 	position: absolute;
 	background-color: red;
 	opacity: 0.5;
 }
-
+*/
 .cell-container{
 	overflow: hidden;
 	width: 100%;
@@ -46,3 +133,9 @@ html,body{
 	padding-right: 10px;
 	position: relative;
 }
+
+.component-img{
+	position: relative;
+}
+
+
