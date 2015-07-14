@@ -22,7 +22,7 @@ define(["node_modules/d3/d3.js",
 		 * @param  {String}    title            [title for the widget]
 		 * 
 		 */
-		init: function(parent_container, type, title, data, carousel_num){
+		init: function(type, title, data){
 			console.log('init PDC Performance View Widget');
 			
 			//Set properties
@@ -31,49 +31,31 @@ define(["node_modules/d3/d3.js",
 			//////////////
 			// Carousel //
 			//////////////
-			//add indicators
-			var indicators = d3.select('#indicators')
-				.append('li').attr('data-target', '#carousel')
-				.attr('data-slide-to', ''+carousel_num)
-				.attr('class', function activeF(){if(carousel_num=='0') return 'active';});
+			var selectObject = d3.select('.grid-column-carousel__list');
 
-			//Generate dashboards class
-			var cId = parseInt(carousel_num)+1;
-			var item = d3.select('#inner')
-				.append('div').attr('class', function activeF(){if(carousel_num=='0') return "item active"; else return "item";})
-				.append('div').attr('id','corousel-chart-'+ cId).attr('class','corousel-chart');
+			var item = selectObject.append('li')
+				.attr('class', 'col-xs-12 col-sm-6 col-md-4 col-lg-3');
 
-			/////////
-			// Box //
-			/////////
-			var box = item.append('div')
+			var cbox = item.append('div')
 				.attr('class', 'box box-' + type);
 
 			////Box title
-			var box_header = box.append('div')
+			var cbox_header = cbox.append('div')
 				.attr('class', 'box-header with-border');
 
 			//Append title	
-			var box_header_title = box_header.append('h3')
+			var cbox_header_title = cbox_header.append('h3')
 				.attr('class', 'box-title')
 				.text(title);
 
 			//Box body
-			var box_body = box.append('div')
+			var cbox_body = cbox.append('div')
 				.attr('class', 'box-body')
 				.style('background-color', '#FAFAFA')
 				 .attr('display', 'inline');
 
-			box_body.append('div')
-				.attr('id', data)
-				.style('width', '300px')
-				.style('height', '200px');
-				// .attr('padding', '20px 15px 15px 15px');
-
-			// chart canvas
-			// var chart1 = box_body.append('canvas')
-			// 	.attr('id', data)
-			// 	//.attr({'width': '450', 'height': '230'});
+			var cbox_position = cbox_body.append('div')
+				.attr('id', data).attr('class', 'chart-position');
  
 
 			/////////////
@@ -86,29 +68,27 @@ define(["node_modules/d3/d3.js",
    					d3.select("#detail-box").remove();
    				}
    				if (ok === true) {
-   					var detailBox = d3.select('#details').append('div')
+   					var dbox = d3.select('#details-container').append('div')
    						.attr('class', 'box box-' +type).attr('id', 'detail-box')
-      					.style('width','90%').style('margin', 'auto')
       					.append('div').attr('class', 'box-header with-border');
 
-      				var detailBox_title = detailBox.append('h3')
+      				var dbox_title = dbox.append('h3')
       					.attr('class', 'box-title').text(title);
 
-      				var box_tools = detailBox.append('div')
-						.attr('class', 'box-tools pull-right')
-						.append('button').attr('class','btn btn-box-tool')
-						.attr('data-widget','remove')
-						.append('i').attr('class','fa fa-times');
+					dbox.append('div').attr('class', 'box-body');
 
-					detailBox.append('div').attr('class', 'box-body');
-
-      				var detailBox_body =  detailBox.append('div')
+      				var dbox_body =  dbox.append('div')
 						.attr('id', data)
-						.style('width', '500px')
-						.style('height', '500px');
    				}
 			}
 			document.getElementById(data).addEventListener('click',seeDetails);
+
+			var options = {
+	          elem: document.getElementsByClassName('example-1')[0],
+	          gridColClasses: 'col-xs-6 col-sm-6 col-md-5 col-lg-6',
+	          autoplay: true
+	        };
+	        var gCCarousel = new GCCarousel(options);
 			
 			},
 
@@ -116,6 +96,7 @@ define(["node_modules/d3/d3.js",
 			////////////
 			// Charts //
 			////////////
+
 			initChartRealTime: function(data){
 
 				// DATA for real time - line
@@ -147,44 +128,28 @@ define(["node_modules/d3/d3.js",
 				}
 				// Set up the control widget
 				var updateInterval = 300;
-				// $("#updateInterval").val(updateInterval).change(function () {
-				// 	var v = $(this).val();
-				// 	if (v && !isNaN(+v)) {
-				// 		updateInterval = +v;
-				// 		if (updateInterval < 1) {
-				// 			updateInterval = 1;
-				// 		} else if (updateInterval > 2000) {
-				// 			updateInterval = 2000;
-				// 		}
-				// 		$(this).val("" + updateInterval);
-				// 	}
-				// });
 				
 				// draw charts
 				if(data=='data_bearers'){
 					var plot = $.plot($("#"+data), 
 					[ { label: "Number of Bearers",  data: getRandomData()} ], 
 					{
-					series: {
-						shadowSize: 0	// Drawing is faster without shadows
-					},
-					yaxis: {
-						min: 0,
-						max: 100
-					},
-					xaxis: {
-						min: 0,
-						max: 100
-						}
+						series: {
+							shadowSize: 0	// Drawing is faster without shadows
+						},
+						yaxis: { min: 0, max: 100 },
+						xaxis: { min: 0, max: 100 }
 					});
 					function update() {
-					plot.setData([getRandomData()]);
-					// Since the axes don't change, we don't need to call plot.setupGrid()
-					plot.draw();
-					setTimeout(update, updateInterval);
-				}
-				update();
-				}else{
+						plot.setData([getRandomData()]);
+						// Since the axes don't change, we don't need to call plot.setupGrid()
+						plot.draw();
+						setTimeout(update, updateInterval);
+					}
+					update();
+				};
+
+				if(data=='data_cpuloads'){
 					var g = new JustGage({
     				id: data,
     				value: getRandomInt(0, 100) + "%",
@@ -196,6 +161,25 @@ define(["node_modules/d3/d3.js",
 			          g.refresh(getRandomInt(50, 100));
 			          //g2.refresh(getRandomInt(50, 100));          
 			        }, 2500);
+				};
+
+				if(data=='data_packets'){
+					var plot = $.plot($("#"+data), 
+					[ { label: "Number of packets",  data: getRandomData()} ], 
+					{
+						series: {
+							shadowSize: 0	// Drawing is faster without shadows
+						},
+						yaxis: { min: 0, max: 100 },
+						xaxis: { min: 0, max: 100 }
+					});
+					function update() {
+						plot.setData([getRandomData()]);
+						// Since the axes don't change, we don't need to call plot.setupGrid()
+						plot.draw();
+						setTimeout(update, updateInterval);
+					}
+					update();
 				};
 			});
 			},

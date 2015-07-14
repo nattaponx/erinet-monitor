@@ -16,6 +16,9 @@
     <link href="/public/css/AdminLTE.css" rel="stylesheet" type="text/css" />
     <link href="/public/css/skins/skin-blue.min.css" rel="stylesheet" type="text/css" />
 
+    <link href="/public/plugins/gridColumnCarousel/GridColumnCarousel.min.css" rel="stylesheet" type="text/css" />
+        <link href="/public/plugins/gridColumnCarousel/main.css" rel="stylesheet" type="text/css" />
+                <link href="/public/plugins/gridColumnCarousel/GridColumnCarousel.scss" rel="stylesheet" type="text/css" />
     <!-- Dashboard CSS  -->
     <link href="/public/css/performance.css" rel="stylesheet" type="text/css" />
 
@@ -163,27 +166,26 @@
             <div class="row">
               <div class="col-xs-12">
                 <!-- carousel -->
-                <div id="carousel" class="carousel slide" data-ride="carousel">
-                  <ol id="indicators" class="carousel-indicators">
-                    <!-- will be generated -->
-                  </ol>
-                  <div id="inner" class="carousel-inner">
-                    <!-- will be generated -->
+                <div class="grid-column-carousel row example-1">
+                  <ul class="grid-column-carousel__list">
+                    <!-- generated -->
+                  </ul>
+                  <div class="grid-column-carousel__page-indicators">
+                    <ul>
+                        <li class="dot active"></li>
+                    </ul>
                   </div>
-                  <a class="left carousel-control" href="#carousel" data-slide="prev">
-                    <span class="glyphicon glyphicon-chevron-left"></span></a>
-                  <a class="right carousel-control" href="#carousel" data-slide="next">
-                    <span class="glyphicon glyphicon-chevron-right"></span></a>
                 </div>
               </div>
             </div>
-          </div>
-          <div class="row">
-            <div class="col-xs-12">
-              <!-- detail-box -->
-              <div id='details' style="width:300px; height:200px;">
-                <!-- will be generated -->
-              </div>
+
+            <!-- detail-box -->
+             <div class="row">
+                <div class="col-xs-12">
+                  <div id='details-container' class='details-custom'>
+                    <!-- will be generated -->
+                  </div>
+                </div>
             </div>
           </div>
         </section><!-- /.content -->
@@ -292,6 +294,8 @@
 
     <script data-main="/public/js/pages/performance.js" src="/node_modules/requirejs/require.js"></script>
 
+    <script src="/public/plugins/gridColumnCarousel/GridColumnCarousel.js"></script>
+    
 
     <!-- Optionally, you can add Slimscroll and FastClick plugins.
          Both of these plugins are recommended to enhance the

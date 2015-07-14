@@ -9,27 +9,14 @@
 		overflow: auto;
 	}
 
-	.corousel-chart{
-		top: 0%;
-		margin:0 auto;
-		width: 500px;
-		height: 50%;
-		margin-bottom: 10px;
+	.chart-position{
+		margin: 5px auto 10px auto;
+		width: 400px;
+		height: 200px;
+	}
+	.details-custom{
+		width: 100%;
+		height: 100%;
 	}
 
-	.dashboard-container-2-1{
-		top: 50%;
-		float: left;
-
-		width: 49.5%;
-		height: 50%;
-	}
-
-	.dashboard-container-2-2{
-		top: 50%;
-		margin-left: 50.5%;
-
-		width: 49%;
-		height: 50%;
-	}
 }

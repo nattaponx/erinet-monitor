@@ -12,6 +12,7 @@ ul {
 .grid-column-carousel__page-indicators {
   list-style: none;
   text-align: center;
+  margin-bottom: 15px;
 }
 
 .grid-column-carousel__page-indicators li {
