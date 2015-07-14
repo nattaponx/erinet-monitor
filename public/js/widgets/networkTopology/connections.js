@@ -15,12 +15,12 @@ define(['node_modules/d3/d3.js'], function (d3){
 		connect: function (component1, component2) {
 
 			addPath(this.properties.svg_drawingboard_id,
-				component1.getId() + '.' + component2.getId(), '0.5');
+				component1.getId() + '-' + component2.getId(), '0.5');
 
 			var svg       = $("#" + this.properties.svg_drawingboard_id);
 			var startElem = $("#component-" + component1.getId());
 			var endElem   = $("#component-" + component2.getId());
-			var path 	  = $("#path1"); //+ component1.getId() + '-' + component2.getId());
+			var path 	  = $("#" + component1.getId() + '-' + component2.getId());
 
 			connectElements(svg, path, startElem, endElem);
 		},
@@ -38,7 +38,7 @@ define(['node_modules/d3/d3.js'], function (d3){
 
 	function addPath (svg_drawingboard_id, id, opacityLevel) {
 		d3.select('#' + svg_drawingboard_id).append('path')
-			.attr('id', 'path1')
+			.attr('id', id)
 			.attr('class', 'connection-path');
 	}
 
@@ -80,13 +80,19 @@ define(['node_modules/d3/d3.js'], function (d3){
 	    console.log('startX ' + startX);
 	    console.log('startY ' + startY);
 
+	    var padding = parseFloat(endElem.css('padding-top'));
 	    // calculate path's end (x,y) coords
 	    var endX = endCoord.left + 0.5*endElem.outerWidth() - svgLeft;
-	    var endY = endCoord.top  - svgTop;
+	    var endY = endCoord.top  - svgTop + padding;
 
 	    console.log('endX ' + endX);
 	    console.log('endY ' + endY);
-	 
+	 	
+	    var weirdOffset = 0;//135;
+
+
+	    //console.log('Padding-top ' + padding);
+
 	    // call function for drawing the path
 	    drawPath(svg, path, startX, startY, endX, endY);
 	 
@@ -94,9 +100,9 @@ define(['node_modules/d3/d3.js'], function (d3){
 
 	function drawPath(svg, path, startX, startY, endX, endY) {
 	    // get the path's stroke width (if one wanted to be  really precize, one could use half the stroke size)
-	    var stroke =  path.css('stroke-width')//parseFloat(path.attr("stroke-width"));
+	    var stroke = path.css('stroke-width')//parseFloat(path.attr("stroke-width"));
 	    console.log('stroke-width ' + stroke);
-	    console.log(path);
+
 	    /*
 	    // check if the svg is big enough to draw the path, if not, set heigh/width
 	    if (svg.attr("height") <  endY)                 svg.attr("height", endY);
