@@ -2,7 +2,9 @@
  * PDC Performance view
  * 
  */
-define(["node_modules/d3/d3.js", "/public/plugins/chartjs/Chart.js", "/public/plugins/flot/jquery.flot.min.js"],function (d3, Chart, FlotChart) {
+define(["node_modules/d3/d3.js", 
+	"/public/plugins/chartjs/Chart.js", 
+	"/public/plugins/flot/jquery.flot.min.js"],function (d3, Chart, FlotChart) {
 	return{
 		//Widget properties
 		properties: {
@@ -25,7 +27,10 @@ define(["node_modules/d3/d3.js", "/public/plugins/chartjs/Chart.js", "/public/pl
 			
 			//Set properties
 			this.properties.type = type;
-			
+
+			//////////////
+			// Carousel //
+			//////////////
 			//add indicators
 			var indicators = d3.select('#indicators')
 				.append('li').attr('data-target', '#carousel')
@@ -38,7 +43,9 @@ define(["node_modules/d3/d3.js", "/public/plugins/chartjs/Chart.js", "/public/pl
 				.append('div').attr('class', function activeF(){if(carousel_num=='0') return "item active"; else return "item";})
 				.append('div').attr('id','corousel-chart-'+ cId).attr('class','corousel-chart');
 
-			//Box
+			/////////
+			// Box //
+			/////////
 			var box = item.append('div')
 				.attr('class', 'box box-' + type);
 
@@ -55,13 +62,13 @@ define(["node_modules/d3/d3.js", "/public/plugins/chartjs/Chart.js", "/public/pl
 			var box_body = box.append('div')
 				.attr('class', 'box-body')
 				.style('background-color', '#FAFAFA')
-				.style('margin', 'auto');
+				 .attr('display', 'inline');
 
-
-			var placeholder = box_body.append('div')
+			box_body.append('div')
 				.attr('id', data)
 				.style('width', '300px')
 				.style('height', '200px');
+				// .attr('padding', '20px 15px 15px 15px');
 
 			// chart canvas
 			// var chart1 = box_body.append('canvas')
@@ -97,98 +104,100 @@ define(["node_modules/d3/d3.js", "/public/plugins/chartjs/Chart.js", "/public/pl
 
       				var detailBox_body =  detailBox.append('div')
 						.attr('id', data)
-						.style('width', '200px')
-						.style('height', '100px');
-						//.attr({'width': '450', 'height': '130'});
+						.style('width', '500px')
+						.style('height', '500px');
    				}
 			}
 			document.getElementById(data).addEventListener('click',seeDetails);
 			
+			},
 
-			//////////
-			// DATA //
-			//////////
-			var data_bearers = [ [[0, 0], [1, 1]] ];
-			var data_cpuloads = [ [[1, 1], [0, 0]] ];
 
-			// var dData = function() {
-  	// 			return Math.round(Math.random()*50) / 100;
-  	// 		};
+			////////////
+			// Charts //
+			////////////
+			initChartRealTime: function(data){
 
-			// // testData1
-			// var testData1 = {
-   //          	labels : ["January","February","March","April","May","June", "July", "August"],
-   //          	datasets : [{
-	  //               fillColor : "rgba(0,61,245,0.4)",
-	  //               strokeColor : "#0040FF",
-	  //               pointColor : "#fff",
-	  //               pointStrokeColor : "#0040FF",
-	  //               data : [dData(),dData(),dData(),dData(),dData(),dData(),dData(),dData()]
-   //          	},{
-	  //               fillColor : "rgba(245,0,61,0.4)",
-	  //               strokeColor : "#FF3366",
-	  //               pointColor : "#fff",
-	  //               pointStrokeColor : "#FF3366",
-	  //               data : [dData(),dData(),dData(),dData(),dData(),dData(),dData(),dData()]
-   //          	}]
-   //      	}
+				// DATA for real time - line
+				$(function(){
+				var dataR = [],
+				totalPoints = 100;
 
-   //      	// testData2
-   //      	var testData2 = [
-			// 	{ value : dData(), color:"#878BB6", label : 'CPU1', highlight: "#FF5A5E"},
-   //              { value : dData(), color : "#F6F6F6"}
-   //      	]
+				function getRandomData(){
+					if (dataR.length > 0)
+						dataR = dataR.slice(1);
 
-   //      	// testData3
-			// var testData3 = {
-   //              labels : ["January","February","March","April","May","June"],
-   //              datasets : [{
-   //              	fillColor : "#48A497",
-   //                  strokeColor : "#48A4D1",
-   //                  data : [dData(),dData(),dData(),dData(),dData(),dData()]
-   //              },{
-   //                  fillColor : "rgba(73,188,170,0.4)",
-   //                  strokeColor : "rgba(72,174,209,0.4)",
-   //                  data : [dData(),dData(),dData(),dData(),dData(),dData()]
-   //              }]
-   //          }
-			
-
-			// ///////////////////
-			// // CHART OPTIONS //
-			// ///////////////////
-			// // line chart options
-   //          var lineOptions = {
-			// 	scaleShowGridLines : true,
-
-   //          };
-			// // pie chart options
-   //          var doughnutOptions = {
-   //               segmentShowStroke : false,
-   //               animateScale : true,
-   //               tooltipTemplate: "<%if (label){%><%=label%>: <%}%><%= value %>",
-   //               percentageInnerCutout : 70
-   //          };
-   //          var barOptions = {
-   //          };
-
-			/////////////////
-			// LOAD CHARTS //
-			/////////////////           
-
-	        //var test = document.getElementById(data).getContext('2d');
-
-	        // draw charts
-	        if(data=='data_bearers'){
-	        	$.plot($("#"+data), data_bearers, { yaxis: { max: 1 } });
-	        	//new Chart(document.getElementById(data).getContext('2d')).Line(testData1, lineOptions);	
-	        }else if(data=='data_cpuloads'){
-	    		$.plot($("#"+data), data_cpuloads, { yaxis: { max: 1 } });
-	    		//new Chart(document.getElementById(data).getContext('2d')).Bar(testData3, barOptions);
-	    	}else{
-	    		$.plot($("#"+data), data_bearers, { yaxis: { max: 1 } });
-
-	   		}
+					// Do a random walk
+					while (dataR.length < totalPoints) {
+						var prev = dataR.length > 0 ? dataR[dataR.length - 1] : 50,
+							y = prev + Math.random() * 10 - 5;
+						if (y < 0) {
+							y = 0;
+						} else if (y > 100) {
+							y = 100;
+						}
+						dataR.push(y);
+					}
+					// Zip the generated y values with the x values
+					var res = [];
+						for (var i = 0; i < dataR.length; ++i) {
+							res.push([i, dataR[i]])
+						}
+						return res;
+				}
+				// Set up the control widget
+				var updateInterval = 300;
+				// $("#updateInterval").val(updateInterval).change(function () {
+				// 	var v = $(this).val();
+				// 	if (v && !isNaN(+v)) {
+				// 		updateInterval = +v;
+				// 		if (updateInterval < 1) {
+				// 			updateInterval = 1;
+				// 		} else if (updateInterval > 2000) {
+				// 			updateInterval = 2000;
+				// 		}
+				// 		$(this).val("" + updateInterval);
+				// 	}
+				// });
+				
+				// draw charts
+				if(data=='data_bearers'){
+					var plot = $.plot($("#"+data), 
+					[ { label: "Number of Bearers",  data: getRandomData()} ], 
+					{
+					series: {
+						shadowSize: 0	// Drawing is faster without shadows
+					},
+					yaxis: {
+						min: 0,
+						max: 100
+					},
+					xaxis: {
+						min: 0,
+						max: 100
+						}
+					});
+					function update() {
+					plot.setData([getRandomData()]);
+					// Since the axes don't change, we don't need to call plot.setupGrid()
+					plot.draw();
+					setTimeout(update, updateInterval);
+				}
+				update();
+				}else{
+					var g = new JustGage({
+    				id: data,
+    				value: getRandomInt(0, 100) + "%",
+				    min: 0,
+				    max: 100,
+				    // title: "Visitors"
+					});
+			        setInterval(function() {
+			          g.refresh(getRandomInt(50, 100));
+			          //g2.refresh(getRandomInt(50, 100));          
+			        }, 2500);
+				};
+			});
 			},
 
 		/////////////////

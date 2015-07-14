@@ -18,7 +18,7 @@
 
     <!-- Dashboard CSS  -->
     <link href="/public/css/performance.css" rel="stylesheet" type="text/css" />
-   
+
   </head>
  
   <body class="skin-blue sidebar-mini">
@@ -160,26 +160,33 @@
         <!-- Main content -->
         <section class="content">
           <div class="dashboard-content-container">
-            <!-- carousel -->
-            <div id="carousel" class="carousel slide" data-ride="carousel">
-              <ol id="indicators" class="carousel-indicators">
-                <!-- will be generated -->
-              </ol>
-              <div id="inner" class="carousel-inner">
-                <!-- will be generated -->
+            <div class="row">
+              <div class="col-xs-12">
+                <!-- carousel -->
+                <div id="carousel" class="carousel slide" data-ride="carousel">
+                  <ol id="indicators" class="carousel-indicators">
+                    <!-- will be generated -->
+                  </ol>
+                  <div id="inner" class="carousel-inner">
+                    <!-- will be generated -->
+                  </div>
+                  <a class="left carousel-control" href="#carousel" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left"></span></a>
+                  <a class="right carousel-control" href="#carousel" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right"></span></a>
+                </div>
               </div>
-              <a class="left carousel-control" href="#carousel" data-slide="prev">
-                <span class="glyphicon glyphicon-chevron-left"></span></a>
-              <a class="right carousel-control" href="#carousel" data-slide="next">
-                <span class="glyphicon glyphicon-chevron-right"></span></a>
             </div>
           </div>
-          <!-- detail-box -->
-          <div id='details'>
-            <!-- will be generated -->
+          <div class="row">
+            <div class="col-xs-12">
+              <!-- detail-box -->
+              <div id='details' style="width:300px; height:200px;">
+                <!-- will be generated -->
+              </div>
+            </div>
           </div>
         </section><!-- /.content -->
-        <!-- <div id="placeholder" style="width:200px;height:100px"></div> -->
         </div>
 
 
@@ -279,9 +286,12 @@
     <!-- ChartJS -->
     <script src='/public/plugins/chartjs/Chart.js'></script>
     <script src='/public/plugins/flot/jquery.flot.min.js'></script>
-    <script src='/public/plugins/flot/jquery.flot.time.min.js'></script>
+    <!-- <script src='/public/plugins/flot/jquery.flot.time.min.js'></script> -->
+    <script src='/public/plugins/justgage-master/justgage.js'></script>
+    <script src='/public/plugins/raphael/raphael-min.js'></script>
 
     <script data-main="/public/js/pages/performance.js" src="/node_modules/requirejs/require.js"></script>
+
 
     <!-- Optionally, you can add Slimscroll and FastClick plugins.
          Both of these plugins are recommended to enhance the
