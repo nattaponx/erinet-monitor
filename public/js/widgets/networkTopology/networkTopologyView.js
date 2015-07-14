@@ -162,10 +162,12 @@ define(["node_modules/d3/d3.js", "topology/connections"], function (d3, connecti
 						break;
 				}
 
+				//Append Component container
 				var div = d3.select('#' + cell).append('div')
 					.attr('id', 'component-' + component.getId())
 					.attr('class', 'component-div');
 
+				//Append component image
 				var img = div.append('img')
 					.attr('class', 'component-img')
 					.attr('src', component.getActiveImg())
@@ -183,6 +185,7 @@ define(["node_modules/d3/d3.js", "topology/connections"], function (d3, connecti
                         }      
                     });
 
+                //Append component text(name)
 				div.append('text')
 					.attr('class', 'component-text')
                     .text(component.getName())
@@ -200,7 +203,8 @@ define(["node_modules/d3/d3.js", "topology/connections"], function (d3, connecti
                         }      
                     });
 			}.bind(this));
-
+			
+			connections.init('svg-container', 'svg-drawingboard');
 			connections.connect(this.containers.c5_EPG_Array[0], this.containers.c2_SAPC_Array[0]);
 
 		},

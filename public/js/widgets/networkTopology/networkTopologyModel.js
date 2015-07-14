@@ -43,8 +43,6 @@ define(['topology/networkComponent'],function (nc) {
 		        {
 		            if (data) 
 		            {
-		                console.log(data.data.components);
-
 		                data.data.components.forEach(function(component){
 		                	var componentInstance = nc.getInstance();
 
@@ -53,7 +51,6 @@ define(['topology/networkComponent'],function (nc) {
 		                	this.properties.components.push(componentInstance);
 		                }.bind(this));
 
-		                console.log(this.properties.components);
 		            }
 		        }.bind(this)
 		    });
