@@ -23,19 +23,23 @@ define(["node_modules/d3/d3.js"], function(d3) {
 
 			var bodytopRow1 = innertop.append('div').attr('class','box-body'),
 				bodytopRow2 = innertop.append('div').attr('class','box-body'),
+				bodytopRow3 = innertop.append('div').attr('class','box-body'),
+
 				bodyleft = innerleft.append('div').attr('class','box-body'),
 				bodyright = innerright.append('div').attr('class','box-body');
 
 			bodytopRow1.append('select').attr('id','node').style('width','130px');
-			initSelectGroup(bodytopRow2,['gsn_version','hardware','region','country','customer_name','timespan','node_id','report']);
+			initSelectGroup(bodytopRow2,['gsn_version','hardware','region','country','customer_name','timespan']);
+			initSelectGroup(bodytopRow3,['node_id','report']);
 
-			// setPlaceholder('node','Select Nodes');
+
+			setPlaceholder('node','Select Nodes');
 			setPlaceholder('gsn_version','Select Releases');
 			setPlaceholder('hardware','Select Hardwares');
 			setPlaceholder('region','Select Regions');
 			setPlaceholder('country','Select Countries');
 			setPlaceholder('customer_name','Select Customers');
-			setPlaceholder('timespan','Select Months');
+			setPlaceholder('timespan','Select Date');
 			setPlaceholder('node_id','Select NodeID');
 			setPlaceholder('report','Select Reports');
 
@@ -77,12 +81,13 @@ define(["node_modules/d3/d3.js"], function(d3) {
 	}
 
 	function initSelectGroup(divObj, columns){
+		var widthRatio = (100 / columns.length) + '%';
 		divObj.selectAll('select').data(columns).enter().append('select')
 		.attr('multiple','')
 		.attr('id', function(d){
 			return d;
 		})
-		.style({'min-width':'100px','width':'12.5%','height':'180px'});
+		.style({'min-width':'100px','width': widthRatio,'height':'180px'});
 	}
 
 	function initTabWidget(divObj, tabs){
