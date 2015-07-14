@@ -1,0 +1,31 @@
+ul {
+  padding: 0;
+}
+
+/*Example styling to make the slides visible, 
+ but this IS NOT PART OF THE GridColumnCarousel styling*/
+/*.grid-column-carousel__list li h3 {
+  background: #ccc;
+  padding: 20px 0;
+}*/
+
+.grid-column-carousel__page-indicators {
+  list-style: none;
+  text-align: center;
+}
+
+.grid-column-carousel__page-indicators li {
+  background: #eee;
+  padding: 20px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-left: 20px;
+}
+
+.grid-column-carousel__page-indicators li.active {
+  background: #bbb;
+}
+
+.button-panel {
+  margin-top: 30px;
+}
