@@ -1,4 +1,7 @@
-@media only screen and (min-width : 768px) {
+/*@media only screen and (min-width : 768px) {*/
+
+@media only screen and (min-width : 569px) {
+
 	.dashboard-content-container{
 		width: 100%;
 		height: 100%;	
@@ -11,7 +14,7 @@
 
 	.chart-position{
 		margin: 5px auto 10px auto;
-		width: 400px;
+		width: 450px;
 		height: 200px;
 	}
 	.details-custom{
@@ -19,4 +22,39 @@
 		height: 100%;
 	}
 
+	.chartLegend{
+		height: 15px;
+		margin-bottom: 10px;
+	}
+
+	.legendColorBox{
+		padding-right: 5px;
+	}
+
+	.legendLabel{
+		font-size: 13px;
+	}
+
+}
+
+/*iphone 4, 5, 6 */
+@media only screen and (min-device-width: 320px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2)  {
+	.chart-position{
+		margin-left: -5px; 
+		width: 120px;
+		height: 100px;
+	}
+}
+
+/* ipad */
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (-webkit-min-device-pixel-ratio: 1) {
+	.col-xs-12 .col-sm-6 .col-md-4 .col-lg-3{
+		width: 50000px;
+	}
+
+	.chart-position{
+		margin: 0 auto;
+		width: 200px;
+		height: 100px;
+	}
 }

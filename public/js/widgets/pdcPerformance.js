@@ -4,13 +4,15 @@
  */
 define(["node_modules/d3/d3.js", 
 	"/public/plugins/chartjs/Chart.js", 
-	"/public/plugins/flot/jquery.flot.min.js"],function (d3, Chart, FlotChart) {
+	"/public/plugins/flot/jquery.flot.min.js",
+	"/public/plugins/flot/jquery.flot.time.js",
+	"/public/plugins/flot/jquery.flot.axislabels.js"],function (d3) {
 	return{
 		//Widget properties
 		properties: {
 			title: '',
 			type: '',
-			data: '',
+			dataset: '',
 			carousel_num: '',
 		},
 
@@ -22,7 +24,7 @@ define(["node_modules/d3/d3.js",
 		 * @param  {String}    title            [title for the widget]
 		 * 
 		 */
-		init: function(type, title, data){
+		init: function(type, title, dataset){
 			console.log('init PDC Performance View Widget');
 			
 			//Set properties
@@ -55,7 +57,11 @@ define(["node_modules/d3/d3.js",
 				 .attr('display', 'inline');
 
 			var cbox_position = cbox_body.append('div')
-				.attr('id', data).attr('class', 'chart-position');
+				.attr('id', dataset).attr('class', 'chart-position')
+
+			var cbox_footer = cbox_body.append('div')
+				.attr('id', 'chartLegend-' + dataset)
+				.attr('class', 'chartLegend');
  
 
 			/////////////
@@ -78,15 +84,15 @@ define(["node_modules/d3/d3.js",
 					dbox.append('div').attr('class', 'box-body');
 
       				var dbox_body =  dbox.append('div')
-						.attr('id', data)
+						.attr('id', dataset)
    				}
 			}
-			document.getElementById(data).addEventListener('click',seeDetails);
+			document.getElementById(dataset).addEventListener('click',seeDetails);
 
 			var options = {
 	          elem: document.getElementsByClassName('example-1')[0],
 	          gridColClasses: 'col-xs-6 col-sm-6 col-md-5 col-lg-6',
-	          autoplay: true
+	          // autoplay: true
 	        };
 	        var gCCarousel = new GCCarousel(options);
 			
@@ -97,61 +103,66 @@ define(["node_modules/d3/d3.js",
 			// Charts //
 			////////////
 
-			initChartRealTime: function(data){
+			initChartRealTime: function(dataset){
+				var dataR = [];
+				var totalPoints = 300;
+				var j = 0;
+				var now = new Date().getTime();
+				// DATA for real time - line			 
+					function getRandomData(){
 
-				// DATA for real time - line
-				$(function(){
-				var dataR = [],
-				totalPoints = 100;
+						if (dataR.length > 0)
+							dataR = dataR.slice(1);
 
-				function getRandomData(){
-					if (dataR.length > 0)
-						dataR = dataR.slice(1);
-
-					// Do a random walk
-					while (dataR.length < totalPoints) {
-						var prev = dataR.length > 0 ? dataR[dataR.length - 1] : 50,
-							y = prev + Math.random() * 10 - 5;
-						if (y < 0) {
-							y = 0;
-						} else if (y > 100) {
-							y = 100;
+						// Do a random walk
+						while (dataR.length < totalPoints) {
+							var prev = dataR.length > 0 ? dataR[dataR.length - 1] : 50,
+								y = prev + Math.random() * 10 - 5;
+							if (y < 0) {
+								y = 0;
+							} else if (y > 100) {
+								y = 100;
+							}
+							dataR.push(y);
 						}
-						dataR.push(y);
-					}
-					// Zip the generated y values with the x values
-					var res = [];
-						for (var i = 0; i < dataR.length; ++i) {
-							res.push([i, dataR[i]])
-						}
-						return res;
+						// Zip the generated y values with the x values
+						var res = [];
+							for (var i = 0; i < dataR.length; ++i) {
+								res.push([j++, dataR[i]])
+							}
+							return res;
 				}
-				// Set up the control widget
-				var updateInterval = 300;
-				
+				var updateInterval = 100;
+
+
 				// draw charts
-				if(data=='data_bearers'){
-					var plot = $.plot($("#"+data), 
+				if(dataset=='data_bearers'){
+					var plot = $.plot($("#"+dataset), 
+
 					[ { label: "Number of Bearers",  data: getRandomData()} ], 
 					{
 						series: {
+							color: '#1065D2',
 							shadowSize: 0	// Drawing is faster without shadows
 						},
-						yaxis: { min: 0, max: 100 },
-						xaxis: { min: 0, max: 100 }
-					});
+						yaxis: { min: 0, max: 150},
+						xaxis: { show: true}, 
+						legend: { container: $("#chartLegend-" + dataset)},
+						grid: { backgroundColor: '#FFFFFF', hoverable: true}
+		        	});
+
 					function update() {
 						plot.setData([getRandomData()]);
-						// Since the axes don't change, we don't need to call plot.setupGrid()
+						plot.setupGrid();
 						plot.draw();
 						setTimeout(update, updateInterval);
 					}
 					update();
 				};
 
-				if(data=='data_cpuloads'){
+				if(dataset=='data_cpuloads'){
 					var g = new JustGage({
-    				id: data,
+    				id: dataset,
     				value: getRandomInt(0, 100) + "%",
 				    min: 0,
 				    max: 100,
@@ -163,25 +174,28 @@ define(["node_modules/d3/d3.js",
 			        }, 2500);
 				};
 
-				if(data=='data_packets'){
-					var plot = $.plot($("#"+data), 
-					[ { label: "Number of packets",  data: getRandomData()} ], 
+				if(dataset=='data_packets'){
+					var plot = $.plot($("#"+dataset), 
+					[ { label: "Amount of Packets",  data: getRandomData()} ], 
 					{
 						series: {
+							color: '#000000',
 							shadowSize: 0	// Drawing is faster without shadows
 						},
 						yaxis: { min: 0, max: 100 },
-						xaxis: { min: 0, max: 100 }
+						xaxis: {}, 
+						legend: {container: $("#chartLegend-" + dataset)},
+						grid: { backgroundColor: '#FFFFFF', hoverable: true}
 					});
 					function update() {
 						plot.setData([getRandomData()]);
-						// Since the axes don't change, we don't need to call plot.setupGrid()
+						plot.setupGrid();
 						plot.draw();
 						setTimeout(update, updateInterval);
 					}
 					update();
 				};
-			});
+			
 			},
 
 		/////////////////
