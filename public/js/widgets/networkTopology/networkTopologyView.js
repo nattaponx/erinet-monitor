@@ -204,6 +204,13 @@ define(["node_modules/d3/d3.js", "topology/connections"], function (d3, connecti
                     });
 			}.bind(this));
 			
+			/*
+			$(window).load(function(){
+				console.log('window.load');
+				connectComponents(this.containers);
+			}.bind(this));
+			*/
+			
 			connections.init('svg-container', 'svg-drawingboard');
 
 			this.containers.c5_EPG_Array.forEach(function(epg){
@@ -215,11 +222,25 @@ define(["node_modules/d3/d3.js", "topology/connections"], function (d3, connecti
 			this.containers.c1_MME_Array.forEach(function(mme){
 				this.containers.c5_EPG_Array.forEach(function(epg){
 					connections.connect(mme, epg);
-				}.bind(this))
+				}.bind(this));
 			}.bind(this));
-
-			//connections.connect(this.containers.c5_EPG_Array[0], this.containers.c2_SAPC_Array[0]);
-
 		},
+	}
+
+	function connectComponents (containers) {
+		console.log('Drawing Connections');
+		connections.init('svg-container', 'svg-drawingboard');
+
+		containers.c5_EPG_Array.forEach(function(epg){
+			containers.c3_SAPC_Array.forEach(function(sapc){
+				connections.connect(epg, sapc);
+			});
+		});		
+
+		containers.c1_MME_Array.forEach(function(mme){
+			containers.c5_EPG_Array.forEach(function(epg){
+				connections.connect(mme, epg);
+			});
+		});
 	}
 });

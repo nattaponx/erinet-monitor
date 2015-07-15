@@ -10,10 +10,15 @@ require.config({
     },
  });
 
-
-require(["topology/networkTopologyController"], function (NetworkTopology) {
+require(["topology/networkTopologyController", "node_modules/eventbus/eventbus.js"], 
+	function (NetworkTopology, eventbus) {
 	
 	NetworkTopology.init('content-container', 'primary', 'Erinet');
 
+	var interval = setInterval(function(){ update() }, 5000);
+
+	function update(){
+		eventbus.fire('update');
+	}
 
 });
