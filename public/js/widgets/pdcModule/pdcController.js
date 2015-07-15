@@ -101,9 +101,9 @@ define(['node_modules/d3/d3.js','public/js/widgets/pdcModule/pdcModel.js'], func
 		];
 		resetFields(list);
 		var gsnName = d3.select('#node').node().value;
-		var gsnVersion = d3.select('#gsn_version').node().value;
+		var gsnVersions = $('#gsn_version').val();
 		var hardwares = $('#hardware').val();
-		model.getRegion(gsnName, gsnVersion, hardwares, function(jsonData){
+		model.getRegion(gsnName, gsnVersions, hardwares, function(jsonData){
 			var regionDiv = d3.select('#region');
 			regionDiv.html("");
 			regionDiv.selectAll('option').data(jsonData.data).enter().append('option')
@@ -127,10 +127,10 @@ define(['node_modules/d3/d3.js','public/js/widgets/pdcModule/pdcModel.js'], func
 		];
 		resetFields(list);
 		var gsnName = d3.select('#node').node().value;
-		var gsnVersion = d3.select('#gsn_version').node().value;
-		var hardware = d3.select('#hardware').node().value;
+		var gsnVersions = $('#gsn_version').val();
+		var hardwares = $('#hardware').val();
 		var regions = $('#region').val();
-		model.getCountry(gsnName, gsnVersion, hardware, regions, function(jsonData){
+		model.getCountry(gsnName, gsnVersions, hardwares, regions, function(jsonData){
 			var countryDiv = d3.select('#country');
 			countryDiv.html("");
 			countryDiv.selectAll('option').data(jsonData.data).enter().append('option')
@@ -153,11 +153,11 @@ define(['node_modules/d3/d3.js','public/js/widgets/pdcModule/pdcModel.js'], func
 		];
 		resetFields(list);
 		var gsnName = d3.select('#node').node().value;
-		var gsnVersion = d3.select('#gsn_version').node().value;
-		var hardware = d3.select('#hardware').node().value;
-		var region = d3.select('#region').node().value;
+		var gsnVersions = $('#gsn_version').val();
+		var hardwares = $('#hardware').val();
+		var regions = $('#region').val();
 		var conuntries = $('#country').val();
-		model.getCustomer(gsnName, gsnVersion, hardware, region, conuntries, function(jsonData){
+		model.getCustomer(gsnName, gsnVersions, hardwares, regions, conuntries, function(jsonData){
 			var customerDiv = d3.select('#customer_name');
 			customerDiv.html("");
 			customerDiv.selectAll('option').data(jsonData.data).enter().append('option')
@@ -179,12 +179,12 @@ define(['node_modules/d3/d3.js','public/js/widgets/pdcModule/pdcModel.js'], func
 		];
 		resetFields(list);
 		var gsnName = d3.select('#node').node().value;
-		var gsnVersion = d3.select('#gsn_version').node().value;
-		var hardware = d3.select('#hardware').node().value;
-		var region = d3.select('#region').node().value;
-		var country = d3.select('#country').node().value;
+		var gsnVersions = $('#gsn_version').val();
+		var hardwares = $('#hardware').val();
+		var regions = $('#region').val();
+		var countries = $('#country').val();
 		var customers = $('#customer_name').val();
-		model.getDate(gsnName, gsnVersion, hardware, region, country, customers, function(jsonData){
+		model.getDate(gsnName, gsnVersions, hardwares, regions, countries, customers, function(jsonData){
 			var dateDiv = d3.select('#timespan');
 			dateDiv.html("");
 			dateDiv.selectAll('option').data(jsonData.data).enter().append('option')
@@ -205,13 +205,13 @@ define(['node_modules/d3/d3.js','public/js/widgets/pdcModule/pdcModel.js'], func
 		];
 		resetFields(list);
 		var gsnName = d3.select('#node').node().value;
-		var gsnVersion = d3.select('#gsn_version').node().value;
-		var hardware = d3.select('#hardware').node().value;
-		var region = d3.select('#region').node().value;
-		var country = d3.select('#country').node().value;
-		var customer = d3.select('#customer_name').node().value;
+		var gsnVersions = $('#gsn_version').val();
+		var hardwares = $('#hardware').val();
+		var regions = $('#region').val();
+		var countries = $('#country').val();
+		var customers = $('#customer_name').val();
 		var dates = $('#timespan').val();
-		model.getNodeId(gsnName, gsnVersion, hardware, region, country, customer, dates, function(jsonData){
+		model.getNodeId(gsnName, gsnVersions, hardwares, regions, countries, customers, dates, function(jsonData){
 			var nodeIdDiv = d3.select('#node_id');
 			nodeIdDiv.html("");
 			nodeIdDiv.selectAll('option').data(jsonData.data).enter().append('option')
@@ -228,14 +228,14 @@ define(['node_modules/d3/d3.js','public/js/widgets/pdcModule/pdcModel.js'], func
 
 	function runReport(){
 		var gsnName = d3.select('#node').node().value;
-		var gsnVersion = d3.select('#gsn_version').node().value;
-		var hardware = d3.select('#hardware').node().value;
-		var region = d3.select('#region').node().value;
-		var country = d3.select('#country').node().value;
-		var customer = d3.select('#customer_name').node().value;
-		var date = d3.select('#timespan').node().value;
+		var gsnVersions = $('#gsn_version').val();
+		var hardwares = $('#hardware').val();
+		var regions = $('#region').val();
+		var countries = $('#country').val();
+		var customers = $('#customer_name').val();
+		var dates = $('#timespan').val();
 		var nodeIds = $('#node_id').val();
-		model.getReport(gsnName, gsnVersion, hardware, region, country, customer, date, nodeIds, function(jsonData){
+		model.getReport(gsnName, gsnVersions, hardwares, regions, countries, customers, dates, nodeIds, function(jsonData){
 			var reportDiv = d3.select('#report');
 			reportDiv.html("");
 			reportDiv.selectAll('option').data(jsonData.data).enter().append('option')
