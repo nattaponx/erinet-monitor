@@ -53,7 +53,7 @@ define(["node_modules/d3/d3.js",
 			//Box body
 			var cbox_body = cbox.append('div')
 				.attr('class', 'box-body')
-				.style('background-color', '#FAFAFA')
+				.style('background-color', '#FAFAFA') //#FAFAFA
 				 .attr('display', 'inline');
 
 			var cbox_position = cbox_body.append('div')
@@ -89,6 +89,7 @@ define(["node_modules/d3/d3.js",
 			}
 			document.getElementById(dataset).addEventListener('click',seeDetails);
 
+			//carousel options
 			var options = {
 	          elem: document.getElementsByClassName('example-1')[0],
 	          gridColClasses: 'col-xs-6 col-sm-6 col-md-5 col-lg-6',
@@ -96,18 +97,20 @@ define(["node_modules/d3/d3.js",
 	        };
 	        var gCCarousel = new GCCarousel(options);
 			
+			// end of init //
 			},
 
 
 			////////////
 			// Charts //
 			////////////
-
 			initChartRealTime: function(dataset){
+				console.log('initChartRealTime Widget');
 				var dataR = [];
-				var totalPoints = 300;
-				var j = 0;
 				var now = new Date().getTime();
+				var updateInterval = 1000;
+				var totalPoints = 10;
+				var j = 0;
 				// DATA for real time - line			 
 					function getRandomData(){
 
@@ -128,15 +131,17 @@ define(["node_modules/d3/d3.js",
 						// Zip the generated y values with the x values
 						var res = [];
 							for (var i = 0; i < dataR.length; ++i) {
-								res.push([j++, dataR[i]])
+								res.push([now += updateInterval, dataR[i]])
 							}
 							return res;
 				}
-				var updateInterval = 100;
+
 
 
 				// draw charts
 				if(dataset=='data_bearers'){
+
+
 					var plot = $.plot($("#"+dataset), 
 
 					[ { label: "Number of Bearers",  data: getRandomData()} ], 
@@ -145,8 +150,33 @@ define(["node_modules/d3/d3.js",
 							color: '#1065D2',
 							shadowSize: 0	// Drawing is faster without shadows
 						},
-						yaxis: { min: 0, max: 150},
-						xaxis: { show: true}, 
+						yaxis: { min: 0, max: 150,
+							show: true,
+							axisLabel: "Number of Bearers",
+						    axisLabelUseCanvas: true,
+						    axisLabelFontSizePixels: 12,
+						    axisLabelPadding: 10},
+						xaxis: {
+							show: true,
+							mode: "time",
+							timzone: "local",
+							tickSize: [2, "second"],
+							tickFormatter: function (v, axis) {
+					            var date = new Date(v);
+
+					            if (date.getSeconds()) {
+					                var hours = date.getHours() < 10 ? "0" + date.getHours() :     date.getHours();
+					                var minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+					                var seconds = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+
+					                return hours + ":" + minutes + ":" + seconds;
+					            } else {
+					                return "";
+            					}},
+							axisLabel: "Time",
+						    axisLabelUseCanvas: true,
+						    axisLabelFontSizePixels: 12,
+						    axisLabelPadding: 10}, 
 						legend: { container: $("#chartLegend-" + dataset)},
 						grid: { backgroundColor: '#FFFFFF', hoverable: true}
 		        	});
@@ -195,7 +225,41 @@ define(["node_modules/d3/d3.js",
 					}
 					update();
 				};
-			
+
+				// datapoint tooltips
+				$("#"+dataset).bind("plothover", function (event, pos, item) {
+					var previousPoint = 0;
+                    if (item) {
+                        if (previousPoint != item.dataIndex) {
+
+                            previousPoint = item.dataIndex;
+
+                            $("#tooltip").remove();
+                            var x = item.datapoint[0].toFixed(2),
+                            y = item.datapoint[1].toFixed(2);
+
+                            showTooltip(item.pageX, item.pageY, "" + y);
+                        }
+                    } else {
+                        $("#tooltip").remove();
+                        previousPoint = null;            
+                    }
+                });
+                function showTooltip(x, y, contents) {
+                    $("<div id='tooltip'>" + contents + "</div>").css({
+                        position: "absolute",
+                        display: "none",
+                        top: y + 5,
+                        left: x + 5,
+                        border: "1px solid #fdd",
+                        padding: "4px",
+                        color: "#000000",
+                        "background-color": "#fee", //#fee
+                        opacity: 0.90
+                    }).appendTo("body").fadeIn(200);
+                }
+
+			// end of initChartRealTime //
 			},
 
 		/////////////////
