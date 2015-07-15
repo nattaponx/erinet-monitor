@@ -17,10 +17,11 @@ ul {
 
   .grid-column-carousel__page-indicators li {
     background: #eee;
-    padding: 20px;
+    padding: 10px;
     border-radius: 50%;
     display: inline-block;
-    margin-left: 20px;
+    margin-left: 4px;
+    margin-right: 4px;
   }
 
   .grid-column-carousel__page-indicators li.active {
@@ -28,5 +29,5 @@ ul {
   }
 
   .button-panel {
-    margin-top: 30px;
+    margin-top: 10px;
   }

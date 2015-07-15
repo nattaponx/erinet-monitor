@@ -5,7 +5,7 @@
 define(["node_modules/d3/d3.js", 
 	"/public/plugins/chartjs/Chart.js", 
 	"/public/plugins/flot/jquery.flot.min.js",
-	"/public/plugins/flot/jquery.flot.time.js",
+	"/public/plugins/flot/jquery.flot.time.min.js",
 	"/public/plugins/flot/jquery.flot.axislabels.js"],function (d3) {
 	return{
 		//Widget properties
@@ -36,10 +36,12 @@ define(["node_modules/d3/d3.js",
 			var selectObject = d3.select('.grid-column-carousel__list');
 
 			var item = selectObject.append('li')
-				.attr('class', 'col-xs-12 col-sm-6 col-md-4 col-lg-3');
+				.attr('class', 'col-sm-12 col-md-6 col-xs-12');
 
 			var cbox = item.append('div')
-				.attr('class', 'box box-' + type);
+				.attr('class', 'box box-' + type)
+				.attr('id', 'cbox-'+ dataset)
+				.append('a').attr('href', '#');
 
 			////Box title
 			var cbox_header = cbox.append('div')
@@ -58,10 +60,6 @@ define(["node_modules/d3/d3.js",
 
 			var cbox_position = cbox_body.append('div')
 				.attr('id', dataset).attr('class', 'chart-position')
-
-			var cbox_footer = cbox_body.append('div')
-				.attr('id', 'chartLegend-' + dataset)
-				.attr('class', 'chartLegend');
  
 
 			/////////////
@@ -84,7 +82,7 @@ define(["node_modules/d3/d3.js",
 					dbox.append('div').attr('class', 'box-body');
 
       				var dbox_body =  dbox.append('div')
-						.attr('id', dataset)
+						.attr('id', dataset);
    				}
 			}
 			document.getElementById(dataset).addEventListener('click',seeDetails);
@@ -92,8 +90,8 @@ define(["node_modules/d3/d3.js",
 			//carousel options
 			var options = {
 	          elem: document.getElementsByClassName('example-1')[0],
-	          gridColClasses: 'col-xs-6 col-sm-6 col-md-5 col-lg-6',
-	          // autoplay: true
+	          gridColClasses: 'col-sm-12 col-md-6 col-xs-12',
+	          //autoplay: true
 	        };
 	        var gCCarousel = new GCCarousel(options);
 			
@@ -109,13 +107,13 @@ define(["node_modules/d3/d3.js",
 				var dataR = [];
 				var now = new Date().getTime();
 				var updateInterval = 1000;
-				var totalPoints = 10;
+				var totalPoints = 100;
 				var j = 0;
 				// DATA for real time - line			 
 					function getRandomData(){
-
-						if (dataR.length > 0)
-							dataR = dataR.slice(1);
+						dataR.shift();
+						// if (dataR.length > 0)
+						// 	dataR = dataR.slice(1);
 
 						// Do a random walk
 						while (dataR.length < totalPoints) {
@@ -144,11 +142,12 @@ define(["node_modules/d3/d3.js",
 
 					var plot = $.plot($("#"+dataset), 
 
-					[ { label: "Number of Bearers",  data: getRandomData()} ], 
+					[ { label: "Bearers",  data: getRandomData()} ], 
 					{
 						series: {
 							color: '#1065D2',
-							shadowSize: 0	// Drawing is faster without shadows
+							shadowSize: 1,	// Drawing is faster without shadows
+							lines: {fill: true}
 						},
 						yaxis: { min: 0, max: 150,
 							show: true,
@@ -160,11 +159,11 @@ define(["node_modules/d3/d3.js",
 							show: true,
 							mode: "time",
 							timzone: "local",
-							tickSize: [2, "second"],
+							tickSize: [3, "second"],
 							tickFormatter: function (v, axis) {
 					            var date = new Date(v);
 
-					            if (date.getSeconds()) {
+					            if (date.getSeconds()%20 === 0) {
 					                var hours = date.getHours() < 10 ? "0" + date.getHours() :     date.getHours();
 					                var minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
 					                var seconds = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
@@ -177,7 +176,6 @@ define(["node_modules/d3/d3.js",
 						    axisLabelUseCanvas: true,
 						    axisLabelFontSizePixels: 12,
 						    axisLabelPadding: 10}, 
-						legend: { container: $("#chartLegend-" + dataset)},
 						grid: { backgroundColor: '#FFFFFF', hoverable: true}
 		        	});
 
@@ -212,9 +210,18 @@ define(["node_modules/d3/d3.js",
 							color: '#000000',
 							shadowSize: 0	// Drawing is faster without shadows
 						},
-						yaxis: { min: 0, max: 100 },
-						xaxis: {}, 
-						legend: {container: $("#chartLegend-" + dataset)},
+						yaxis: { min: 0, max: 100,
+							show: true,
+							axisLabel: "Packets",
+						    axisLabelUseCanvas: true,
+						    axisLabelFontSizePixels: 12,
+						    axisLabelPadding: 10 },
+						xaxis: {
+							show: true,
+							axisLabel: "Time",
+						    axisLabelUseCanvas: true,
+						    axisLabelFontSizePixels: 12,
+						    axisLabelPadding: 10 }, 
 						grid: { backgroundColor: '#FFFFFF', hoverable: true}
 					});
 					function update() {
