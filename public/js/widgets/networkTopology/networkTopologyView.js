@@ -7,7 +7,7 @@ define(["node_modules/d3/d3.js", "topology/connections"], function (d3, connecti
 
 		containers: {
 			c1_MME_Array: [],
-			c2_SAPC_Array: [],
+			c3_SAPC_Array: [],
 			c4_undefined_Array: [],
 			c5_EPG_Array: [],
 			c6_SASN_Array: []
@@ -147,8 +147,8 @@ define(["node_modules/d3/d3.js", "topology/connections"], function (d3, connecti
 						break;
 
 					case 'SAPC':
-						cell = 'c2';
-						this.containers.c2_SAPC_Array.push(component);
+						cell = 'c3';
+						this.containers.c3_SAPC_Array.push(component);
 						break;
 
 					case 'SASN':
@@ -207,7 +207,7 @@ define(["node_modules/d3/d3.js", "topology/connections"], function (d3, connecti
 			connections.init('svg-container', 'svg-drawingboard');
 
 			this.containers.c5_EPG_Array.forEach(function(epg){
-				this.containers.c2_SAPC_Array.forEach(function(sapc){
+				this.containers.c3_SAPC_Array.forEach(function(sapc){
 					connections.connect(epg, sapc);
 				}.bind(this));
 			}.bind(this));		
