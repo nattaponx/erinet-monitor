@@ -59,7 +59,7 @@ define(["node_modules/d3/d3.js",
 				 .attr('display', 'inline');
 
 			var cbox_position = cbox_body.append('div')
-				.attr('id', dataset).attr('class', 'chart-position')
+				.attr('id', dataset).attr('class', 'chart-position');
  
 
 			/////////////
@@ -85,6 +85,7 @@ define(["node_modules/d3/d3.js",
 						.attr('id', dataset);
    				}
 			}
+
 			document.getElementById(dataset).addEventListener('click',seeDetails);
 
 			//carousel options
