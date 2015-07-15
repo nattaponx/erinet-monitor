@@ -3,6 +3,7 @@ define(function(){
 	return {
 
 
+		// baseAPIUrl: 'http://localhost/api.php',
 		baseAPIUrl: 'http://localhost/api.php',
 
 		getGsnName: function(callback){
