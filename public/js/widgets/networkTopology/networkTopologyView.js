@@ -206,9 +206,17 @@ define(["node_modules/d3/d3.js", "topology/connections"], function (d3, connecti
 			
 			connections.init('svg-container', 'svg-drawingboard');
 
-			this.containers.c5_EPG_Array.forEach(function(e){
-				connections.connect(e, this.containers.c2_SAPC_Array[0]);
+			this.containers.c5_EPG_Array.forEach(function(epg){
+				this.containers.c2_SAPC_Array.forEach(function(sapc){
+					connections.connect(epg, sapc);
+				}.bind(this));
 			}.bind(this));		
+
+			this.containers.c1_MME_Array.forEach(function(mme){
+				this.containers.c5_EPG_Array.forEach(function(epg){
+					connections.connect(mme, epg);
+				}.bind(this))
+			}.bind(this));
 
 			//connections.connect(this.containers.c5_EPG_Array[0], this.containers.c2_SAPC_Array[0]);
 

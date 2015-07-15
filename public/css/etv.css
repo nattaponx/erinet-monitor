@@ -123,7 +123,7 @@
 	height: 33.33%;
 	position: relative;
 	text-align: center;
-	border: 1px solid; 
+	/*border: 1px solid;*/ 
 }
 
 .component-div{

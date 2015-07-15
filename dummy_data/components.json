@@ -25,7 +25,12 @@
            },
            {
                "id": "DC-2421",
-               "name": "SAPC",
+               "name": "SAPC01",
+               "status": "ACTIVE"
+           },
+           {
+               "id": "DC-2422",
+               "name": "SAPC02",
                "status": "ACTIVE"
            },
            {
