@@ -11,14 +11,14 @@ require.config({
  });
 
 require(["topology/networkTopologyController", "node_modules/eventbus/eventbus.js"], 
-	function (NetworkTopology, eventbus) {
+	function (ntc, eventbus) {
 	
-	NetworkTopology.init('content-container', 'primary', 'Erinet');
+	ntc.init('content-container', 'primary', 'Erinet');
 
-	var interval = setInterval(function(){ update() }, 5000);
+	//var interval = setInterval(function(){ update() }, 5000);
 
 	function update(){
-		eventbus.fire('update-etv');
+		eventbus.fire('update');
 	}
 
 });

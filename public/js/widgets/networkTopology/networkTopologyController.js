@@ -24,7 +24,7 @@ define(["node_modules/d3/d3.js", "topology/networkTopologyModel",
 
 			//ntv.drawComponents(ntm.getComponents());
 
-			eventbus.addListener('update-etv', function() {
+			eventbus.addListener('update', function() {
 				update();
 			});
 		},
