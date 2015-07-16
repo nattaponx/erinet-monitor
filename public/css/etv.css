@@ -1,8 +1,5 @@
 /* Phones */
 @media only screen and (min-width: 320px){
-	.svg-container{
-		background-color: red;
-	}
 
 	.component-div{
 		padding-left: 1px;
@@ -16,13 +13,14 @@
 		left: 0;
 		font-size: 2.4vw; 
 	}
+
+	.connection-path{
+		stroke-width: 0.1em;
+	}	
 }
 
 /* Extra small devices */
 @media only screen and (min-width: 480px){
-	.svg-container{
-		background-color: blue;
-	}
 
 	.component-div{
 		padding-left: 10px;
@@ -36,13 +34,14 @@
 		left: 0;
 		font-size: 1.7vw; 
 	}
+
+	.connection-path{
+		stroke-width: 0.3em;
+	}
 }
 
 /* Small devices, tablets */
 @media only screen and (min-width: 768px){
-	.svg-container{
-		background-color: green;
-	}
 
 	.component-div{
 		padding-left: 10px;
@@ -56,13 +55,14 @@
 		left: 0;
 		font-size: 1.2vw; 
 	}
+
+	.connection-path{
+		stroke-width: 0.2em;
+	}
 }
 
 /* Large devices, wide screens */
 @media only screen and (min-width: 1200px){
-	.svg-container{
-		background-color: white;
-	}
 
 	.component-div{
 		padding-left: 10px;
@@ -77,13 +77,14 @@
 		left: 0;
 		font-size: 1.2vw; 
 	}
+
+	.connection-path{
+		stroke-width: 0.3em;
+	}
 }
 
 /* Really large devices, desktops */
 @media only screen and (min-width: 1550px){
-	.svg-container{
-		background-color: yellow;
-	}
 
 	.component-div{
 		padding-left: 2%;
@@ -97,6 +98,10 @@
 		left: 0;
 		font-size: 1.5vw; 
 	}
+
+	.connection-path{
+		stroke-width: 0.3em;
+	}
 }
 
 /* Common for all resolutions */
@@ -106,6 +111,7 @@
 }
 
 .svg-container{
+	background-color: #ADD8E6;
 	position: absolute;
 	opacity: 0.5;
 }
@@ -152,7 +158,6 @@
 .connection-path{
 	fill: none;
 	stroke: black;
-	stroke-width: 4;
 }
 
 

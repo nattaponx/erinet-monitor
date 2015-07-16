@@ -20,18 +20,24 @@ define(["node_modules/d3/d3.js", "topology/networkTopologyModel",
 			console.log('init Network Topology Widget');
 
 			ntm.init(parent_container, type, title);
-			ntv.init(parent_container, type, title);
+			ntv.init(parent_container, type, title, ntm.getComponents());
 
-			ntv.drawComponents(ntm.getComponents());
+			//ntv.drawComponents(ntm.getComponents());
 
-			eventbus.addListener('update', function() {
+			eventbus.addListener('update-etv', function() {
 				update();
 			});
 		},
 	}
 
 	function update() {
-		console.log('update');
+		//console.log('update');
+
+		var newData = ntm.updateData();
+
+		if(newData){
+			ntv.update();
+		}	
 	}
 
 });

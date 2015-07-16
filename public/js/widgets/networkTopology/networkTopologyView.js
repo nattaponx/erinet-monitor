@@ -6,11 +6,11 @@ define(["node_modules/d3/d3.js", "topology/connections"], function (d3, connecti
 	return{
 
 		containers: {
-			c1_MME_Array: [],
-			c3_SAPC_Array: [],
-			c4_undefined_Array: [],
-			c5_EPG_Array: [],
-			c6_SASN_Array: []
+			mme_list: [],
+			sapc_list: [],
+			epg_list: [],
+			sasn_list: [],
+			undefined_list: []
 		},
 
 		/**
@@ -19,9 +19,8 @@ define(["node_modules/d3/d3.js", "topology/connections"], function (d3, connecti
 		 * @param  {container} parent_container [parent container for the widget]
 		 * @param  {String}    type             [type of the box]
 		 * @param  {String}    title            [title for the widget]
-		 * 
 		 */
-		init: function (parent_container, type, title) {
+		init: function (parent_container, type, title, components) {
 
 			var box = d3.select('#' + parent_container)
 				.append('div')
@@ -42,14 +41,27 @@ define(["node_modules/d3/d3.js", "topology/connections"], function (d3, connecti
 			this.createSvgDrawingboard(box_body);
 			this.createGrid(box_body);
 
-			this.resize();
+			this.drawComponents(components);
 
+			connections.init('svg-container', 'svg-drawingboard', this.containers);
+
+			$(window).load(function(){
+				console.log('window.load');
+				//connectComponents(this.containers);
+			}.bind(this));
+
+			this.resize();
 			$(window).resize(function () {
 		    	setTimeout(function(){ 
-		    		this.resize() 
+		    		this.resize()
+		    		connections.redraw(); 
 		    	}.bind(this), 650);
 			}.bind(this));
 
+		},
+
+		update: function (){
+			//connections.redraw();
 		},
 
 		/**
@@ -138,27 +150,27 @@ define(["node_modules/d3/d3.js", "topology/connections"], function (d3, connecti
 				switch(component.getType()){
 					case 'EPG':
 						cell = 'c5';
-						this.containers.c5_EPG_Array.push(component);
+						this.containers.epg_list.push(component);
 						break;
 					
 					case 'MME':
 						cell = 'c1';
-						this.containers.c1_MME_Array.push(component);
+						this.containers.mme_list.push(component);
 						break;
 
 					case 'SAPC':
 						cell = 'c3';
-						this.containers.c3_SAPC_Array.push(component);
+						this.containers.sapc_list.push(component);
 						break;
 
 					case 'SASN':
 						cell = 'c6';
-						this.containers.c6_SASN_Array.push(component);
+						this.containers.sasn_list.push(component);
 						break;
 
 					default:
 						cell = 'c4';
-						this.containers.c4_undefined_Array.push(component);
+						this.containers.undefined_list.push(component);
 						break;
 				}
 
@@ -205,12 +217,6 @@ define(["node_modules/d3/d3.js", "topology/connections"], function (d3, connecti
 			}.bind(this));
 			
 			/*
-			$(window).load(function(){
-				console.log('window.load');
-				connectComponents(this.containers);
-			}.bind(this));
-			*/
-			
 			connections.init('svg-container', 'svg-drawingboard');
 
 			this.containers.c5_EPG_Array.forEach(function(epg){
@@ -224,6 +230,7 @@ define(["node_modules/d3/d3.js", "topology/connections"], function (d3, connecti
 					connections.connect(mme, epg);
 				}.bind(this));
 			}.bind(this));
+			*/
 		},
 	}
 
@@ -231,14 +238,14 @@ define(["node_modules/d3/d3.js", "topology/connections"], function (d3, connecti
 		console.log('Drawing Connections');
 		connections.init('svg-container', 'svg-drawingboard');
 
-		containers.c5_EPG_Array.forEach(function(epg){
-			containers.c3_SAPC_Array.forEach(function(sapc){
+		containers.epg_list.forEach(function(epg){
+			containers.sapc_list.forEach(function(sapc){
 				connections.connect(epg, sapc);
 			});
 		});		
 
-		containers.c1_MME_Array.forEach(function(mme){
-			containers.c5_EPG_Array.forEach(function(epg){
+		containers.mme_list.forEach(function(mme){
+			containers.epg_list.forEach(function(epg){
 				connections.connect(mme, epg);
 			});
 		});

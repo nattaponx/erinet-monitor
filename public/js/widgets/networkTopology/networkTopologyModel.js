@@ -56,6 +56,10 @@ define(['topology/networkComponent'],function (nc) {
 		    });
 		},
 
+		updateData: function(){
+			return true;
+		},
+
 
 		/////////////////
 		//Get functions//

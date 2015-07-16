@@ -18,7 +18,7 @@ require(["topology/networkTopologyController", "node_modules/eventbus/eventbus.j
 	var interval = setInterval(function(){ update() }, 5000);
 
 	function update(){
-		eventbus.fire('update');
+		eventbus.fire('update-etv');
 	}
 
 });

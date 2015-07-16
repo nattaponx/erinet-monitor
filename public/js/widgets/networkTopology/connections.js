@@ -2,20 +2,23 @@ define(['node_modules/d3/d3.js'], function (d3){
 	return {
 
 		properties: {
-			current_connections:[],
+			components:[],
 			svg_container_id: '',
 			svg_drawingboard_id: ''
 		},
 
-		init: function(svg_container_id, svg_drawingboard_id){
+		init: function(svg_container_id, svg_drawingboard_id, components){
 			this.properties.svg_container_id    = svg_container_id;
 			this.properties.svg_drawingboard_id = svg_drawingboard_id;
+			this.properties.components 			= components;
+
+			setTimeout(function(){connectAll(components, this);}.bind(this),500);
 		},
 
 		connect: function (component1, component2) {
 
 			addPath(this.properties.svg_drawingboard_id,
-				component1.getId() + '-' + component2.getId(), '0.5');
+				component1.getId() + '-' + component2.getId());
 
 			var svg       = $("#" + this.properties.svg_drawingboard_id);
 			var startElem = $("#component-" + component1.getId());
@@ -26,26 +29,46 @@ define(['node_modules/d3/d3.js'], function (d3){
 		},
 
 		redraw: function(){
+			d3.selectAll(".connection-path").remove();
+			connectAll(this.properties.components, this);
+		},
 
+		/**
+		 * Updates the components.
+		 * 
+		 * @param  {Object[array[networkcomponent]]} components [components in the network]
+		 * @param  {Boolean} 						 redraw     [to redraw as well, set true]
+		 */
+		updateComponents: function(components, redraw){
+			this.properties.components = components;
+
+			if(redraw){
+				this.redraw();
+			}
 		}
 	}
 
-	/*
-	function connect (component1, component2) {
-		// body...
-	}
-	*/
-
-	function addPath (svg_drawingboard_id, id, opacityLevel) {
+	function addPath (svg_drawingboard_id, id) {
 		d3.select('#' + svg_drawingboard_id).append('path')
 			.attr('id', id)
 			.attr('class', 'connection-path');
 	}
 
-	function connectAll() {
-	    // connect all the paths you want!
-	    connectElements($("#svg1"), $("#path1"), $("#teal"),   $("#orange"));
-	 
+	function connectAll(components, c) {
+	    
+	    //EPG -> SAPC
+	    components.epg_list.forEach(function(epg){
+	    	components.sapc_list.forEach(function(sapc){
+	    		c.connect(epg, sapc);
+	    	});
+	    });
+
+	   	//MME -> EPG
+	   	components.mme_list.forEach(function(mme){
+	    	components.epg_list.forEach(function(epg){
+	    		c.connect(mme, epg);
+	    	});
+	    });
 	}
 	
 	function connectElements(svg, path, startElem, endElem) {
@@ -62,31 +85,31 @@ define(['node_modules/d3/d3.js'], function (d3){
 	    var svgTop  = svgContainer.offset().top;
 	    var svgLeft = svgContainer.offset().left;
 
-	    console.log('svgTop ' + svgTop);
-	    console.log('svgLeft ' + svgLeft);
+	    //console.log('svgTop ' + svgTop);
+	    //console.log('svgLeft ' + svgLeft);
 	 
 	    // get (top, left) coordinates for the two elements
 	    var startCoord = startElem.offset();
 	    var endCoord   = endElem.offset();
 	 	
-	    console.log('startCoord left-top ' + startCoord.left + ' ' + startCoord.top);
-	    console.log('endCoord left-top ' + endCoord.left + ' ' + endCoord.top);
+	    //console.log('startCoord left-top ' + startCoord.left + ' ' + startCoord.top);
+	    //console.log('endCoord left-top ' + endCoord.left + ' ' + endCoord.top);
 
 	    // calculate path's start (x,y)  coords
 	    // we want the x coordinate to visually result in the element's mid point
 	    var startX = startCoord.left + 0.5*startElem.outerWidth() - svgLeft;    // x = left offset + 0.5*width - svg's left offset
 	    var startY = startCoord.top  + startElem.outerHeight() - svgTop;        // y = top offset + height - svg's top offset
 	 	
-	    console.log('startX ' + startX);
-	    console.log('startY ' + startY);
+	    //console.log('startX ' + startX);
+	    //console.log('startY ' + startY);
 
 	    var padding = parseFloat(endElem.css('padding-top'));
 	    // calculate path's end (x,y) coords
 	    var endX = endCoord.left + 0.5*endElem.outerWidth() - svgLeft;
 	    var endY = endCoord.top  - svgTop + padding;
 
-	    console.log('endX ' + endX);
-	    console.log('endY ' + endY);
+	    //console.log('endX ' + endX);
+	    //console.log('endY ' + endY);
 	 	
 	    var weirdOffset = 0;//135;
 
@@ -100,8 +123,8 @@ define(['node_modules/d3/d3.js'], function (d3){
 
 	function drawPath(svg, path, startX, startY, endX, endY) {
 	    // get the path's stroke width (if one wanted to be  really precize, one could use half the stroke size)
-	    var stroke = path.css('stroke-width')//parseFloat(path.attr("stroke-width"));
-	    console.log('stroke-width ' + stroke);
+	    var stroke = parseFloat(path.attr("stroke-width"));
+	    //console.log('stroke-width ' + stroke);
 
 	    /*
 	    // check if the svg is big enough to draw the path, if not, set heigh/width
