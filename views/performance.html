@@ -51,7 +51,7 @@
         <!-- Header Navbar -->
         <nav class="navbar navbar-static-top" role="navigation">
           <!-- Sidebar toggle button-->
-          <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+          <a href="#" id="test" class="sidebar-toggle" data-toggle="offcanvas" role="button">
             <span class="sr-only">Toggle navigation</span>
           </a>
  
@@ -162,7 +162,7 @@
  
 
         <!-- Main content -->
-        <section class="content">
+        <section class="content" id="eee">
           <div class="dashboard-content-container">
             <div class="row">
               <div class="col-xs-12">
@@ -298,7 +298,14 @@
 
     <script src="/public/plugins/gridColumnCarousel/GridColumnCarousel.js"></script>
     
+<script type="text/javascript">
+  // document.getElementById("test").addEventListener('click',function(){
+  //   $("#eee").load('performance' + '#eee');
+  $(document).ready(function(){
 
+});
+
+</script>
     <!-- Optionally, you can add Slimscroll and FastClick plugins.
          Both of these plugins are recommended to enhance the
          user experience. Slimscroll is required when using the
