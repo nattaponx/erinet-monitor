@@ -35,36 +35,34 @@
 .dashboard-container{
 	display: inline-block;
 	position: relative;
-
-	opacity: 0.5;
 }
 
 .dashboard-container-1-1{
 	width: 49%;
 	height: 49%;
 
-	background-color: blue;
+	background-color: #ecf0f5;
 }
 
 .dashboard-container-1-2{
 	width: 49%;
 	height: 49%;
 
-	background-color: red;
+	background-color: #ecf0f5;
 }
 
 .dashboard-container-2-1{
 	width: 49%;
 	height: 49%;
 
-	background-color: yellow;
+	background-color: #ecf0f5;
 }
 
 .dashboard-container-2-2{
 	width: 49%;
 	height: 49%;
 
-	background-color: green;
+	background-color: #ecf0f5;
 }
 
 .addBtn{

@@ -65,7 +65,7 @@ require([ 'node_modules/d3/d3.js','topology/networkTopologyController'], functio
 				.attr('class', 'addBtn')
 				.attr('id', 'addBtn-' + id)
 				.on('mouseover', function(){
-					$('#addBtn-' + id).css('background-color', '#00285F')
+					$('#addBtn-' + id).css('background-color', '#3c8dbc')
 				})
 				.on('mouseout', function(){
 					$('#addBtn-' + id).css('background-color', 'white')
