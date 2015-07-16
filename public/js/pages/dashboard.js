@@ -60,19 +60,35 @@ require([ 'node_modules/d3/d3.js','topology/networkTopologyController'], functio
 			}
 		}
 		*/
+	
+		
+
 		containers.forEach(function(id){
+
+			var addBtnImg 		   = 'public/img/plus-big.png';
+			var addBtnImg_selected = 'public/img/plus-big-selected.png';
+
 			d3.select('.dashboard-container-' + id).append('div')
 				.attr('class', 'addBtn')
 				.attr('id', 'addBtn-' + id)
 				.on('mouseover', function(){
-					$('#addBtn-' + id).css('background-color', '#3c8dbc')
+					$('#addBtn-' + id).css('background-color', '#3c8dbc');
+					$('#addBtn-img-' + id).attr('src', addBtnImg_selected);
 				})
 				.on('mouseout', function(){
-					$('#addBtn-' + id).css('background-color', 'white')
+					$('#addBtn-' + id).css('background-color', 'white');
+					$('#addBtn-img-' + id).attr('src', addBtnImg);
 				})
 				.on('click', function(){
 					console.log('clicked addBtn- ' + id);
 				});
+
+			
+			d3.select('#addBtn-' + id).append('img')
+				.attr('class', 'addBtn-img')
+				.attr('id', 'addBtn-img-' + id)
+				.attr('src', addBtnImg);
+			
 		});
 	}
 
