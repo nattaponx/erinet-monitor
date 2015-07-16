@@ -18,8 +18,26 @@ require([ 'node_modules/d3/d3.js','topology/networkTopologyController'], functio
 	//ntc.init('dashboard-container-2-1', 'success', 'box-1-1');
 	//ntc.init('dashboard-container-2-2', 'danger', 'box-1-1');
 	
-	resize();	
+	resize();
+	$(window).resize(function(){
+		resize();
+	});
+
+	$('.dashboard-container').addClass('centerContent');
 	initContainers();
+
+	function resize(){
+		console.log('resize');
+
+		var neg 				  = $('.main-header').outerHeight() + $('.main-footer').outerHeight();
+      	var window_height 	      = $(window).height();
+      	var sidebar_height 		  = $(".sidebar").height();
+      	var content_header_height = $('.content-header').outerHeight();
+      	var diff = window_height - neg - content_header_height;
+
+  		$(".content").css('min-height', diff);
+  		$(".dashboard-content-container").css('height', diff - 50);
+	}
 
 	function initContainers () {
 		
@@ -39,17 +57,6 @@ require([ 'node_modules/d3/d3.js','topology/networkTopologyController'], functio
 		*/
 	}
 
-	function resize(){
-		console.log('resize');
-
-		var neg 				  = $('.main-header').outerHeight() + $('.main-footer').outerHeight();
-      	var window_height 	      = $(window).height();
-      	var sidebar_height 		  = $(".sidebar").height();
-      	var content_header_height = $('.content-header').outerHeight();
-      	var diff = window_height - neg - content_header_height;
-
-  		$(".content").css('min-height', diff);
-  		$(".dashboard-content-container").css('height', diff - 50);
-	}
+	
 	
 });

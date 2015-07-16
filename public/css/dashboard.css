@@ -71,6 +71,12 @@
 	width: 20%;
 	height: 20%;
 
+	top: 40%;
+	left: 40%;
 	position: relative;
 	background-color: white;
+}
+
+.centerContent{
+	text-align: center;
 }
