@@ -72,21 +72,99 @@ define(["node_modules/d3/d3.js",
    					d3.select("#detail-box").remove();
    				}
    				if (ok === true) {
-   					var dbox = d3.select('#details-container').append('div')
-   						.attr('class', 'box box-' +type).attr('id', 'detail-box')
-      					.append('div').attr('class', 'box-header with-border');
+   					var selectObjectDetails = d3.select('#details-container');
 
-      				var dbox_title = dbox.append('h3')
+   					var dbox = selectObjectDetails.append('div')
+   						.attr('class', 'box box-' +type).attr('id', 'detail-box');
+
+   					var dbox_header = dbox .append('div')
+   					.attr('class', 'box-header with-border');
+
+      				var dbox_title = dbox_header.append('h3')
       					.attr('class', 'box-title').text(title);
 
-					dbox.append('div').attr('class', 'box-body');
+					var dbox_body = dbox.append('div').attr('class', 'box-body');
 
-      				var dbox_body =  dbox.append('div')
-						.attr('id', dataset);
+      				var dbox_position =  dbox_body.append('div')
+						.attr('id', 'id-d-'+dataset).attr('class', 'chart-position-details');
    				}
+   				detailsChart(dataset);
+			}
+			document.getElementById(dataset).addEventListener('click',seeDetails);
+			
+			function detailsChart(dataset){
+				var data1 = [
+    			[gd(2013, 1, 1), 46], [gd(2013, 1, 2), 35], [gd(2013, 1, 3), 42], 
+    			[gd(2013, 1, 4), 23], [gd(2013, 1, 5), 36], [gd(2013, 1, 6), 18]];
+
+				function gd(year, month, day) {
+    				return new Date(year, month - 1, day).getTime();
+				};
+
+			var dataSpec = [{
+		        data: data1,
+		        color: "#000000",
+		        points: { fillColor: "#00000", show: true },
+		        lines: { show: true }
+    		}];
+
+    		var monthOfYear = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+    		var options = {
+			    series: {
+			        shadowSize: 3
+			    },
+			    xaxes: [{
+			        mode: "time",                
+			        tickFormatter: function (val, axis) {
+			            return monthOfYear[new Date(val).getDay()];
+			        },
+			        position: "bottom",
+			        axisLabel: "Month",
+			        axisLabelUseCanvas: true,
+			        axisLabelFontSizePixels: 12,
+			        axisLabelFontFamily: 'ericssonFont',
+			        axisLabelPadding: 5
+			    },
+			    {
+			        mode: "time",
+			        timeformat: "%m/%d",
+			        tickSize: [1, "month"],
+			        color: "black",        
+			        axisLabel: "Date",
+			        axisLabelUseCanvas: true,
+			        axisLabelFontSizePixels: 12,
+			        axisLabelFontFamily: 'Verdana, Arial',
+			        axisLabelPadding: 10
+			    }],
+			    yaxis: {        
+			        tickDecimals: 0,
+			        axisLabel: "Number of Bearers",
+			        axisLabelUseCanvas: true,
+			        axisLabelFontSizePixels: 12,
+			        axisLabelFontFamily: 'ericssonFont',
+			        axisLabelPadding: 5
+			    },
+			    grid: {
+			    	margin: 5,
+			    	clickable: true,
+			    	hoverable: true
+			    }
+			};
+
+			if(dataset=='data_bearers'){
+				var placeholder = "#id-d-"+ dataset;
+				$.plot(placeholder, dataSpec, options);
+				function gd(year, month, day) {
+	    			return new Date(year, month - 1, day).getTime();
+				}
+
+				var previousPoint = null, previousLabel = null;
+				var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+				}
 			}
 
-			document.getElementById(dataset).addEventListener('click',seeDetails);
 
 			//carousel options
 			var options = {
@@ -95,7 +173,7 @@ define(["node_modules/d3/d3.js",
 	          //autoplay: true
 	        };
 	        var gCCarousel = new GCCarousel(options);
-			
+
 			// end of init //
 			},
 

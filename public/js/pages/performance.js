@@ -10,4 +10,6 @@ require(['public/js/widgets/pdcPerformance.js'],function (pdcPerf) {
 	pdcPerf.initChartRealTime('data_packets');
 	pdcPerf.init('info', 'Throughput', 'data_eee');
 	pdcPerf.initChartRealTime('data_eee');
+
+	//pdcPerf.initDetailGraph('data_bearers');
 });

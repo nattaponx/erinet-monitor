@@ -17,6 +17,11 @@
 		width: 400px;
 		height: 200px;
 	}
+		.chart-position-details{
+		margin: 5px auto 10px auto;
+		width: 400px;
+		height: 200px;
+	}
 	.details-custom{
 		/*display: none;*/
 		width: 100%;
