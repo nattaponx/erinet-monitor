@@ -18,6 +18,8 @@ require([ 'node_modules/d3/d3.js','topology/networkTopologyController'], functio
 	//ntc.init('dashboard-container-2-1', 'success', 'box-1-1');
 	//ntc.init('dashboard-container-2-2', 'danger', 'box-1-1');
 	
+	containers = ['1-1','1-2','2-1','2-2'];
+	
 	resize();
 	$(window).resize(function(){
 		resize();
@@ -40,21 +42,38 @@ require([ 'node_modules/d3/d3.js','topology/networkTopologyController'], functio
 	}
 
 	function initContainers () {
-		
-		d3.selectAll('.dashboard-container').append('div')
-			.attr('class', 'addBtn')
-			.on('mouseover', function(){
-				console.log('addBtn hover');
-			});
 
 		/*
 		for(var i = 1; i <= 2; i++){
 			for(var j = 1; j <= 2; j++){
 
-				d3.sel
+				d3.selectAll('.dashboard-container-' + i + '-' + j).append('div')
+					.attr('class', 'addBtn')
+					.attr('id', 'addBtn-' + i + '-' + j)
+					.on('mouseover', function(){
+						console.log('hover ' + '#addBtn-' + i + '-' + j);
+						$('#addBtn-' + i + '-' + j).css('background-color', '#00285F')
+					})
+					.on('mouseout', function(){
+						$('#addBtn-' + i + '-' + j).css('background-color', 'white')
+					});
 			}
 		}
 		*/
+		containers.forEach(function(id){
+			d3.select('.dashboard-container-' + id).append('div')
+				.attr('class', 'addBtn')
+				.attr('id', 'addBtn-' + id)
+				.on('mouseover', function(){
+					$('#addBtn-' + id).css('background-color', '#00285F')
+				})
+				.on('mouseout', function(){
+					$('#addBtn-' + id).css('background-color', 'white')
+				})
+				.on('click', function(){
+					console.log('clicked addBtn- ' + id);
+				});
+		});
 	}
 
 	
