@@ -32,6 +32,12 @@
 		-moz-box-shadow: 3px 5px 3px 0px rgba(0,0,0,0.5);
 		box-shadow: 3px 3px 3px 0px rgba(0,0,0,0.5);
 	}
+
+	.box-body{
+		text-align: center;
+		color: black;
+	}
+
 }
 
 /*iphone 4, 5, 6 */

@@ -8,6 +8,6 @@ require(['public/js/widgets/pdcPerformance.js'],function (pdcPerf) {
 	pdcPerf.initChartRealTime('data_cpuloads');
 	pdcPerf.init('danger', 'Packets', 'data_packets');
 	pdcPerf.initChartRealTime('data_packets');
-	//pdcPerf.init('info', 'Throughput', 'data_eee');
-	//pdcPerf.initChartRealTime('data_eee');
+	pdcPerf.init('info', 'Throughput', 'data_eee');
+	pdcPerf.initChartRealTime('data_eee');
 });

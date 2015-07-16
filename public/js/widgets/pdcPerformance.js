@@ -103,135 +103,179 @@ define(["node_modules/d3/d3.js",
 			////////////
 			// Charts //
 			////////////
-			initChartRealTime: function(dataset){
+			initChartRealTime: function(dataset, cbox_body){
 				console.log('initChartRealTime Widget');
 				var dataR = [];
 				var now = new Date().getTime();
 				var updateInterval = 1000;
 				var totalPoints = 100;
-				var j = 0;
+
 				// DATA for real time - line			 
-					function getRandomData(){
-						dataR.shift();
-						// if (dataR.length > 0)
-						// 	dataR = dataR.slice(1);
-
-						// Do a random walk
-						while (dataR.length < totalPoints) {
-							var prev = dataR.length > 0 ? dataR[dataR.length - 1] : 50,
-								y = prev + Math.random() * 10 - 5;
-							if (y < 0) {
-								y = 0;
-							} else if (y > 100) {
-								y = 100;
-							}
-							dataR.push(y);
-						}
-						// Zip the generated y values with the x values
-						var res = [];
-							for (var i = 0; i < dataR.length; ++i) {
-								res.push([now += updateInterval, dataR[i]])
-							}
-							return res;
+				function getRandomData(){
+					dataR.shift();
+					// if (dataR.length > 0)
+					// 	dataR = dataR.slice(1);
+					// Do a random walk
+					while (dataR.length < totalPoints) {
+						var temp = [now += updateInterval, Math.floor((Math.random() * 20) + 5)];
+						dataR.push(temp);
+					}
 				}
-
-
 
 				// draw charts
 				if(dataset=='data_bearers'){
-
-
-					var plot = $.plot($("#"+dataset), 
-
-					[ { label: "Bearers",  data: getRandomData()} ], 
-					{
-						series: {
-							color: '#1065D2',
-							shadowSize: 1,	// Drawing is faster without shadows
-							lines: {fill: true}
-						},
-						yaxis: { min: 0, max: 150,
-							show: true,
-							axisLabel: "Number of Bearers",
-						    axisLabelUseCanvas: true,
-						    axisLabelFontSizePixels: 12,
-						    axisLabelPadding: 10},
-						xaxis: {
-							show: true,
-							mode: "time",
-							timzone: "local",
-							tickSize: [3, "second"],
-							tickFormatter: function (v, axis) {
+					var placeholder = "#"+ dataset;
+					getRandomData();
+				    var dataSpec = [{ data: dataR }]; //{ label: "Bearers", data: dataR}
+				    var options = {
+				    	series: {
+					        lines: { show: true, lineWidth: 1.2, fill: true},
+					        shadowSize: 4,
+					        bar: {show: true, align: "center"}
+					    },
+					    xaxis: {
+					        mode: "time",
+					        tickSize: [10, "second"],
+					        tickFormatter: function (v, axis) {
 					            var date = new Date(v);
-
-					            if (date.getSeconds()%20 === 0) {
-					                var hours = date.getHours() < 10 ? "0" + date.getHours() :     date.getHours();
+					            if (date.getSeconds() % 20 == 0) {
+					                var hours = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
 					                var minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
 					                var seconds = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
-
 					                return hours + ":" + minutes + ":" + seconds;
 					            } else {
 					                return "";
-            					}},
-							axisLabel: "Time",
-						    axisLabelUseCanvas: true,
-						    axisLabelFontSizePixels: 12,
-						    axisLabelPadding: 10}, 
-						grid: { backgroundColor: '#FFFFFF', hoverable: true}
-		        	});
-
-					function update() {
-						plot.setData([getRandomData()]);
-						plot.setupGrid();
-						plot.draw();
-						setTimeout(update, updateInterval);
-					}
-					update();
-				};
+					            }
+					        },
+					        axisLabel: "Time",
+					        axisLabelUseCanvas: true,
+					        axisLabelFontSizePixels: 12,
+					        axisLabelFontFamily: 'ericssonFont',
+					        axisLabelPadding: 10
+					    },
+					    yaxis: {
+					        min: 0,
+					        max: 30,
+					        tickSize: 10,
+					        tickFormatter: function (v, axis) {
+					            if (v % 10 == 0) {
+					                return v + "";
+					            } else {
+					                return "";
+					            }
+					        },
+					        axisLabel: "Number of Bearers",
+					        axisLabelUseCanvas: true,
+					        axisLabelFontSizePixels: 12,
+					        axisLabelFontFamily: 'ericssonFont',
+					        axisLabelPadding: 6
+					    },
+					    legend: {
+					        labelBoxBorderColor: "#fff"
+					    },
+					    grid: {
+					    	margin: 5,
+					    	clickable: true,
+					    	hoverable: true,
+					    	borderWidth: 2,
+					    },
+					    colors: ['#8AB800']
+				    };
+				    // plot chart in placeholder
+   			 		$.plot(placeholder, dataSpec, options);
+   			 		// update chart
+   			 		function update() {
+				        getRandomData();
+				        $.plot(placeholder, dataSpec, options)
+				        setTimeout(update, updateInterval);
+				    }
+			    	update();
+				}else
 
 				if(dataset=='data_cpuloads'){
+					var placeholder = "#"+ dataset;
+				    console.log("in data_cpuloads // " + placeholder);
 					var g = new JustGage({
-    				id: dataset,
-    				value: getRandomInt(0, 100) + "%",
-				    min: 0,
-				    max: 100,
-				    // title: "Visitors"
+	    				id: dataset,
+	    				value: getRandomInt(0, 100) + "%",
+					    min: 0,
+					    max: 100,
+				    	// title: "Visitors"
 					});
 			        setInterval(function() {
-			          g.refresh(getRandomInt(50, 100));
-			          //g2.refresh(getRandomInt(50, 100));          
+						g.refresh(getRandomInt(50, 100));
+			          	//g2.refresh(getRandomInt(50, 100));          
 			        }, 2500);
-				};
+				}else
 
 				if(dataset=='data_packets'){
-					var plot = $.plot($("#"+dataset), 
-					[ { label: "Amount of Packets",  data: getRandomData()} ], 
-					{
-						series: {
-							color: '#000000',
-							shadowSize: 0	// Drawing is faster without shadows
-						},
-						yaxis: { min: 0, max: 100,
-							show: true,
-							axisLabel: "Packets",
-						    axisLabelUseCanvas: true,
-						    axisLabelFontSizePixels: 12,
-						    axisLabelPadding: 10 },
-						xaxis: {
-							show: true,
-							axisLabel: "Time",
-						    axisLabelUseCanvas: true,
-						    axisLabelFontSizePixels: 12,
-						    axisLabelPadding: 10 }, 
-						grid: { backgroundColor: '#FFFFFF', hoverable: true}
-					});
-					function update() {
-						plot.setData([getRandomData()]);
-						plot.setupGrid();
-						plot.draw();
-						setTimeout(update, updateInterval);
-					}
-					update();
+					var placeholder = "#"+ dataset;
+					getRandomData();
+				    var dataSpec = [{ data: dataR }];
+				    var options = {
+				    	series: {
+				        	lines: {
+					            show: true,
+					            lineWidth: 1.2,
+					            fill: true
+					        }
+				    	},
+					    xaxis: {
+					        mode: "time",
+					        tickSize: [10, "second"],
+					        tickFormatter: function (v, axis) {
+					            var date = new Date(v);
+					            if (date.getSeconds() % 20 == 0) {
+					                var hours = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
+					                var minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+					                var seconds = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+					                return hours + ":" + minutes + ":" + seconds;
+					            } else {
+					                return "";
+					            }
+					        },
+					        axisLabel: "Time",
+					        axisLabelUseCanvas: true,
+					        axisLabelFontSizePixels: 12,
+					        axisLabelFontFamily: 'ericssonFont',
+					        axisLabelPadding: 10
+					    },
+					    yaxis: {
+					        min: 0,
+					        max: 100,
+					        tickSize: 25,
+					        tickFormatter: function (v, axis) {
+					            if (v % 25 == 0) {
+					                return v + " kb";
+					            } else {
+					                return "";
+					            }
+					        },
+					        axisLabel: "Number of Packets",
+					        axisLabelUseCanvas: true,
+					        axisLabelFontSizePixels: 12,
+					        axisLabelFontFamily: 'ericssonFont',
+					        axisLabelPadding: 6
+					    },
+					    grid: {
+					    	margin: 5,
+					    	clickable: true,
+					    	hoverable: true
+					    },
+					    colors: ['#000000'] 
+					};
+					// plot chart in placeholder
+   			 		$.plot(placeholder, dataSpec, options);
+					// update chart
+   			 		function update() {
+				        getRandomData();
+				        $.plot(placeholder, dataSpec, options)
+				        setTimeout(update, updateInterval);
+				    }
+			    	update();
+				} else { 
+					document.getElementById(''+ dataset)
+					.innerHTML = "--- No data for this KPI ---"; 
 				};
 
 				// datapoint tooltips
@@ -244,7 +288,7 @@ define(["node_modules/d3/d3.js",
 
                             $("#tooltip").remove();
                             var x = item.datapoint[0].toFixed(2),
-                            y = item.datapoint[1].toFixed(2);
+                            y = item.datapoint[1].toFixed(0); // decimals
 
                             showTooltip(item.pageX, item.pageY, "" + y);
                         }
@@ -257,14 +301,15 @@ define(["node_modules/d3/d3.js",
                     $("<div id='tooltip'>" + contents + "</div>").css({
                         position: "absolute",
                         display: "none",
-                        top: y + 5,
-                        left: x + 5,
-                        border: "1px solid #fdd",
-                        padding: "4px",
-                        color: "#000000",
-                        "background-color": "#fee", //#fee
-                        opacity: 0.90
-                    }).appendTo("body").fadeIn(200);
+                        top: y - 20,
+                        left: x + 10,
+                        border: "0px solid #fdd",
+                        "border-radius": "2px",
+                        padding: "2px 10px 2px 10px",
+                        color: "#fff",
+                        "background-color": "#000000", //#fee
+                        opacity: 0.80
+                    }).appendTo("body").fadeIn(100);
                 }
 
 			// end of initChartRealTime //
