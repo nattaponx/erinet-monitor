@@ -1,0 +1,31 @@
+.grid-column-carousel {
+  overflow: hidden;
+}
+
+.grid-column-carousel__list {
+  transform: translateX(0);
+  -webkit-transform: translateX(0);
+  transition: transform 0.5s ease-in-out;
+  -webkit-transition: -webkit-transform 0.5s ease-in-out;
+  
+  //clearfix styling
+  &:after, &:before {
+    content: ' '; /* 1 */
+    display: table; /* 2 */
+  }
+  &:after {
+    clear: both;
+  }
+  
+  &.initialized {
+    width: 9999px;
+
+    > * {
+      display: block;
+    }
+  }
+  
+  > * {
+    display: none;  
+  }
+}
