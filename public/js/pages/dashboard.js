@@ -18,18 +18,12 @@ require([ 'node_modules/d3/d3.js','topology/networkTopologyController'], functio
 	//ntc.init('dashboard-container-2-1', 'success', 'box-1-1');
 	//ntc.init('dashboard-container-2-2', 'danger', 'box-1-1');
 	
+	//Variables
 	var containers = ['1-1','1-2','2-1','2-2'];
-	//var widgets    = ['Topology', 'Network Performance', 'Node Performance', 'Alarms/Events'];
-
-	widgets = [{name:'Topology', pos:'-up'}, {name:'Network Performance', pos:'-down'},
-				{name:'Node Performance', pos:'-left'}, {name:'Alarms Events', pos:'-right'}];
-	
-	resize();
-	$(window).resize(function(){
-		resize();
-	});
-
-	$('.dashboard-container').addClass('centerContent');
+	var widgets    = [{name:'Topology', pos:'-up'}, {name:'Network Performance', pos:'-down'},
+					{name:'Node Performance', pos:'-left'}, {name:'Alarms Events', pos:'-right'}];
+		
+	init();
 
 	//TODO Remove all of the widgetBtns
 	/*
@@ -38,21 +32,54 @@ require([ 'node_modules/d3/d3.js','topology/networkTopologyController'], functio
 	});
 	*/
 
-	initContainers();
+	/**** Listeners / Event ******/
+	
+	$(window).resize(function(){
+		resize();
+	});
 
+	//Submit-layout-btn Click-event 
+	d3.select('#submit-layout-btn').on('click', function(){
+		console.log('Submit');
+	});
+
+	//Default-layout-btn Click-event
+	d3.select('#default-layout-btn').on('click', function(){
+		console.log('Default');
+	});
+
+
+	/**** Functions ******/
+	
+	/**
+	 * init the dashboard
+	 */
+	function init (){
+		resize();
+		$('.dashboard-container').addClass('centerContent');
+		initContainers();
+	}
+
+	/**
+	 * Resizes the dashboard-content-container
+	 */
 	function resize(){
 		console.log('resize');
 
-		var neg 				  = $('.main-header').outerHeight() + $('.main-footer').outerHeight();
+		var head_foot 			  = $('.main-header').outerHeight() + $('.main-footer').outerHeight();
       	var window_height 	      = $(window).height();
       	var sidebar_height 		  = $(".sidebar").height();
       	var content_header_height = $('.content-header').outerHeight();
-      	var diff = window_height - neg - content_header_height;
+      	var diff = window_height - head_foot - content_header_height;
 
   		$(".content").css('min-height', diff);
   		$(".dashboard-content-container").css('height', diff - 50);
 	}
 
+	/**
+	 * init the dashboard-containers
+	 * Adds the addBtn in the middle with a click-event
+	 */
 	function initContainers () {
 		containers.forEach(function(id){
 
@@ -83,6 +110,12 @@ require([ 'node_modules/d3/d3.js','topology/networkTopologyController'], functio
 		});
 	}
 
+	/**
+	 * Displays the available widgets for selection
+	 * Animates the buttons, spawning from the addBtn
+	 * 
+	 * @param  {String} id [id of the dashboard-container]
+	 */
 	function displayWidgets(id) {
 		d3.selectAll('.widgetBtn').remove();
 
@@ -115,6 +148,12 @@ require([ 'node_modules/d3/d3.js','topology/networkTopologyController'], functio
 		$('#widgetBtn-' + id + '-right').animate({left: '63%'},"slow");
 	}
 
+	/**
+	 * Assigns the selected widget to the addBtn for graphical representation.
+	 * 
+	 * @param  {String} id [id of the dashboard-container]
+	 * @param  {Object} widget [contains name and position of the selected widget]
+	 */
 	function selectWidget(id, widget){
 		
 		d3.selectAll('.widgetBtnTxt-' + id).remove();
@@ -126,8 +165,6 @@ require([ 'node_modules/d3/d3.js','topology/networkTopologyController'], functio
 		d3.select('#addBtn-' + id).append('text')
 			.attr('class', 'widgetBtnTxt widgetBtnTxt-' + id)
 			.text(widget.name);
-
-
 	}
 
 });
