@@ -15,10 +15,10 @@
     <!-- Theme style -->
     <link href="/public/css/AdminLTE.css" rel="stylesheet" type="text/css" />
     <link href="/public/css/skins/skin-blue.min.css" rel="stylesheet" type="text/css" />
-
+    <!-- gridColumnCarousel -->
     <link href="/public/plugins/gridColumnCarousel/GridColumnCarousel.min.css" rel="stylesheet" type="text/css" />
-        <link href="/public/plugins/gridColumnCarousel/main.css" rel="stylesheet" type="text/css" />
-                <link href="/public/plugins/gridColumnCarousel/GridColumnCarousel.scss" rel="stylesheet" type="text/css" />
+    <link href="/public/plugins/gridColumnCarousel/main.css" rel="stylesheet" type="text/css" />
+    <link href="/public/plugins/gridColumnCarousel/GridColumnCarousel.scss" rel="stylesheet" type="text/css" />
     <!-- Dashboard CSS  -->
     <link href="/public/css/performance.css" rel="stylesheet" type="text/css" />
 
@@ -51,7 +51,7 @@
         <!-- Header Navbar -->
         <nav class="navbar navbar-static-top" role="navigation">
           <!-- Sidebar toggle button-->
-          <a href="#" id="test" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+          <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button" onclick="mouseOver()">
             <span class="sr-only">Toggle navigation</span>
           </a>
  
@@ -162,13 +162,13 @@
  
 
         <!-- Main content -->
-        <section class="content" id="eee">
+        <section class="content">
           <div class="dashboard-content-container">
             <div class="row">
               <div class="col-xs-12">
                 <!-- carousel -->
-                <div class="grid-column-carousel row example-1">
-                  <ul class="grid-column-carousel__list">
+                <div class="grid-column-carousel row realtime-performance">
+                  <ul class="grid-column-carousel__list" id="test">
                     <!-- generated -->
                   </ul>
                   <div class="grid-column-carousel__page-indicators">
@@ -190,7 +190,7 @@
             </div>
           </div>
         </section><!-- /.content -->
-        </div>
+
 
 
       </div><!-- /.content-wrapper -->
@@ -298,12 +298,14 @@
 
     <script src="/public/plugins/gridColumnCarousel/GridColumnCarousel.js"></script>
     
-<script type="text/javascript">
-  // document.getElementById("test").addEventListener('click',function(){
-  //   $("#eee").load('performance' + '#eee');
-  $(document).ready(function(){
+    <script type="text/javascript">
+      // document.getElementById("test").addEventListener('click',function(){
+      //   $("#eee").load('performance' + '#eee');
 
-});
+        function mouseOver() {
+        //document.getElementById('test').style.width = '1180px';
+        //document.getElementById('test').style.height = '282.727px';
+    };
 
 </script>
     <!-- Optionally, you can add Slimscroll and FastClick plugins.

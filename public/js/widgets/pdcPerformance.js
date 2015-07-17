@@ -13,7 +13,6 @@ define(["node_modules/d3/d3.js",
 			title: '',
 			type: '',
 			dataset: '',
-			carousel_num: '',
 		},
 
 		/**
@@ -77,7 +76,7 @@ define(["node_modules/d3/d3.js",
    					var dbox = selectObjectDetails.append('div')
    						.attr('class', 'box box-' +type).attr('id', 'detail-box');
 
-   					var dbox_header = dbox .append('div')
+   					var dbox_header = dbox.append('div')
    					.attr('class', 'box-header with-border');
 
       				var dbox_title = dbox_header.append('h3')
@@ -93,83 +92,15 @@ define(["node_modules/d3/d3.js",
 			document.getElementById(dataset).addEventListener('click',seeDetails);
 			
 			function detailsChart(dataset){
-				var data1 = [
-    			[gd(2013, 1, 1), 46], [gd(2013, 1, 2), 35], [gd(2013, 1, 3), 42], 
-    			[gd(2013, 1, 4), 23], [gd(2013, 1, 5), 36], [gd(2013, 1, 6), 18]];
-
-				function gd(year, month, day) {
-    				return new Date(year, month - 1, day).getTime();
-				};
-
-			var dataSpec = [{
-		        data: data1,
-		        color: "#000000",
-		        points: { fillColor: "#00000", show: true },
-		        lines: { show: true }
-    		}];
-
-    		var monthOfYear = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-
-    		var options = {
-			    series: {
-			        shadowSize: 3
-			    },
-			    xaxes: [{
-			        mode: "time",                
-			        tickFormatter: function (val, axis) {
-			            return monthOfYear[new Date(val).getDay()];
-			        },
-			        position: "bottom",
-			        axisLabel: "Month",
-			        axisLabelUseCanvas: true,
-			        axisLabelFontSizePixels: 12,
-			        axisLabelFontFamily: 'ericssonFont',
-			        axisLabelPadding: 5
-			    },
-			    {
-			        mode: "time",
-			        timeformat: "%m/%d",
-			        tickSize: [1, "month"],
-			        color: "black",        
-			        axisLabel: "Date",
-			        axisLabelUseCanvas: true,
-			        axisLabelFontSizePixels: 12,
-			        axisLabelFontFamily: 'Verdana, Arial',
-			        axisLabelPadding: 10
-			    }],
-			    yaxis: {        
-			        tickDecimals: 0,
-			        axisLabel: "Number of Bearers",
-			        axisLabelUseCanvas: true,
-			        axisLabelFontSizePixels: 12,
-			        axisLabelFontFamily: 'ericssonFont',
-			        axisLabelPadding: 5
-			    },
-			    grid: {
-			    	margin: 5,
-			    	clickable: true,
-			    	hoverable: true
-			    }
-			};
-
-			if(dataset=='data_bearers'){
-				var placeholder = "#id-d-"+ dataset;
-				$.plot(placeholder, dataSpec, options);
-				function gd(year, month, day) {
-	    			return new Date(year, month - 1, day).getTime();
-				}
-
-				var previousPoint = null, previousLabel = null;
-				var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-
-				}
+				// time series chart
 			}
 
 
 			//carousel options
 			var options = {
-	          elem: document.getElementsByClassName('example-1')[0],
+	          elem: document.getElementsByClassName('realtime-performance')[0],
 	          gridColClasses: 'col-sm-12 col-md-6 col-xs-12',
+	          throttleDelay: 10,
 	          //autoplay: true
 	        };
 	        var gCCarousel = new GCCarousel(options);
@@ -203,7 +134,7 @@ define(["node_modules/d3/d3.js",
 				// draw charts
 				if(dataset=='data_bearers'){
 					var placeholder = "#"+ dataset;
-					getRandomData();
+					//getRandomData();
 				    var dataSpec = [{ data: dataR }]; //{ label: "Bearers", data: dataR}
 				    var options = {
 				    	series: {
@@ -272,23 +203,23 @@ define(["node_modules/d3/d3.js",
 
 				if(dataset=='data_cpuloads'){
 					var placeholder = "#"+ dataset;
-				    console.log("in data_cpuloads // " + placeholder);
 					var g = new JustGage({
-	    				id: dataset,
-	    				value: getRandomInt(0, 100) + "%",
+	    				id: dataset, //container
+	    				value: getRandomInt(0, 100) + " %",
 					    min: 0,
 					    max: 100,
+					    label: "CPU Loads",
+					    levelColorsGradient: true
 				    	// title: "Visitors"
 					});
 			        setInterval(function() {
 						g.refresh(getRandomInt(50, 100));
 			          	//g2.refresh(getRandomInt(50, 100));          
-			        }, 2500);
+			        }, 1000);
 				}else
 
 				if(dataset=='data_packets'){
 					var placeholder = "#"+ dataset;
-					getRandomData();
 				    var dataSpec = [{ data: dataR }];
 				    var options = {
 				    	series: {
