@@ -33,10 +33,11 @@ define(["node_modules/d3/d3.js", "topology/networkTopologyModel",
 	function update() {
 		//console.log('update');
 
+		//fetch new data
 		var newData = ntm.updateData();
 
 		if(newData){
-			ntv.update();
+			ntv.update(ntm.getComponents());
 		}	
 	}
 

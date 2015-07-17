@@ -2,7 +2,7 @@
  * Network Topology View
  * Author: Victor Larsson (elarvic)
  */
-define(["node_modules/d3/d3.js", "topology/connections"], function (d3, connections) {
+define(["node_modules/d3/d3.js", "topology/connections", "node_modules/eventbus/eventbus.js"], function (d3, connections, eventbus) {
 	return{
 
 		containers: {
@@ -45,17 +45,17 @@ define(["node_modules/d3/d3.js", "topology/connections"], function (d3, connecti
 
 			connections.init('svg-container', 'svg-drawingboard', this.containers);
 
-			$(window).load(function(){
-				console.log('window.load');
-				//connectComponents(this.containers);
-			}.bind(this));
-
 			this.resize();
 			$(window).resize(function () {
 		    	setTimeout(function(){ 
-		    		this.resize()
-		    		connections.redraw(); 
+		    		this.resize();
+		    		connections.redraw(); 	
 		    	}.bind(this), 650);
+			}.bind(this));
+
+			eventbus.addListener('resize', function(){
+				this.resize();
+				connections.redraw(); 
 			}.bind(this));
 
 		},

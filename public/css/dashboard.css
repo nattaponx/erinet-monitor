@@ -107,5 +107,12 @@
 
 .widgetBtnTxt{
 	font-family: Arial;
+	color: #3c8dbc;
+}
+
+.nav-btns{
+	position: absolute;
+	top: 28%;
+	right: 2%;
 }
 

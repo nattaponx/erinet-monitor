@@ -96,7 +96,11 @@ require([ 'node_modules/d3/d3.js','topology/networkTopologyController'], functio
 				})
 				.on('mouseout', function(){
 					$('#widgetBtn-' + id + widget.pos).css('background-color', 'white');
-					$('#widgetBtnTxt-' + id + widget.pos).css('color', 'black');
+					$('#widgetBtnTxt-' + id + widget.pos).css('color', '#3c8dbc');
+				})
+				.on('click', function(){
+					console.log('clicked ' + widget.name)
+					selectWidget(id, widget);
 				});
 
 			d3.select('#widgetBtn-' + id + widget.pos).append('text')
@@ -109,6 +113,21 @@ require([ 'node_modules/d3/d3.js','topology/networkTopologyController'], functio
 		$('#widgetBtn-' + id + '-down').animate({top: '65%'},"slow");
 		$('#widgetBtn-' + id + '-left').animate({left: '17%'},"slow");
 		$('#widgetBtn-' + id + '-right').animate({left: '63%'},"slow");
+	}
+
+	function selectWidget(id, widget){
+		
+		d3.selectAll('.widgetBtnTxt-' + id).remove();
+
+		//d3.select('#addBtn-' + id).remove();
+		//$('#addBtn-img-' + id).css('visibility', 'hidden');
+		d3.selectAll('.widgetBtn').remove();
+		d3.select('#addBtn-img-' + id).remove();
+		d3.select('#addBtn-' + id).append('text')
+			.attr('class', 'widgetBtnTxt widgetBtnTxt-' + id)
+			.text(widget.name);
+
+
 	}
 
 });
