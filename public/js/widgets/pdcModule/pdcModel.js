@@ -4,30 +4,30 @@ define(function(){
 
 
 		// baseAPIUrl: 'http://localhost/api.php',
-		baseAPIUrl: 'http://localhost:8080/api/pdc/',
+		_baseAPIUrl: 'http://localhost:8080/api/pdc/',
 
 		getGsnName: function(callback){
-			$.get(this.baseAPIUrl + 'fetchgsnname')
+			$.get(this._baseAPIUrl + 'fetchgsnname')
 			.done(function(jsonData){
 			    callback(jsonData);
 			});
 		},
 		getGsnVersion: function(gsnName, callback){
-			$.get(this.baseAPIUrl + 'fetchgsnversion', 
+			$.get(this._baseAPIUrl + 'fetchgsnversion', 
 			{gsnName: gsnName})
 			.done(function(jsonData){
 			    callback(jsonData);
 			});
 		},
 		getHardware: function(gsnName, gsnVersions, callback){
-			$.get(this.baseAPIUrl + 'fetchhardware', 
+			$.get(this._baseAPIUrl + 'fetchhardware', 
 			{gsnName: gsnName, gsnVersion: gsnVersions})
 			.done(function(jsonData){
 			    callback(jsonData);
 			});
 		},
 		getRegion: function(gsnName, gsnVersions, hardwares, callback){
-			$.get(this.baseAPIUrl + 'fetchregion', 
+			$.get(this._baseAPIUrl + 'fetchregion', 
 			{gsnName: gsnName, gsnVersion: gsnVersions
 			, hardware: hardwares})
 			.done(function(jsonData){
@@ -35,7 +35,7 @@ define(function(){
 			});
 		},
 		getCountry: function(gsnName, gsnVersions, hardwares, regions, callback){
-			$.get(this.baseAPIUrl + 'fetchcountry', 
+			$.get(this._baseAPIUrl + 'fetchcountry', 
 			{gsnName: gsnName, gsnVersion: gsnVersions
 			, hardware: hardwares, region: regions})
 			.done(function(jsonData){
@@ -43,7 +43,7 @@ define(function(){
 			});
 		},
 		getCustomer: function(gsnName, gsnVersions, hardwares, regions, countries, callback){
-			$.get(this.baseAPIUrl + 'fetchcustomer', 
+			$.get(this._baseAPIUrl + 'fetchcustomer', 
 			{gsnName: gsnName, gsnVersion: gsnVersions
 			, hardware: hardwares, region: regions, country: countries})
 			.done(function(jsonData){
@@ -51,7 +51,7 @@ define(function(){
 			});
 		},
 		getDate: function(gsnName, gsnVersions, hardwares, regions, countries, customers, callback){
-			$.get(this.baseAPIUrl + 'fetchdate', 
+			$.get(this._baseAPIUrl + 'fetchdate', 
 			{gsnName: gsnName, gsnVersion: gsnVersions
 			, hardware: hardwares, region: regions, country: countries, customer: customers})
 			.done(function(jsonData){
@@ -59,7 +59,7 @@ define(function(){
 			});
 		},
 		getNodeId: function(gsnName, gsnVersions, hardwares, regions, countries, customers, dates, callback){
-			$.get(this.baseAPIUrl + 'fetchnodeid', 
+			$.get(this._baseAPIUrl + 'fetchnodeid', 
 			{gsnName: gsnName, gsnVersion: gsnVersions
 			, hardware: hardwares, region: regions, country: countries, customer: customers, date: dates})
 			.done(function(jsonData){
@@ -67,7 +67,7 @@ define(function(){
 			});
 		},
 		getReport: function(gsnName, gsnVersions, hardwares, regions, countries, customers, dates, nodeIds, callback){
-			$.get(this.baseAPIUrl + 'fetchreport', 
+			$.get(this._baseAPIUrl + 'fetchreport', 
 			{gsnName: gsnName, gsnVersion: gsnVersions
 			, hardware: hardwares, region: regions, country: countries, customer: customers, date: dates, nodeId: nodeIds})
 			.done(function(jsonData){

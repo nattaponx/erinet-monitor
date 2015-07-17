@@ -3,7 +3,7 @@ define(['node_modules/d3/d3.js','public/js/widgets/pdcModule/pdcModel.js'], func
 	return {
 
 		initController: function(){
-			runGsnName();
+			_runGsnName();
 
 
 		},
@@ -20,7 +20,7 @@ define(['node_modules/d3/d3.js','public/js/widgets/pdcModule/pdcModel.js'], func
 
 	}
 
-	function runGsnName(){
+	function _runGsnName(){
 		model.getGsnName(function(jsonData){
 			var nodeDiv = d3.select('#node');
 			nodeDiv.html("");
@@ -32,11 +32,11 @@ define(['node_modules/d3/d3.js','public/js/widgets/pdcModule/pdcModel.js'], func
 				return d.GsnName;
 			});
 			nodeDiv.insert('option',':first-child').attr({'disabled':'','selected':''}).text('Select Nodes');
-			nodeDiv.on('change', runGsnVersion);
+			nodeDiv.on('change', _runGsnVersion);
 		});
 	}
 
-	function runGsnVersion(){
+	function _runGsnVersion(){
 		var list = [
     		{ divId: '#hardware', divTitle: 'Select Hardwares' },
     		{ divId: '#region', divTitle: 'Select Regions' },
@@ -46,7 +46,7 @@ define(['node_modules/d3/d3.js','public/js/widgets/pdcModule/pdcModel.js'], func
     		{ divId: '#node_id', divTitle: 'Select NodeID' },
     		{ divId: '#report', divTitle: 'Select Reports' }
 		];
-		resetFields(list);
+		_resetFields(list);
 		var gsnName = d3.select('#node').node().value;
 		model.getGsnVersion(gsnName, function(jsonData){
 			var gsnVersionDiv = d3.select('#gsn_version');
@@ -59,11 +59,11 @@ define(['node_modules/d3/d3.js','public/js/widgets/pdcModule/pdcModel.js'], func
 				return d.GsnVersion;
 			});
 			gsnVersionDiv.insert('option',':first-child').attr({'disabled':'','selected':''}).text('Select Releases');
-			gsnVersionDiv.on('change', runHardware);
+			gsnVersionDiv.on('change', _runHardware);
 		});
 	}
 
-	function runHardware(){
+	function _runHardware(){
 		var list = [
     		{ divId: '#region', divTitle: 'Select Regions' },
     		{ divId: '#country', divTitle: 'Select Countries' },
@@ -72,7 +72,7 @@ define(['node_modules/d3/d3.js','public/js/widgets/pdcModule/pdcModel.js'], func
     		{ divId: '#node_id', divTitle: 'Select NodeID' },
     		{ divId: '#report', divTitle: 'Select Reports' }
 		];
-		resetFields(list);
+		_resetFields(list);
 		var gsnName = d3.select('#node').node().value;
 		var gsnVersions = $('#gsn_version').val();
 		model.getHardware(gsnName, gsnVersions, function(jsonData){
@@ -86,12 +86,12 @@ define(['node_modules/d3/d3.js','public/js/widgets/pdcModule/pdcModel.js'], func
 				return d.Hardware;
 			});
 			hardwareDiv.insert('option',':first-child').attr({'disabled':'','selected':''}).text('Select Hardwares');
-			hardwareDiv.on('change', runRegion);
+			hardwareDiv.on('change', _runRegion);
 		});
 	}
 
 
-	function runRegion(){
+	function _runRegion(){
 		var list = [
     		{ divId: '#country', divTitle: 'Select Countries' },
     		{ divId: '#customer_name', divTitle: 'Select Customers' },
@@ -99,7 +99,7 @@ define(['node_modules/d3/d3.js','public/js/widgets/pdcModule/pdcModel.js'], func
     		{ divId: '#node_id', divTitle: 'Select NodeID' },
     		{ divId: '#report', divTitle: 'Select Reports' }
 		];
-		resetFields(list);
+		_resetFields(list);
 		var gsnName = d3.select('#node').node().value;
 		var gsnVersions = $('#gsn_version').val();
 		var hardwares = $('#hardware').val();
@@ -114,18 +114,18 @@ define(['node_modules/d3/d3.js','public/js/widgets/pdcModule/pdcModel.js'], func
 				return d.Region;
 			});
 			regionDiv.insert('option',':first-child').attr({'disabled':'','selected':''}).text('Select Regions');
-			regionDiv.on('change', runCountry);
+			regionDiv.on('change', _runCountry);
 		});
 	}
 
-	function runCountry(){
+	function _runCountry(){
 		var list = [
     		{ divId: '#customer_name', divTitle: 'Select Customers' },
     		{ divId: '#timespan', divTitle: 'Select Date' },
     		{ divId: '#node_id', divTitle: 'Select NodeID' },
     		{ divId: '#report', divTitle: 'Select Reports' }
 		];
-		resetFields(list);
+		_resetFields(list);
 		var gsnName = d3.select('#node').node().value;
 		var gsnVersions = $('#gsn_version').val();
 		var hardwares = $('#hardware').val();
@@ -141,17 +141,17 @@ define(['node_modules/d3/d3.js','public/js/widgets/pdcModule/pdcModel.js'], func
 				return d.Country;
 			});
 			countryDiv.insert('option',':first-child').attr({'disabled':'','selected':''}).text('Select Countries');
-			countryDiv.on('change', runCustomer);
+			countryDiv.on('change', _runCustomer);
 		});
 	}
 
-	function runCustomer(){
+	function _runCustomer(){
 		var list = [
     		{ divId: '#timespan', divTitle: 'Select Date' },
     		{ divId: '#node_id', divTitle: 'Select NodeID' },
     		{ divId: '#report', divTitle: 'Select Reports' }
 		];
-		resetFields(list);
+		_resetFields(list);
 		var gsnName = d3.select('#node').node().value;
 		var gsnVersions = $('#gsn_version').val();
 		var hardwares = $('#hardware').val();
@@ -168,16 +168,16 @@ define(['node_modules/d3/d3.js','public/js/widgets/pdcModule/pdcModel.js'], func
 				return d.CustomerName;
 			});
 			customerDiv.insert('option',':first-child').attr({'disabled':'','selected':''}).text('Select Customers');
-			customerDiv.on('change', runDate);
+			customerDiv.on('change', _runDate);
 		});
 	}
 
-	function runDate(){
+	function _runDate(){
 		var list = [
     		{ divId: '#node_id', divTitle: 'Select NodeID' },
     		{ divId: '#report', divTitle: 'Select Reports' }
 		];
-		resetFields(list);
+		_resetFields(list);
 		var gsnName = d3.select('#node').node().value;
 		var gsnVersions = $('#gsn_version').val();
 		var hardwares = $('#hardware').val();
@@ -195,15 +195,15 @@ define(['node_modules/d3/d3.js','public/js/widgets/pdcModule/pdcModel.js'], func
 				return d.Year +'-'+d.Month;
 			});
 			dateDiv.insert('option',':first-child').attr({'disabled':'','selected':''}).text('Select Date');
-			dateDiv.on('change', runNodeId);
+			dateDiv.on('change', _runNodeId);
 		});
 	}
 
-	function runNodeId(){
+	function _runNodeId(){
 		var list = [
     		{ divId: '#report', divTitle: 'Select Reports' }
 		];
-		resetFields(list);
+		_resetFields(list);
 		var gsnName = d3.select('#node').node().value;
 		var gsnVersions = $('#gsn_version').val();
 		var hardwares = $('#hardware').val();
@@ -222,11 +222,11 @@ define(['node_modules/d3/d3.js','public/js/widgets/pdcModule/pdcModel.js'], func
 				return d.NodeId;
 			});
 			nodeIdDiv.insert('option',':first-child').attr({'disabled':'','selected':''}).text('Select NodeID');
-			nodeIdDiv.on('change', runReport);
+			nodeIdDiv.on('change', _runReport);
 		});
 	}
 
-	function runReport(){
+	function _runReport(){
 		var gsnName = d3.select('#node').node().value;
 		var gsnVersions = $('#gsn_version').val();
 		var hardwares = $('#hardware').val();
@@ -250,7 +250,7 @@ define(['node_modules/d3/d3.js','public/js/widgets/pdcModule/pdcModel.js'], func
 		});
 	}
 
-	function resetFields(divIds){
+	function _resetFields(divIds){
 		divIds.forEach(function(obj) {
 	    	d3.select(obj.divId).html("").append('option').attr({'disabled':'','selected':''}).text(obj.divTitle);
 		});

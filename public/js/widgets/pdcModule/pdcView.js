@@ -7,48 +7,86 @@ define(["node_modules/d3/d3.js"], function(d3) {
 			var container = d3.select(parent_container),
 				searchContainer = container.append('div').attr('id','searchModule'),
 				outputContainer = container.append('div').attr('id','outputModule'),
-				toprow = searchContainer.append('div').attr('class','row'),
+				toprow = searchContainer.append('div').attr('class','box box-primary')
+				.style('padding','10px 10px 10px 10px').append('div').attr('class','box-group'),
 				middlerow = searchContainer.append('div').attr('class','row');
 
-			var toppane = toprow.append('div').attr('class','col-xs-12'),
-				leftpane = middlerow.append('div').attr('class','col-md-6 col-sm-6 col-xs-12'),
-				rightpane = middlerow.append('div').attr('class','col-md-6 col-sm-6 col-xs-12');
+			var toppane1 = toprow.append('div').attr('class','row'),
+			 	toppane2 = toprow.append('div').attr('class','row'),
+				toppane3 = toprow.append('div').attr('class','row');
 
-			var innertop = toppane.append('div').attr('class','box box-primary'),
-				innerleft = leftpane.append('div').attr('class','box box-primary'),
-				innerright = rightpane.append('div').attr('class','box box-primary');
+				toppane1.append('div').attr('class','col').append('div').style('width','130px')
+				.attr('class','box from-group').append('select')
+				.attr({'class':'form-control','id':'node'});
 
-			innerleft.append('h5').attr('class','box-title left-space10').text("select view");
-			innerright.append('h5').attr('class','box-title left-space10').text("select export");
+				toppane2.selectAll('div').data(['gsn_version','hardware','region','country','customer_name','timespan']).enter().append('div')
+				.attr('class','col-xs-6 col-sm-4 col-md-2 col').append('div')
+				.attr('class','box box-fluid from-group').append('select')
+				.attr({'multiple':'','class':'form-control'})
+				.attr('id',function(d){
+					return d;
+				}).style({'width':'100%','height':'180px','padding':'0'});
 
-			var bodytopRow1 = innertop.append('div').attr('class','box-body'),
-				bodytopRow2 = innertop.append('div').attr('class','box-body'),
-				bodytopRow3 = innertop.append('div').attr('class','box-body'),
+				toppane3.selectAll('div').data(['node_id','report']).enter().append('div')
+				.attr('class','col-md-6 col').append('div')
+				.attr('class','box box-fluid from-group').append('select')
+				.attr({'multiple':'','class':'form-control'})
+				.attr('id',function(d){
+					return d;
+				}).style({'width':'100%','height':'180px','padding':'0'});
 
-				bodyleft = innerleft.append('div').attr('class','box-body'),
-				bodyright = innerright.append('div').attr('class','box-body');
+			var leftpane = middlerow.append('div')
+				.attr('class','col-md-6 col-sm-6 col-xs-12').append('div')					
+				.attr('class','box box-primary').style('padding','10px 10px 10px 10px');
+				
+				leftpane.append('h5').attr('class','box-title').text('select view');
+			
+			var innerLeft = leftpane.append('div').attr('class','box-body').append('div').attr('class','row');
+				
+				innerLeft.selectAll('div').data([
+			    {btnId: 'summaryBtn', btnName: 'Summary'},
+			    {btnId: 'trendsBtn', btnName: 'Trends'},
+			   	{btnId: 'parameterBtn', btnName: 'Parameters'}
+				])
+				.enter().append('div').attr('class','col-xs-4 col')
+				.append('button').attr('class','btn btn-default button100')
+				.attr('id',function(d){
+					return d.btnId;
+				})
+				.text(function(d){
+					return d.btnName;
+				});
 
-			bodytopRow1.append('select').attr('id','node').style('width','130px');
-			initSelectGroup(bodytopRow2,['gsn_version','hardware','region','country','customer_name','timespan']);
-			initSelectGroup(bodytopRow3,['node_id','report']);
+			var rightpane = middlerow.append('div')
+				.attr('class','col-md-6 col-sm-6 col-xs-12').append('div')					
+				.attr('class','box box-primary').style('padding','10px 10px 10px 10px');
+				
+				rightpane.append('h5').attr('class','box-title').text('select view');
+			
+			var innerRight = rightpane.append('div').attr('class','box-body').append('div').attr('class','row');
+				
+				innerRight.selectAll('div').data([
+			    {btnId: 'excelBtn', btnName: 'Excel'},
+			    {btnId: 'candiBtn', btnName: 'Candi'}
+				])
+				.enter().append('div').attr('class','col-xs-6 col')
+				.append('button').attr('class','btn btn-default button100')
+				.attr('id',function(d){
+					return d.btnId;
+				})
+				.text(function(d){
+					return d.btnName;
+				});
 
-
-			setPlaceholder('node','Select Nodes');
-			setPlaceholder('gsn_version','Select Releases');
-			setPlaceholder('hardware','Select Hardwares');
-			setPlaceholder('region','Select Regions');
-			setPlaceholder('country','Select Countries');
-			setPlaceholder('customer_name','Select Customers');
-			setPlaceholder('timespan','Select Date');
-			setPlaceholder('node_id','Select NodeID');
-			setPlaceholder('report','Select Reports');
-
-			bodyleft.append('button').attr({'class':'btn btn-default buttonGroup3','id':'summaryBtn'}).text('Summary');
-			bodyleft.append('button').attr({'class':'btn btn-default buttonGroup3','id':'trendsBtn'}).text('Trends');
-			bodyleft.append('button').attr({'class':'btn btn-default buttonGroup3','id':'parameterBtn'}).text('Parameter');
-
-			bodyright.append('button').attr({'class':'btn btn-default buttonGroup2','id':'excelBtn'}).text('Excel');
-			bodyright.append('button').attr({'class':'btn btn-default buttonGroup2','id':'candiBtn'}).text('Candi');
+			_setPlaceholder('node','Select Nodes');
+			_setPlaceholder('gsn_version','Select Releases');
+			_setPlaceholder('hardware','Select Hardwares');
+			_setPlaceholder('region','Select Regions');
+			_setPlaceholder('country','Select Countries');
+			_setPlaceholder('customer_name','Select Customers');
+			_setPlaceholder('timespan','Select Date');
+			_setPlaceholder('node_id','Select NodeID');
+			_setPlaceholder('report','Select Reports');
 
 			////// Output Module ///////
 			var btmrow = outputContainer.append('div').attr('class','row'),
@@ -57,7 +95,7 @@ define(["node_modules/d3/d3.js"], function(d3) {
 				bodybtmDiv = innerbtm.append('div').attr('class','box-body').append('div');
 
 			var tabs = ['Network_Information','Network_Graph','Node_Information'];
-		    initTabWidget(bodybtmDiv, tabs);
+		    _initTabWidget(bodybtmDiv, tabs);
 		    
 
 		    var records = [
@@ -68,7 +106,7 @@ define(["node_modules/d3/d3.js"], function(d3) {
 			];
 
 		    for(var key in tabs){
-		    	initTable(tabs[key], records, ['id','user','date','reason']);
+		    	_initTable(tabs[key], records, ['id','user','date','reason']);
 		    }	    	
 
 
@@ -76,21 +114,12 @@ define(["node_modules/d3/d3.js"], function(d3) {
 
 	}
 
-	function setPlaceholder(elemId,title){
+	function _setPlaceholder(elemId,title){
 		d3.select('#'+ elemId).append('option').attr({'disabled':'','selected':''}).text(title);
 	}
 
-	function initSelectGroup(divObj, columns){
-		var widthRatio = (100 / columns.length) + '%';
-		divObj.selectAll('select').data(columns).enter().append('select')
-		.attr('multiple','')
-		.attr('id', function(d){
-			return d;
-		})
-		.style({'min-width':'100px','width': widthRatio,'height':'180px'});
-	}
 
-	function initTabWidget(divObj, tabs){
+	function _initTabWidget(divObj, tabs){
 		var ulObj = divObj.append('ul').attr({'class':'nav nav-tabs','role':'tablist'});
 		var innerDiv = divObj.append('div').attr('class','tab-content');
 		
@@ -123,7 +152,7 @@ define(["node_modules/d3/d3.js"], function(d3) {
 	
 	}
 
-	function initTable(divId, records, columns){
+	function _initTable(divId, records, columns){
 
 		var divObj = d3.select('#' + divId);
 		var table = divObj.append('div').attr('class','row')
