@@ -3,6 +3,10 @@
  * Author: Victor Larsson (elarvic)
  */
 
+/**
+ * RequireJS configuration
+ * Assign different paths 
+ */
 require.config({
     baseUrl: "/public/js",
     paths: {
@@ -61,7 +65,7 @@ require([ 'node_modules/d3/d3.js','topology/networkTopologyController'], functio
 	}
 
 	/**
-	 * Resizes the dashboard-content-container
+	 * Resizes the dashboard-content-container.
 	 */
 	function resize(){
 		console.log('resize');
@@ -77,8 +81,8 @@ require([ 'node_modules/d3/d3.js','topology/networkTopologyController'], functio
 	}
 
 	/**
-	 * init the dashboard-containers
-	 * Adds the addBtn in the middle with a click-event
+	 * Init the dashboard-containers
+	 * Adds the addBtn in the middle with a click-event.
 	 */
 	function initContainers () {
 		containers.forEach(function(id){
@@ -92,10 +96,12 @@ require([ 'node_modules/d3/d3.js','topology/networkTopologyController'], functio
 				.on('mouseover', function(){
 					$('#addBtn-' + id).css('background-color', '#3c8dbc');
 					$('#addBtn-img-' + id).attr('src', addBtnImg_selected);
+					$('#widgetBtnTxt-' + id).css('color', 'white');
 				})
 				.on('mouseout', function(){
 					$('#addBtn-' + id).css('background-color', 'white');
 					$('#addBtn-img-' + id).attr('src', addBtnImg);
+					$('#widgetBtnTxt-' + id).css('color', '#3c8dbc');
 				})
 				.on('click', function(){
 					console.log('clicked addBtn-' + id);
@@ -111,8 +117,8 @@ require([ 'node_modules/d3/d3.js','topology/networkTopologyController'], functio
 	}
 
 	/**
-	 * Displays the available widgets for selection
-	 * Animates the buttons, spawning from the addBtn
+	 * Displays the available widgets for selection.
+	 * Animates the buttons, spawning from the addBtn.
 	 * 
 	 * @param  {String} id [id of the dashboard-container]
 	 */
@@ -155,15 +161,17 @@ require([ 'node_modules/d3/d3.js','topology/networkTopologyController'], functio
 	 * @param  {Object} widget [contains name and position of the selected widget]
 	 */
 	function selectWidget(id, widget){
+		//Removes the previous text(if there were any)
+		d3.selectAll('#widgetBtnTxt-' + id).remove();
 		
-		d3.selectAll('.widgetBtnTxt-' + id).remove();
-
-		//d3.select('#addBtn-' + id).remove();
-		//$('#addBtn-img-' + id).css('visibility', 'hidden');
+		//Remove all of the other widgetBtns and the image inside the addBtn
 		d3.selectAll('.widgetBtn').remove();
 		d3.select('#addBtn-img-' + id).remove();
+		
+		//Append the name of the selected widget inside the addBtn
 		d3.select('#addBtn-' + id).append('text')
-			.attr('class', 'widgetBtnTxt widgetBtnTxt-' + id)
+			.attr('class', 'widgetBtnTxt')
+			.attr('id', 'widgetBtnTxt-' + id)
 			.text(widget.name);
 	}
 
