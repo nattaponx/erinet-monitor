@@ -1,0 +1,49 @@
+{
+   "data":
+   {
+       "components":
+       [
+           {
+               "id": "DC-1011",
+               "name": "EPG01",
+               "status": "ACTIVE"
+           },
+           {
+               "id": "DC-1140",
+               "name": "EPG03",
+               "status": "ACTIVE"
+           },
+           {
+               "id": "DC-1239",
+               "name": "MME01",
+               "status": "ACTIVE"
+           },
+           {
+               "id": "DC-1400",
+               "name": "MME02",
+               "status": "ACTIVE"
+           },
+           {
+               "id": "DC-2421",
+               "name": "SAPC01",
+               "status": "ACTIVE"
+           },
+           {
+               "id": "DC-2422",
+               "name": "SAPC02",
+               "status": "ACTIVE"
+           },
+           {
+               "id": "DC-2171",
+               "name": "EPG05",
+               "status": "ACTIVE"
+           },
+           {
+               "id": "DC-1921",
+               "name": "SASN01",
+               "status": "ACTIVE"
+           }
+       ]
+   }
+}
+

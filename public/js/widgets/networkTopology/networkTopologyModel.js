@@ -1,7 +1,8 @@
 /**
  * Network Topology Model
+ * Author: Victor Larsson (elarvic)
  */
-define([],function () {
+define(['topology/networkComponent'],function (nc) {
 	return {
 
 		//Widget properties
@@ -9,7 +10,7 @@ define([],function () {
 			title: '',
 			type: '',
 			parent_container: '',
-			componets: ''
+			components: []
 		},
 
 		/**
@@ -25,14 +26,38 @@ define([],function () {
 			//Set properties
 			this.properties.type  = type;
 			this.properties.title = title;
+
+			this.syncFetchNetworkComponents();
 		},
 
 		/**
 		 * Fetching the network components in the current network
-		 * 
 		 */
-		fetchNetworkComponents: function () {
-			// body...
+		syncFetchNetworkComponents: function () {
+			$.ajax({
+		        type: 'GET',
+		        url: 'dummy_data/components.json',
+		        async: false,
+		        datatype: 'JSON',
+		        success: function(data)
+		        {
+		            if (data) 
+		            {
+		                data.data.components.forEach(function(component){
+		                	var componentInstance = nc.getInstance();
+
+		                	componentInstance.init(component)
+
+		                	this.properties.components.push(componentInstance);
+		                }.bind(this));
+
+		            }
+		        }.bind(this)
+		    });
+		},
+
+		updateData: function(){
+			return true;
 		},
 
 
@@ -46,6 +71,14 @@ define([],function () {
 
 		getType: function(){
 			return this.properties.type;
+		},
+
+		getParentContainer: function(){
+			return this.properties.parent_container;
+		},
+
+		getComponents: function(){
+			return this.properties.components;
 		},
 
 		/////////////////
