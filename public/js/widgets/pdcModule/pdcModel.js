@@ -2,7 +2,6 @@ define(function(){
 
 	return {
 
-
 		// baseAPIUrl: 'http://localhost/api.php',
 		_baseAPIUrl: 'http://localhost:8080/api/pdc/',
 

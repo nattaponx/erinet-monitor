@@ -23,7 +23,7 @@ define(["node_modules/d3/d3.js"], function(d3) {
 				.attr('class','col-xs-6 col-sm-4 col-md-2 col').append('div')
 				.attr('class','box box-fluid from-group').append('select')
 				.attr({'multiple':'','class':'form-control'})
-				.attr('id',function(d){
+				.attr('id', function(d){
 					return d;
 				}).style({'width':'100%','height':'180px','padding':'0'});
 
@@ -31,7 +31,7 @@ define(["node_modules/d3/d3.js"], function(d3) {
 				.attr('class','col-md-6 col').append('div')
 				.attr('class','box box-fluid from-group').append('select')
 				.attr({'multiple':'','class':'form-control'})
-				.attr('id',function(d){
+				.attr('id', function(d){
 					return d;
 				}).style({'width':'100%','height':'180px','padding':'0'});
 
@@ -50,7 +50,7 @@ define(["node_modules/d3/d3.js"], function(d3) {
 				])
 				.enter().append('div').attr('class','col-xs-4 col')
 				.append('button').attr('class','btn btn-default button100')
-				.attr('id',function(d){
+				.attr('id', function(d){
 					return d.btnId;
 				})
 				.text(function(d){
@@ -71,7 +71,7 @@ define(["node_modules/d3/d3.js"], function(d3) {
 				])
 				.enter().append('div').attr('class','col-xs-6 col')
 				.append('button').attr('class','btn btn-default button100')
-				.attr('id',function(d){
+				.attr('id', function(d){
 					return d.btnId;
 				})
 				.text(function(d){

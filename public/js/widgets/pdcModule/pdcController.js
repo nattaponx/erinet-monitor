@@ -260,4 +260,3 @@ define(['node_modules/d3/d3.js','public/js/widgets/pdcModule/pdcModel.js'], func
 
 });
 
-// console.log($('#gsn_version').val()); 
