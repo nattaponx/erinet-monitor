@@ -17,6 +17,7 @@
 	.addBtn-img{
 		width: 80%;
 		height: 100%;
+		
 	}
 }
 
@@ -70,7 +71,7 @@
 .addBtn{
 	width: 20%;
 	height: 20%;
-
+	z-index: 10;
 	top: 40%;
 	left: 40%;
 	position: relative;
@@ -83,5 +84,19 @@
 
 .plusIcon{
 	color: #3c8dbc;
+}
+
+.widgetBtn{
+	position: absolute;
+	top: 40%;
+	left: 40%;
+	width: 20%;
+	height: 20%;
+	z-index: 5;
+	background-color: white;
+}
+
+.widgetBtnTxt{
+	font-size: 1.3em;
 }
 

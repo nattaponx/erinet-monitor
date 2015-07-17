@@ -18,7 +18,8 @@ require([ 'node_modules/d3/d3.js','topology/networkTopologyController'], functio
 	//ntc.init('dashboard-container-2-1', 'success', 'box-1-1');
 	//ntc.init('dashboard-container-2-2', 'danger', 'box-1-1');
 	
-	containers = ['1-1','1-2','2-1','2-2'];
+	var containers = ['1-1','1-2','2-1','2-2'];
+	var widgets    = ['Topology', 'Network Performance', 'Node Performance', 'Alarms/Events'];
 	
 	resize();
 	$(window).resize(function(){
@@ -26,6 +27,14 @@ require([ 'node_modules/d3/d3.js','topology/networkTopologyController'], functio
 	});
 
 	$('.dashboard-container').addClass('centerContent');
+
+	//TODO Remove all of the widgetBtns
+	/*
+	d3.selectAll('.dashboard-container').on('click', function(){
+		//d3.selectAll('.widgetBtn').remove();
+	});
+	*/
+
 	initContainers();
 
 	function resize(){
@@ -42,27 +51,6 @@ require([ 'node_modules/d3/d3.js','topology/networkTopologyController'], functio
 	}
 
 	function initContainers () {
-
-		/*
-		for(var i = 1; i <= 2; i++){
-			for(var j = 1; j <= 2; j++){
-
-				d3.selectAll('.dashboard-container-' + i + '-' + j).append('div')
-					.attr('class', 'addBtn')
-					.attr('id', 'addBtn-' + i + '-' + j)
-					.on('mouseover', function(){
-						console.log('hover ' + '#addBtn-' + i + '-' + j);
-						$('#addBtn-' + i + '-' + j).css('background-color', '#00285F')
-					})
-					.on('mouseout', function(){
-						$('#addBtn-' + i + '-' + j).css('background-color', 'white')
-					});
-			}
-		}
-		*/
-	
-		
-
 		containers.forEach(function(id){
 
 			var addBtnImg 		   = 'public/img/plus-big.png';
@@ -80,7 +68,8 @@ require([ 'node_modules/d3/d3.js','topology/networkTopologyController'], functio
 					$('#addBtn-img-' + id).attr('src', addBtnImg);
 				})
 				.on('click', function(){
-					console.log('clicked addBtn- ' + id);
+					console.log('clicked addBtn-' + id);
+					displayWidgets(id);
 				});
 
 			
@@ -88,10 +77,61 @@ require([ 'node_modules/d3/d3.js','topology/networkTopologyController'], functio
 				.attr('class', 'addBtn-img')
 				.attr('id', 'addBtn-img-' + id)
 				.attr('src', addBtnImg);
-			
 		});
 	}
 
-	
-	
+	function displayWidgets(id) {
+		d3.selectAll('.widgetBtn').remove();
+
+		var up = d3.select('#dashboard-container-' + id).append('div')
+			.attr('class', 'widgetBtn')
+			.attr('id', 'widgetBtn-' + id + '-up')
+			.on('mouseover', function(){
+				$('#widgetBtn-' + id + '-up').css('background-color', '#3c8dbc');
+			})
+			.on('mouseout', function(){
+				$('#widgetBtn-' + id + '-up').css('background-color', 'white');
+			});
+
+		up.append('text')
+			.attr('class', 'widgetBtnTxt')
+			.attr('id', 'widgetBtnTxt-' + id + '-up')
+			.text(widgets[0]);
+
+		d3.select('#dashboard-container-' + id).append('div')
+			.attr('class', 'widgetBtn')
+			.attr('id', 'widgetBtn-' + id + '-down')
+			.on('mouseover', function(){
+				$('#widgetBtn-' + id + '-down').css('background-color', '#3c8dbc');
+			})
+			.on('mouseout', function(){
+				$('#widgetBtn-' + id + '-down').css('background-color', 'white');
+			});
+
+		d3.select('#dashboard-container-' + id).append('div')
+			.attr('class', 'widgetBtn')
+			.attr('id', 'widgetBtn-' + id + '-left')
+			.on('mouseover', function(){
+				$('#widgetBtn-' + id + '-left').css('background-color', '#3c8dbc');
+			})
+			.on('mouseout', function(){
+				$('#widgetBtn-' + id + '-left').css('background-color', 'white');
+			});
+
+		d3.select('#dashboard-container-' + id).append('div')
+			.attr('class', 'widgetBtn')
+			.attr('id', 'widgetBtn-' + id + '-right')
+			.on('mouseover', function(){
+				$('#widgetBtn-' + id + '-right').css('background-color', '#3c8dbc');
+			})
+			.on('mouseout', function(){
+				$('#widgetBtn-' + id + '-right').css('background-color', 'white');
+			});
+
+		$('#widgetBtn-' + id + '-up').animate({top: '15%'},"slow");
+		$('#widgetBtn-' + id + '-down').animate({top: '65%'},"slow");
+		$('#widgetBtn-' + id + '-left').animate({left: '17%'},"slow");
+		$('#widgetBtn-' + id + '-right').animate({left: '63%'},"slow");
+	}
+
 });
