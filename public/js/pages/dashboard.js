@@ -19,7 +19,10 @@ require([ 'node_modules/d3/d3.js','topology/networkTopologyController'], functio
 	//ntc.init('dashboard-container-2-2', 'danger', 'box-1-1');
 	
 	var containers = ['1-1','1-2','2-1','2-2'];
-	var widgets    = ['Topology', 'Network Performance', 'Node Performance', 'Alarms/Events'];
+	//var widgets    = ['Topology', 'Network Performance', 'Node Performance', 'Alarms/Events'];
+
+	widgets = [{name:'Topology', pos:'-up'}, {name:'Network Performance', pos:'-down'},
+				{name:'Node Performance', pos:'-left'}, {name:'Alarms/Events', pos:'-right'}];
 	
 	resize();
 	$(window).resize(function(){
@@ -83,6 +86,24 @@ require([ 'node_modules/d3/d3.js','topology/networkTopologyController'], functio
 	function displayWidgets(id) {
 		d3.selectAll('.widgetBtn').remove();
 
+		widgets.forEach(function(widget){
+			d3.select('#dashboard-container-' + id).append('div')
+				.attr('class', 'widgetBtn')
+				.attr('id', 'widgetBtn-' + id + widget.pos)
+				.on('mouseover', function(){
+					$('#widgetBtn-' + id + widget.pos).css('background-color', '#3c8dbc');
+				})
+				.on('mouseout', function(){
+					$('#widgetBtn-' + id + widget.pos).css('background-color', 'white');
+				});
+
+			d3.select('#widgetBtn-' + id + widget.pos).append('text')
+				.attr('class', 'widgetBtnTxt')
+				.attr('id', 'widgetBtnTxt-' + id + widget.pos)
+				.text(widget.name);
+		});
+
+		/*
 		var up = d3.select('#dashboard-container-' + id).append('div')
 			.attr('class', 'widgetBtn')
 			.attr('id', 'widgetBtn-' + id + '-up')
@@ -96,9 +117,9 @@ require([ 'node_modules/d3/d3.js','topology/networkTopologyController'], functio
 		up.append('text')
 			.attr('class', 'widgetBtnTxt')
 			.attr('id', 'widgetBtnTxt-' + id + '-up')
-			.text(widgets[0]);
+			.text(widgets[0].name);
 
-		d3.select('#dashboard-container-' + id).append('div')
+		var down = d3.select('#dashboard-container-' + id).append('div')
 			.attr('class', 'widgetBtn')
 			.attr('id', 'widgetBtn-' + id + '-down')
 			.on('mouseover', function(){
@@ -108,7 +129,7 @@ require([ 'node_modules/d3/d3.js','topology/networkTopologyController'], functio
 				$('#widgetBtn-' + id + '-down').css('background-color', 'white');
 			});
 
-		d3.select('#dashboard-container-' + id).append('div')
+		var left = d3.select('#dashboard-container-' + id).append('div')
 			.attr('class', 'widgetBtn')
 			.attr('id', 'widgetBtn-' + id + '-left')
 			.on('mouseover', function(){
@@ -118,7 +139,7 @@ require([ 'node_modules/d3/d3.js','topology/networkTopologyController'], functio
 				$('#widgetBtn-' + id + '-left').css('background-color', 'white');
 			});
 
-		d3.select('#dashboard-container-' + id).append('div')
+		var right = d3.select('#dashboard-container-' + id).append('div')
 			.attr('class', 'widgetBtn')
 			.attr('id', 'widgetBtn-' + id + '-right')
 			.on('mouseover', function(){
@@ -127,6 +148,7 @@ require([ 'node_modules/d3/d3.js','topology/networkTopologyController'], functio
 			.on('mouseout', function(){
 				$('#widgetBtn-' + id + '-right').css('background-color', 'white');
 			});
+		*/
 
 		$('#widgetBtn-' + id + '-up').animate({top: '15%'},"slow");
 		$('#widgetBtn-' + id + '-down').animate({top: '65%'},"slow");
