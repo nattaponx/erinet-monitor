@@ -2,11 +2,7 @@
  * PDC Performance view
  * 
  */
-define(["node_modules/d3/d3.js", 
-	"/public/plugins/chartjs/Chart.js", 
-	"/public/plugins/flot/jquery.flot.min.js",
-	"/public/plugins/flot/jquery.flot.time.min.js",
-	"/public/plugins/flot/jquery.flot.axislabels.js"],function (d3) {
+define(["node_modules/d3/d3.js", "node_modules/eventbus/eventbus.js"],function (d3, eventbus) {
 	return{
 		//Widget properties
 		properties: {
@@ -35,7 +31,8 @@ define(["node_modules/d3/d3.js",
 			var selectObject = d3.select('.grid-column-carousel__list');
 
 			var item = selectObject.append('li')
-				.attr('class', 'col-sm-12 col-md-6 col-xs-12');
+				.attr('class', 'col-sm-12 col-md-6 col-xs-12')
+				.attr('id', 'carousel-cells');
 
 			var cbox = item.append('div')
 				.attr('class', 'box box-' + type)
@@ -105,7 +102,16 @@ define(["node_modules/d3/d3.js",
 	        };
 	        var gCCarousel = new GCCarousel(options);
 
+			eventbus.addListener('resize', function(){
+				this.resize(); 
+			}.bind(this));
+
 			// end of init //
+			},
+
+			resize: function(){
+				console.log('resize');
+      			$("#carousel-cells").css('width', $(".col-md-12").width()); 
 			},
 
 

@@ -1,50 +1,33 @@
-/**
- * Network Topology
- * 
- */
-define(["node_modules/d3/d3.js"], function(d3) {
+define(['performance/nodeChart'],function (nodechart) {
 	return {
 
 		//Widget properties
 		properties: {
 			title: '',
-			type: ''
+			type: '',
+			parent_container: '',
+			charts: []
 		},
 
 		/**
-		 * Initialise a network topology widget
+		 * Initialise the network topology model
 		 * 
 		 * @param  {container} parent_container [parent container for the widget]
 		 * @param  {String}    type             [type of the box]
 		 * @param  {String}    title            [title for the widget]
 		 * 
 		 */
-		init: function(parent_container, type, title){
-			console.log('init Network View Widget');
+		init: function (parent_container, title, type) {
 			
 			//Set properties
-			this.properties.type = type;
+			this.properties.type  = type;
 			this.properties.title = title;
 
-			var box = d3.select('#' + parent_container)
-				.append('div')
-				.attr('class', 'box box-' + type);
-
-			var box_header = box.append('div')
-				.attr('class', 'box-header with-border')
-
-			//Append title	
-			box_header.append('h3')
-				.attr('class', 'box-title')
-				.text(title);
-
-			var box_body = box.append('div')
-				.attr('class', 'box-body')
-				.style('background-color', 'lightblue');
-
-
-
+			this.syncFetchNetworkComponents();
 		},
+
+		///,
+
 
 		/////////////////
 		//Get functions//
@@ -56,6 +39,14 @@ define(["node_modules/d3/d3.js"], function(d3) {
 
 		getType: function(){
 			return this.properties.type;
+		},
+
+		getParentContainer: function(){
+			return this.properties.parent_container;
+		},
+
+		getComponents: function(){
+			return this.properties.charts;
 		},
 
 		/////////////////
@@ -70,5 +61,4 @@ define(["node_modules/d3/d3.js"], function(d3) {
 			this.properties.type = type;
 		}
 	}
-
 });
