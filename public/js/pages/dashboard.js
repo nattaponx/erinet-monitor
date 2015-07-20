@@ -23,9 +23,18 @@ require([ 'node_modules/d3/d3.js','topology/networkTopologyController'], functio
 	//ntc.init('dashboard-container-2-2', 'danger', 'box-1-1');
 	
 	//Variables
-	var containers = ['1-1','1-2','2-1','2-2'];
+	var containers = [{id:'1-1', widget:'', empty:true},{id:'1-2', widget:'', empty:true},
+			  		{id:'2-1', widget:'', empty:true},{id:'2-2', widget:'', empty:true}];
+
 	var widgets    = [{name:'Topology', pos:'-up'}, {name:'Network Performance', pos:'-down'},
 					{name:'Node Performance', pos:'-left'}, {name:'Alarms Events', pos:'-right'}];
+
+	widgetEnum: [{
+		tpy:'Topology', 
+		netp:'Network Performance', 
+		nodp:'Node Performance', 
+		ae:'Alarms Events'
+	}];
 		
 	init();
 
@@ -45,11 +54,15 @@ require([ 'node_modules/d3/d3.js','topology/networkTopologyController'], functio
 	//Submit-layout-btn Click-event 
 	d3.select('#submit-layout-btn').on('click', function(){
 		console.log('Submit');
+
+		loadWidgets();
 	});
 
 	//Default-layout-btn Click-event
 	d3.select('#default-layout-btn').on('click', function(){
 		console.log('Default');
+
+		loadDefaultWidgets();
 	});
 
 
@@ -85,33 +98,33 @@ require([ 'node_modules/d3/d3.js','topology/networkTopologyController'], functio
 	 * Adds the addBtn in the middle with a click-event.
 	 */
 	function initContainers () {
-		containers.forEach(function(id){
+		containers.forEach(function(c){
 
 			var addBtnImg 		   = 'public/img/plus-big.png';
 			var addBtnImg_selected = 'public/img/plus-big-selected.png';
 
-			d3.select('#dashboard-container-' + id).append('div')
+			d3.select('#dashboard-container-' + c.id).append('div')
 				.attr('class', 'addBtn')
-				.attr('id', 'addBtn-' + id)
+				.attr('id', 'addBtn-' + c.id)
 				.on('mouseover', function(){
-					$('#addBtn-' + id).css('background-color', '#3c8dbc');
-					$('#addBtn-img-' + id).attr('src', addBtnImg_selected);
-					$('#widgetBtnTxt-' + id).css('color', 'white');
+					$('#addBtn-' + c.id).css('background-color', '#3c8dbc');
+					$('#addBtn-img-' + c.id).attr('src', addBtnImg_selected);
+					$('#widgetBtnTxt-' + c.id).css('color', 'white');
 				})
 				.on('mouseout', function(){
-					$('#addBtn-' + id).css('background-color', 'white');
-					$('#addBtn-img-' + id).attr('src', addBtnImg);
-					$('#widgetBtnTxt-' + id).css('color', '#3c8dbc');
+					$('#addBtn-' + c.id).css('background-color', 'white');
+					$('#addBtn-img-' + c.id).attr('src', addBtnImg);
+					$('#widgetBtnTxt-' + c.id).css('color', '#3c8dbc');
 				})
 				.on('click', function(){
-					console.log('clicked addBtn-' + id);
-					displayWidgets(id);
+					console.log('clicked addBtn-' + c.id);
+					displayWidgets(c.id);
 				});
 
 			
-			d3.select('#addBtn-' + id).append('img')
+			d3.select('#addBtn-' + c.id).append('img')
 				.attr('class', 'addBtn-img')
-				.attr('id', 'addBtn-img-' + id)
+				.attr('id', 'addBtn-img-' + c.id)
 				.attr('src', addBtnImg);
 		});
 	}
@@ -173,6 +186,49 @@ require([ 'node_modules/d3/d3.js','topology/networkTopologyController'], functio
 			.attr('class', 'widgetBtnTxt')
 			.attr('id', 'widgetBtnTxt-' + id)
 			.text(widget.name);
+
+		containers.forEach(function(c){
+			if(c.id == id){
+				c.widget = widget;
+				c.empty = false;
+			}
+		});
+	}
+
+	function loadWidgets(){
+		containers.forEach(function(c){
+			switch(c.widget){
+				case widgetEnum[0].tpy:
+					break;
+
+				case widgetEnum[0].netp:
+					break;
+
+				case widgetEnum[0].nodp:
+					break;
+
+				case widgetEnum[0].ae:
+					break;
+			}
+		});
+	}
+
+	function loadDefaultWidgets(){
+
+		//load topology in 1-1
+		d3.selectAll('#widgetBtnTxt-1-1').remove();
+		
+		//Remove all of the other widgetBtns and the image inside the addBtn
+		d3.select('#addBtn-img-1-1').remove();
+		d3.select('#addBtn-1-1').remove();
+		
+		ntc.init('dashboard-container-1-1', 'primary', 'box-1-1');
+
+		//load network performance in 1-2
+
+		//load node performance in 2-1
+	
+		//load alarms/event in 2-2
 	}
 
 });

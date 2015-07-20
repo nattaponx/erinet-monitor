@@ -42,6 +42,11 @@
                "id": "DC-1921",
                "name": "SASN01",
                "status": "ACTIVE"
+           },
+           {
+               "id": "DC-1904",
+               "name": "DSC01",
+               "status": "ACTIVE"
            }
        ]
    }

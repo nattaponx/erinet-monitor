@@ -10,6 +10,7 @@ define(["node_modules/d3/d3.js", "topology/connections", "node_modules/eventbus/
 			sapc_list: [],
 			epg_list: [],
 			sasn_list: [],
+			dsc_list: [],
 			undefined_list: []
 		},
 
@@ -45,16 +46,18 @@ define(["node_modules/d3/d3.js", "topology/connections", "node_modules/eventbus/
 
 			connections.init('svg-container', 'svg-drawingboard', this.containers);
 
-			this.resize();
+			/*
+			this.resize(parent_container);
 			$(window).resize(function () {
 		    	setTimeout(function(){ 
-		    		this.resize();
+		    		this.resize(parent_container);
 		    		connections.redraw(); 	
 		    	}.bind(this), 650);
 			}.bind(this));
+			*/
 
 			eventbus.addListener('resize', function(){
-				this.resize();
+				this.resize(parent_container);
 				connections.redraw(); 
 			}.bind(this));
 
@@ -71,21 +74,14 @@ define(["node_modules/d3/d3.js", "topology/connections", "node_modules/eventbus/
 		 * content 
 		 * 
 		 */
-		resize: function(){
+		resize: function(parent){
 			console.log('resize');
 
-			var neg 				  = $('.main-header').outerHeight() + $('.main-footer').outerHeight();
-	      	var window_height 	      = $(window).height();
-	      	var sidebar_height 		  = $(".sidebar").height();
-	      	var content_header_height = $('.content-header').outerHeight();
-	      	var diff = window_height - neg - content_header_height;
-
-      		$(".content").css('min-height', diff);
-      		$(".content-container").css('min-height', diff - 50);
-      		$(".box").css('height', diff - 50);
-
-      		$(".box-body").css('height', diff-91);
-
+			var boxHeight   = $('#' + parent).height();
+			var box_bodyHeight = boxHeight - $('.box-header').height();
+      		
+      		$(".box").css('height', boxHeight);
+      		$(".box-body").css('height', box_bodyHeight);
       		$(".svg-container").css('width', $(".cell-container").width()); 
       		$(".svg-container").css('height', $(".cell-container").height());
 		},
@@ -166,6 +162,11 @@ define(["node_modules/d3/d3.js", "topology/connections", "node_modules/eventbus/
 					case 'SASN':
 						cell = 'c6';
 						this.containers.sasn_list.push(component);
+						break;
+
+					case 'DSC':
+						cell = 'c9';
+						this.containers.dsc_list.push(component);
 						break;
 
 					default:

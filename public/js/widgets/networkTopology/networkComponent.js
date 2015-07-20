@@ -58,6 +58,12 @@ define([], function(){
 						this.properties.disabledImg = url + 'epg_mme_button_disabled.svg';
 						this.properties.hoverImg    = url + 'epg_mme_button_hover.svg';
 						this.properties.clickedImg  = url + 'epg_mme_button_clicked.svg';
+					}else if(component.name.toUpperCase().indexOf('DSC') > -1){
+						this.properties.type        = 'DSC';
+						this.properties.activeImg   = url + 'epg_mme_button.svg';
+						this.properties.disabledImg = url + 'epg_mme_button_disabled.svg';
+						this.properties.hoverImg    = url + 'epg_mme_button_hover.svg';
+						this.properties.clickedImg  = url + 'epg_mme_button_clicked.svg';
 					}else{
 						this.properties.type        = 'undefined';
 						this.properties.activeImg   = url + 'epg_mme_button.svg';
