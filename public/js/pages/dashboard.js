@@ -11,11 +11,16 @@ require.config({
     baseUrl: "/public/js",
     paths: {
         "widgets"  : "/public/js/widgets",
-        "topology" : "/public/js/widgets/networkTopology"
+        "topology" : "/public/js/widgets/networkTopology",
+        "netwPerformance": "/public/js/widgets/networkPerformance",
+        "nodePerformance": "/public/js/widgets/nodePerformance",
+        "alarmEvent": "/public/js/widgets/alarmEvent"
     },
  });
 
-require([ 'node_modules/d3/d3.js','topology/networkTopologyController', 'node_modules/eventbus/eventbus.js'], function (d3, ntc, eventbus) {
+require([ 'node_modules/d3/d3.js',
+	'topology/networkTopologyController', 
+	'node_modules/eventbus/eventbus.js'], function (d3, ntc, eventbus) {
 	 
 	//ntc.init('dashboard-container-1-1', 'primary', 'box-1-1');
 	//ntc.init('dashboard-container-1-2', 'warning', 'box-1-1');
