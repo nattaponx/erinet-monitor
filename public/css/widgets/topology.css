@@ -1,20 +1,20 @@
 /* Phones */
 @media only screen and (min-width: 320px){
 
-	.component-div{
+	.tw-component-div{
 		padding-left: 1px;
 		padding-right: 1px;
 		padding-top: 14px;
 		width: 38%;
 	}
 
-	.component-text{
+	.tw-component-text{
 		top: 75%;
 		left: 0;
 		font-size: 2.4vw; 
 	}
 
-	.connection-path{
+	.tw-connection-path{
 		stroke-width: 0.1em;
 	}	
 }
@@ -22,20 +22,20 @@
 /* Extra small devices */
 @media only screen and (min-width: 480px){
 
-	.component-div{
+	.tw-component-div{
 		padding-left: 10px;
 		padding-right: 10px;
 		padding-top: 14px;
 		width: 38%;
 	}
 
-	.component-text{
+	.tw-component-text{
 		top: 75%;
 		left: 0;
 		font-size: 1.7vw; 
 	}
 
-	.connection-path{
+	.tw-connection-path{
 		stroke-width: 0.3em;
 	}
 }
@@ -43,20 +43,20 @@
 /* Small devices, tablets */
 @media only screen and (min-width: 768px){
 
-	.component-div{
+	.tw-component-div{
 		padding-left: 10px;
 		padding-right: 10px;
 		padding-top: 14px;
 		width: 33%;
 	}
 
-	.component-text{
+	.tw-component-text{
 		top: 75%;
 		left: 0;
 		font-size: 1.2vw; 
 	}
 
-	.connection-path{
+	.tw-connection-path{
 		stroke-width: 0.2em;
 	}
 }
@@ -64,20 +64,20 @@
 /* Large devices, wide screens */
 @media only screen and (min-width: 1200px){
 
-	.component-div{
+	.tw-component-div{
 		padding-left: 10px;
 		padding-right: 10px;
 		padding-top: 14px;
 		width: 27%;
 	}
 
-	.component-text{
+	.tw-component-text{
 		top: 75%;
 		left: 0;
 		font-size: 1.2vw; 
 	}
 
-	.connection-path{
+	.tw-connection-path{
 		stroke-width: 0.3em;
 	}
 }
@@ -85,39 +85,39 @@
 /* Really large devices, desktops */
 @media only screen and (min-width: 1550px){
 
-	.component-div{
+	.tw-component-div{
 		padding-left: 2%;
 		padding-right: 2%;
 		padding-top: 6%;
 		width: 30%;
 	}
 
-	.component-text{
+	.tw-component-text{
 		top: 75%;
 		left: 0;
 		font-size: 1.5vw; 
 	}
 
-	.connection-path{
+	.tw-connection-path{
 		stroke-width: 0.3em;
 	}
 }
 
 /* Common for all resolutions */
 
-.svg-container{
+.tw-svg-container{
 	background-color: #ADD8E6;
 	position: absolute;
 	opacity: 0.5;
 }
 
-.cell-container{
+.tw-cell-container{
 	overflow: hidden;
 	width: 100%;
 	height: 100%;
 }
 
-.cell{
+.tw-cell{
 	display: inline-block;
 	vertical-align: top;
 	width: 33.33%;
@@ -127,18 +127,18 @@
 	/*border: 1px solid;*/ 
 }
 
-.component-div{
+.tw-component-div{
 	display: inline-block;
 	position: relative;
 }
 
-.component-img{
+.tw-component-img{
 	position: relative;
 	width: 100%;
 	height: 100%;
 }
 
-.component-text{
+.tw-component-text{
 	z-index: 5;
 	position: absolute;
 	font-family: Arial;
@@ -149,7 +149,7 @@
 
 /* Connections */
 
-.connection-path{
+.tw-connection-path{
 	fill: none;
 	stroke: black;
 }

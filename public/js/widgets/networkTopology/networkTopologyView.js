@@ -44,17 +44,7 @@ define(["node_modules/d3/d3.js", "topology/connections", "node_modules/eventbus/
 
 			this.drawComponents(components);
 
-			connections.init('svg-container', 'svg-drawingboard', this.containers);
-
-			/*
-			this.resize(parent_container);
-			$(window).resize(function () {
-		    	setTimeout(function(){ 
-		    		this.resize(parent_container);
-		    		connections.redraw(); 	
-		    	}.bind(this), 650);
-			}.bind(this));
-			*/
+			connections.init('tw-svg-container', 'tw-svg-drawingboard', this.containers);
 
 			eventbus.addListener('resize', function(){
 				this.resize(parent_container);
@@ -68,11 +58,10 @@ define(["node_modules/d3/d3.js", "topology/connections", "node_modules/eventbus/
 		},
 
 		/**
-		 * Resizes the different containers inside the container-wrapper.
-		 * Makes them take up all of the empty space inside the container-wrapper.
-		 * The affected containers are:
-		 * content 
+		 * Resizes the box and the svg-container such that they 
+		 * take up all of the available area.
 		 * 
+		 * @param  {Sting} parent [Parent container]
 		 */
 		resize: function(parent){
 			console.log('resize');
@@ -82,8 +71,8 @@ define(["node_modules/d3/d3.js", "topology/connections", "node_modules/eventbus/
       		
       		$(".box").css('height', boxHeight);
       		$(".box-body").css('height', box_bodyHeight);
-      		$(".svg-container").css('width', $(".cell-container").width()); 
-      		$(".svg-container").css('height', $(".cell-container").height());
+      		$(".tw-svg-container").css('width', $(".tw-cell-container").width()); 
+      		$(".tw-svg-container").css('height', $(".tw-cell-container").height());
 		},
 
 		/**
@@ -93,11 +82,11 @@ define(["node_modules/d3/d3.js", "topology/connections", "node_modules/eventbus/
 		 */
 		createSvgDrawingboard: function(containerObj) {
 			var svgContainer = containerObj.append('div')
-				.attr('id', 'svg-container')
-				.attr('class', 'svg-container');
+				.attr('id', 'tw-svg-container')
+				.attr('class', 'tw-svg-container');
 
 			svgContainer.append('svg')
-				.attr('id', 'svg-drawingboard')
+				.attr('id', 'tw-svg-drawingboard')
 				.attr('width', '100%')
 				.attr('height', '100%');
 		},
@@ -111,8 +100,8 @@ define(["node_modules/d3/d3.js", "topology/connections", "node_modules/eventbus/
 
 			
 			var cellContainer = containerObj.append('div')
-				.attr('id', 'cell-container')
-				.attr('class', 'cell-container')
+				.attr('id', 'tw-cell-container')
+				.attr('class', 'tw-cell-container')
 				
 			for (var i = 1; i < 10; i++) {
 				this.createCell(cellContainer, 'c' + i);
@@ -129,7 +118,7 @@ define(["node_modules/d3/d3.js", "topology/connections", "node_modules/eventbus/
 		createCell: function(containerObj, id){
 			var div = containerObj.append('div')
 				.attr('id', id)
-				.attr('class', 'cell')
+				.attr('class', 'tw-cell')
 		},
 
 		/**
@@ -177,12 +166,12 @@ define(["node_modules/d3/d3.js", "topology/connections", "node_modules/eventbus/
 
 				//Append Component container
 				var div = d3.select('#' + cell).append('div')
-					.attr('id', 'component-' + component.getId())
-					.attr('class', 'component-div');
+					.attr('id', 'tw-component-' + component.getId())
+					.attr('class', 'tw-component-div');
 
 				//Append component image
 				var img = div.append('img')
-					.attr('class', 'component-img')
+					.attr('class', 'tw-component-img')
 					.attr('src', component.getActiveImg())
 					.on('click', function(){
                         console.log('clicked ' + component.getName());
@@ -200,7 +189,7 @@ define(["node_modules/d3/d3.js", "topology/connections", "node_modules/eventbus/
 
                 //Append component text(name)
 				div.append('text')
-					.attr('class', 'component-text')
+					.attr('class', 'tw-component-text')
                     .text(component.getName())
                     .on('click', function(){
                         console.log('clicked ' + component.getName());
@@ -216,39 +205,6 @@ define(["node_modules/d3/d3.js", "topology/connections", "node_modules/eventbus/
                         }      
                     });
 			}.bind(this));
-			
-			/*
-			connections.init('svg-container', 'svg-drawingboard');
-
-			this.containers.c5_EPG_Array.forEach(function(epg){
-				this.containers.c3_SAPC_Array.forEach(function(sapc){
-					connections.connect(epg, sapc);
-				}.bind(this));
-			}.bind(this));		
-
-			this.containers.c1_MME_Array.forEach(function(mme){
-				this.containers.c5_EPG_Array.forEach(function(epg){
-					connections.connect(mme, epg);
-				}.bind(this));
-			}.bind(this));
-			*/
 		},
-	}
-
-	function connectComponents (containers) {
-		console.log('Drawing Connections');
-		connections.init('svg-container', 'svg-drawingboard');
-
-		containers.epg_list.forEach(function(epg){
-			containers.sapc_list.forEach(function(sapc){
-				connections.connect(epg, sapc);
-			});
-		});		
-
-		containers.mme_list.forEach(function(mme){
-			containers.epg_list.forEach(function(epg){
-				connections.connect(mme, epg);
-			});
-		});
 	}
 });

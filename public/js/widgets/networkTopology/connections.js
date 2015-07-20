@@ -21,15 +21,15 @@ define(['node_modules/d3/d3.js'], function (d3){
 				component1.getId() + '-' + component2.getId());
 
 			var svg       = $("#" + this.properties.svg_drawingboard_id);
-			var startElem = $("#component-" + component1.getId());
-			var endElem   = $("#component-" + component2.getId());
+			var startElem = $("#tw-component-" + component1.getId());
+			var endElem   = $("#tw-component-" + component2.getId());
 			var path 	  = $("#" + component1.getId() + '-' + component2.getId());
 
 			connectElements(svg, path, startElem, endElem);
 		},
 
 		redraw: function(){
-			d3.selectAll(".connection-path").remove();
+			d3.selectAll(".tw-connection-path").remove();
 			connectAll(this.properties.components, this);
 		},
 
@@ -51,7 +51,7 @@ define(['node_modules/d3/d3.js'], function (d3){
 	function addPath (svg_drawingboard_id, id) {
 		d3.select('#' + svg_drawingboard_id).append('path')
 			.attr('id', id)
-			.attr('class', 'connection-path');
+			.attr('class', 'tw-connection-path');
 	}
 
 	function connectAll(components, c) {
@@ -72,7 +72,7 @@ define(['node_modules/d3/d3.js'], function (d3){
 	}
 	
 	function connectElements(svg, path, startElem, endElem) {
-	    var svgContainer = $("#svg-container");
+	    var svgContainer = $("#tw-svg-container");
 	 
 	    // if first element is lower than the second, swap!
 	    if(startElem.offset().top > endElem.offset().top){
