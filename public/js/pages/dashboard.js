@@ -15,7 +15,7 @@ require.config({
     },
  });
 
-require([ 'node_modules/d3/d3.js','topology/networkTopologyController'], function (d3, ntc) {
+require([ 'node_modules/d3/d3.js','topology/networkTopologyController', 'node_modules/eventbus/eventbus.js'], function (d3, ntc, eventbus) {
 	 
 	//ntc.init('dashboard-container-1-1', 'primary', 'box-1-1');
 	//ntc.init('dashboard-container-1-2', 'warning', 'box-1-1');
@@ -49,6 +49,14 @@ require([ 'node_modules/d3/d3.js','topology/networkTopologyController'], functio
 	
 	$(window).resize(function(){
 		resize();
+		eventbus.fire('resize');
+	});
+
+	// Collaps/expand side-bar
+	d3.select('#header-btn').on('click', function(){
+		setTimeout(function(){
+			eventbus.fire('resize');
+		},500);
 	});
 
 	//Submit-layout-btn Click-event 
@@ -90,7 +98,7 @@ require([ 'node_modules/d3/d3.js','topology/networkTopologyController'], functio
       	var diff = window_height - head_foot - content_header_height;
 
   		$(".content").css('min-height', diff);
-  		$(".dashboard-content-container").css('height', diff - 50);
+  		$(".dashboard-content-container").css('height', diff - 35);
 	}
 
 	/**
@@ -217,18 +225,25 @@ require([ 'node_modules/d3/d3.js','topology/networkTopologyController'], functio
 
 		//load topology in 1-1
 		d3.selectAll('#widgetBtnTxt-1-1').remove();
-		
+		d3.selectAll('.widgetBtn').remove();
+		//$('#dashboard-container-1-1').removeClass('dashboard-container');
+		$('#dashboard-container-1-1').removeClass('centerContent');
+		//$('#dashboard-container-1-1').addClass('dashboard-container-with-widget');
+
+
 		//Remove all of the other widgetBtns and the image inside the addBtn
 		d3.select('#addBtn-img-1-1').remove();
 		d3.select('#addBtn-1-1').remove();
 		
-		ntc.init('dashboard-container-1-1', 'primary', 'box-1-1');
+		ntc.init('dashboard-container-1-1', 'primary', 'Erinet');
 
 		//load network performance in 1-2
 
 		//load node performance in 2-1
 	
 		//load alarms/event in 2-2
+		
+		eventbus.fire('resize');
 	}
 
 });

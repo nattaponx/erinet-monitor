@@ -23,7 +23,7 @@ define([], function(){
 				/**
 				 * Initializing a component object
 				 *  
-				 * @param  {JSON} component []
+				 * @param  {JSON} component [JSON from the api]
 				 */
 				init: function(component){
 					//Assig properties
@@ -71,7 +71,6 @@ define([], function(){
 						this.properties.hoverImg    = url + 'epg_mme_button_hover.svg';
 						this.properties.clickedImg  = url + 'epg_mme_button_clicked.svg';
 					}
-
 				},
 
 				//------Get fucntions------

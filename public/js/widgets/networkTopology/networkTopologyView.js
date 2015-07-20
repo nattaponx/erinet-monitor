@@ -25,17 +25,21 @@ define(["node_modules/d3/d3.js", "topology/connections", "node_modules/eventbus/
 
 			var box = d3.select('#' + parent_container)
 				.append('div')
+				.attr('id', 'tw-box')
 				.attr('class', 'box box-' + type);
 
 			var box_header = box.append('div')
+				.attr('id', 'tw-box-header')
 				.attr('class', 'box-header with-border')
 
 			//Append title	
 			box_header.append('h3')
+				.attr('id', 'tw-box-title')
 				.attr('class', 'box-title')
 				.text(title);
 
 			var box_body = box.append('div')
+				.attr('id', 'tw-box-body')
 				.attr('class', 'box-body')
 				.style('background-color', 'lightblue');
 
@@ -64,13 +68,14 @@ define(["node_modules/d3/d3.js", "topology/connections", "node_modules/eventbus/
 		 * @param  {Sting} parent [Parent container]
 		 */
 		resize: function(parent){
-			console.log('resize');
 
-			var boxHeight   = $('#' + parent).height();
-			var box_bodyHeight = boxHeight - $('.box-header').height();
-      		
-      		$(".box").css('height', boxHeight);
-      		$(".box-body").css('height', box_bodyHeight);
+			var boxHeight      = $('#' + parent).height();
+			var box_bodyHeight = boxHeight - $('#tw-box-header').height();
+			var cell_container = $(".tw-cell-container");
+			var margin 		   = 23;
+
+      		$("#tw-box").css('height', boxHeight - margin);
+      		$("#tw-box-body").css('height', box_bodyHeight - margin);
       		$(".tw-svg-container").css('width', $(".tw-cell-container").width()); 
       		$(".tw-svg-container").css('height', $(".tw-cell-container").height());
 		},

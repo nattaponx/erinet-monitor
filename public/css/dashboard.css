@@ -34,6 +34,16 @@
 	.dashboard-container{
 		display: inline-block;
 		position: relative;
+		vertical-align: top;
+		width: 49%;
+		height: 49%;
+		background-color: #ecf0f5;
+		margin: 3px;
+	}
+
+	.dashboard-container-with-widget{
+		display: inline-block;
+		position: relative;
 		width: 49%;
 		height: 49%;
 		background-color: #ecf0f5;
@@ -60,12 +70,27 @@
 	.widgetBtnTxt{
 		font-size: 1.3em;
 	}
+
+	/* Topology Widget */
+	.tw-component-div{
+		width: 33%;
+	}
+
+	.tw-component-text{
+		font-size: 0.5vw; 
+	}
+
 }
 
 /* Large devices, wide screens */
 @media only screen and (min-width: 1500px){
 	.widgetBtnTxt{
 		font-size: 1.6em;
+	}
+
+	/* Topology Widget */
+	.tw-component-text{
+		font-size: 0.8vw; 
 	}
 }
 
