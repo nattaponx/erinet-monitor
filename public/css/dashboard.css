@@ -77,7 +77,11 @@
 	}
 
 	.tw-component-text{
-		font-size: 0.5vw; 
+		font-size: 0.7vw; 
+	}
+
+	.tw-connection-path{
+		stroke-width: 0.1em;
 	}
 
 }
@@ -89,6 +93,10 @@
 	}
 
 	/* Topology Widget */
+	.tw-component-div{
+		width: 33%;
+	}
+
 	.tw-component-text{
 		font-size: 0.8vw; 
 	}
