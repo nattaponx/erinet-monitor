@@ -14,7 +14,7 @@ require.config({
         "topology" : "/public/js/widgets/networkTopology",
         "netwPerformance": "/public/js/widgets/networkPerformance",
         "nodePerformance": "/public/js/widgets/nodePerformance",
-        "alarmEvent": "/public/js/widgets/alarmEvent"
+        "event": "/public/js/widgets/event"
     },
  });
 
@@ -22,8 +22,9 @@ require([ 'node_modules/d3/d3.js',
 	'node_modules/eventbus/eventbus.js',
 	'topology/networkTopologyController',
 	'netwPerformance/networkPerformanceController',
-	'nodePerformance/nodePerformanceController'
-	], function (d3, eventbus, ntc, netpc, nodepc) {
+	'nodePerformance/nodePerformanceController',
+	'event/eventController'
+	], function (d3, eventbus, ntc, netpc, nodepc, ec) {
 	
 	//Variables
 	var containers   = [{id:'1-1', widget:'', empty:true},{id:'1-2', widget:'', empty:true},
@@ -247,6 +248,7 @@ require([ 'node_modules/d3/d3.js',
 				break;
 
 			case 'Alarms Events':
+				ec.init('dashboard-container-' + container.id, 'Events');
 				break;
 		}
 	}
