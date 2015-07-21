@@ -19,20 +19,20 @@ require.config({
  });
 
 require([ 'node_modules/d3/d3.js',
-	'topology/networkTopologyController', 
-	'node_modules/eventbus/eventbus.js'], function (d3, ntc, eventbus) {
-	 
-	//ntc.init('dashboard-container-1-1', 'primary', 'box-1-1');
-	//ntc.init('dashboard-container-1-2', 'warning', 'box-1-1');
-	//ntc.init('dashboard-container-2-1', 'success', 'box-1-1');
-	//ntc.init('dashboard-container-2-2', 'danger', 'box-1-1');
+	'node_modules/eventbus/eventbus.js',
+	'topology/networkTopologyController',
+	'netwPerformance/networkPerformanceController'
+	], function (d3, eventbus, ntc, netpc) {
 	
 	//Variables
-	var containers = [{id:'1-1', widget:'', empty:true},{id:'1-2', widget:'', empty:true},
-			  		{id:'2-1', widget:'', empty:true},{id:'2-2', widget:'', empty:true}];
+	var containers   = [{id:'1-1', widget:'', empty:true},{id:'1-2', widget:'', empty:true},
+			  		 	{id:'2-1', widget:'', empty:true},{id:'2-2', widget:'', empty:true}];
 
-	var widgets    = [{name:'Topology', pos:'-up'}, {name:'Network Performance', pos:'-down'},
-					{name:'Node Performance', pos:'-left'}, {name:'Alarms Events', pos:'-right'}];
+	var defaultSetup = [{id:'1-1', widget:'Topology'},{id:'1-2', widget:'Network Performance'},
+			  			{id:'2-1', widget:'Node Performance'},{id:'2-2', widget:'Alarms Events'}];
+
+	var widgets      = [{name:'Topology', pos:'-up'}, {name:'Network Performance', pos:'-down'},
+						{name:'Node Performance', pos:'-left'}, {name:'Alarms Events', pos:'-right'}];
 
 	widgetEnum: [{
 		tpy:'Topology', 
@@ -43,7 +43,7 @@ require([ 'node_modules/d3/d3.js',
 		
 	init();
 
-	//TODO Remove all of the widgetBtns
+	//TODO Remove all of the widgetBtns when clicking anywhere but the buttons
 	/*
 	d3.selectAll('.dashboard-container').on('click', function(){
 		//d3.selectAll('.widgetBtn').remove();
@@ -67,15 +67,13 @@ require([ 'node_modules/d3/d3.js',
 	//Submit-layout-btn Click-event 
 	d3.select('#submit-layout-btn').on('click', function(){
 		console.log('Submit');
-
-		loadWidgets();
+		submitWidgets();
 	});
 
 	//Default-layout-btn Click-event
 	d3.select('#default-layout-btn').on('click', function(){
 		console.log('Default');
-
-		loadDefaultWidgets();
+		defaultWidgets();
 	});
 
 
@@ -94,8 +92,6 @@ require([ 'node_modules/d3/d3.js',
 	 * Resizes the dashboard-content-container.
 	 */
 	function resize(){
-		console.log('resize');
-
 		var head_foot 			  = $('.main-header').outerHeight() + $('.main-footer').outerHeight();
       	var window_height 	      = $(window).height();
       	var sidebar_height 		  = $(".sidebar").height();
@@ -202,53 +198,55 @@ require([ 'node_modules/d3/d3.js',
 
 		containers.forEach(function(c){
 			if(c.id == id){
-				c.widget = widget;
+				c.widget = widget.name;
 				c.empty = false;
 			}
 		});
 	}
 
-	function loadWidgets(){
-		containers.forEach(function(c){
-			switch(c.widget){
-				case widgetEnum[0].tpy:
-					break;
-
-				case widgetEnum[0].netp:
-					break;
-
-				case widgetEnum[0].nodp:
-					break;
-
-				case widgetEnum[0].ae:
-					break;
+	function submitWidgets(){
+		containers.forEach(function(container){
+			if(!container.empty){
+				console.log('widget ' + container.widget);
+				loadWidget(container);
 			}
 		});
+		eventbus.fire('resize');
 	}
 
-	function loadDefaultWidgets(){
+	function defaultWidgets(){
+		console.log('defaultWidgets');
+		defaultSetup.forEach(function(container){
+			loadWidget(container);
+		});
+		eventbus.fire('resize');
+	}
 
-		//load topology in 1-1
-		d3.selectAll('#widgetBtnTxt-1-1').remove();
+	function loadWidget (container) {
+		console.log('loading widget for' + container.id);
+		d3.selectAll('#widgetBtnTxt-' + container.id).remove();
 		d3.selectAll('.widgetBtn').remove();
-		//$('#dashboard-container-1-1').removeClass('dashboard-container');
-		$('#dashboard-container-1-1').removeClass('centerContent');
-		//$('#dashboard-container-1-1').addClass('dashboard-container-with-widget');
-
+		$('#dashboard-container-' + container.id).removeClass('centerContent');
 
 		//Remove all of the other widgetBtns and the image inside the addBtn
-		d3.select('#addBtn-img-1-1').remove();
-		d3.select('#addBtn-1-1').remove();
-		
-		ntc.init('dashboard-container-1-1', 'primary', 'Erinet');
+		d3.select('#addBtn-img-' + container.id).remove();
+		d3.select('#addBtn-' + container.id).remove();
 
-		//load network performance in 1-2
+		switch(container.widget){
+			case 'Topology':
+				ntc.init('dashboard-container-' + container.id, 'primary', 'Erinet');
+				break;
 
-		//load node performance in 2-1
-	
-		//load alarms/event in 2-2
-		
-		eventbus.fire('resize');
+			case 'Network Performance':
+				netpc.init('dashboard-container-' + container.id, 'Network Performance', 'url');
+				break;
+
+			case 'Node Performance':
+				break;
+
+			case 'Alarms Events':
+				break;
+		}
 	}
 
 });
