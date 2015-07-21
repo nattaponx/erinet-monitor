@@ -13,12 +13,13 @@ define(["node_modules/d3/d3.js", "performance/nodeModel",
 		 * @param  {String}    title            [title for the widget]
 		 * 
 		 */
-		init: function(parent_container, type, title){
+		init: function(container, type, title, dataset, chartType){
 			console.log('init nodeController Widget');
 
-			nodemodel.init();
-			nodeview.init();
+			nodeview.init(container, type, title, dataset, chartType);
+			
 
 			},
 		}
+
 	});
