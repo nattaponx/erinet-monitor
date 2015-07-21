@@ -95,8 +95,19 @@ router.get('/pdc/:function_id', function(req, res) {
   var customers = req.param('customer');
   var dates = req.param('date');
   var nodeIds = req.param('nodeId');
+  var tableName = req.param('tableName');
 
 	switch(fid){
+    case 'fetchcolumnsinfo':
+        pdc_model.fetchColumnsInfo(tableName, function(jsonData){
+          res.json(jsonData);
+        });
+      break;  
+    case 'fetchtablename':
+        pdc_model.fetchTableName(function(jsonData){
+          res.json(jsonData);
+        });
+      break;
 		case 'fetchgsnname':
    			pdc_model.fetchGsnName(function(jsonData){
    				res.json(jsonData);

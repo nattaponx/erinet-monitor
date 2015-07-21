@@ -1,3 +1,20 @@
+exports.fetchColumnsInfo = function(tableName, callback) {
+    var connection = require('./lib/connection.js');
+    var sql = "SELECT * FROM pdccolumnsinfo" +
+    		  " where TableName = '" + tableName+ "'";
+    connection.connectMysql(sql, function(jsonData){
+      callback({'data':jsonData});
+    });
+}
+
+exports.fetchTableName = function(callback) {
+    var connection = require('./lib/connection.js');
+    var sql = 'SELECT distinct TableName FROM pdccolumnsinfo';
+    connection.connectMysql(sql, function(jsonData){
+      callback({'data':jsonData});
+    });
+}
+
 exports.fetchGsnName = function(callback) {
     var connection = require('./lib/connection.js');
     var sql = 'SELECT distinct GsnName FROM pdccontent';

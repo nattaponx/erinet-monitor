@@ -812,7 +812,7 @@ a:focus {
   margin: 0;
 }
 .control-sidebar-dark {
-  color: #b8c7ce;
+  /*color: #b8c7ce;*/
 }
 .control-sidebar-dark,
 .control-sidebar-dark + .control-sidebar-bg {

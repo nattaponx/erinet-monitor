@@ -5,8 +5,24 @@ define(function(){
 		// baseAPIUrl: 'http://localhost/api.php',
 		_baseAPIUrl: 'http://localhost:8080/api/pdc/',
 
+
+		getColumnsInfo: function(tableName, callback){
+			$.get(this._baseAPIUrl + 'fetchcolumnsinfo', 
+			{tableName: tableName})
+			.done(function(jsonData){
+			    callback(jsonData);
+			});
+		},
+
 		getUserSession: function(callback){
 			$.get('http://localhost:3000/api/userdata')
+			.done(function(jsonData){
+			    callback(jsonData);
+			});
+		},
+
+		getTableName: function(callback){
+			$.get(this._baseAPIUrl + 'fetchtablename')
 			.done(function(jsonData){
 			    callback(jsonData);
 			});
