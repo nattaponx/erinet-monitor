@@ -1,5 +1,5 @@
 /**
- * Network Performance Model
+ * Node Performance Model
  * Author: Victor Larsson (elarvic)
  */
 

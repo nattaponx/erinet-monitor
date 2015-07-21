@@ -21,8 +21,9 @@ require.config({
 require([ 'node_modules/d3/d3.js',
 	'node_modules/eventbus/eventbus.js',
 	'topology/networkTopologyController',
-	'netwPerformance/networkPerformanceController'
-	], function (d3, eventbus, ntc, netpc) {
+	'netwPerformance/networkPerformanceController',
+	'nodePerformance/nodePerformanceController'
+	], function (d3, eventbus, ntc, netpc, nodepc) {
 	
 	//Variables
 	var containers   = [{id:'1-1', widget:'', empty:true},{id:'1-2', widget:'', empty:true},
@@ -242,6 +243,7 @@ require([ 'node_modules/d3/d3.js',
 				break;
 
 			case 'Node Performance':
+				nodepc.init('dashboard-container-' + container.id, 'Node Performance', 'url');
 				break;
 
 			case 'Alarms Events':
