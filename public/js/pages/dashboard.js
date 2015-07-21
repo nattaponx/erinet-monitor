@@ -31,16 +31,16 @@ require([ 'node_modules/d3/d3.js',
 			  		 	{id:'2-1', widget:'', empty:true},{id:'2-2', widget:'', empty:true}];
 
 	var defaultSetup = [{id:'1-1', widget:'Topology'},{id:'1-2', widget:'Network Performance'},
-			  			{id:'2-1', widget:'Node Performance'},{id:'2-2', widget:'Alarms Events'}];
+			  			{id:'2-1', widget:'Node Performance'},{id:'2-2', widget:'Events'}];
 
 	var widgets      = [{name:'Topology', pos:'-up'}, {name:'Network Performance', pos:'-down'},
-						{name:'Node Performance', pos:'-left'}, {name:'Alarms Events', pos:'-right'}];
+						{name:'Node Performance', pos:'-left'}, {name:'Events', pos:'-right'}];
 
 	widgetEnum: [{
 		tpy:'Topology', 
 		netp:'Network Performance', 
 		nodp:'Node Performance', 
-		ae:'Alarms Events'
+		e:'Events'
 	}];
 		
 	init();
@@ -98,7 +98,7 @@ require([ 'node_modules/d3/d3.js',
       	var window_height 	      = $(window).height();
       	var sidebar_height 		  = $(".sidebar").height();
       	var content_header_height = $('.content-header').outerHeight();
-      	var diff = window_height - head_foot - content_header_height;
+      	var diff 				  = window_height - head_foot - content_header_height;
 
   		$(".content").css('min-height', diff);
   		$(".dashboard-content-container").css('height', diff - 35);
@@ -111,7 +111,9 @@ require([ 'node_modules/d3/d3.js',
 	function initContainers () {
 		containers.forEach(function(c){
 
-			var addBtnImg 		   = 'public/img/plus-big.png';
+			var addBtnImg 		   = 'public/img/plus-small.png';
+			//var addBtnImg 		   = 'public/img/plus-big.png';
+			//var addBtnImg 		   = 'public/img/plus-gray-big.png';
 			var addBtnImg_selected = 'public/img/plus-big-selected.png';
 
 			d3.select('#dashboard-container-' + c.id).append('div')
@@ -247,7 +249,7 @@ require([ 'node_modules/d3/d3.js',
 				nodepc.init('dashboard-container-' + container.id, 'Node Performance', 'url');
 				break;
 
-			case 'Alarms Events':
+			case 'Events':
 				ec.init('dashboard-container-' + container.id, 'Events');
 				break;
 		}
