@@ -4,6 +4,7 @@ define(['node_modules/d3/d3.js','public/js/widgets/pdcModule/pdcModel.js'], func
 
 		initController: function(){
 			_runGsnName();
+			_setAdminControl();
 
 
 		},
@@ -17,6 +18,18 @@ define(['node_modules/d3/d3.js','public/js/widgets/pdcModule/pdcModel.js'], func
 			        });
 			});
 		}
+
+	}
+
+	function _setAdminControl(){
+		model.getUserSession(function(jsonData){
+			var profile = jsonData.userdata;
+			var role = profile[0].Role;
+			if(role == 0){
+				d3.select('#pdc-sidebar-btn').html('');
+			}
+		});
+
 
 	}
 

@@ -5,6 +5,13 @@ define(function(){
 		// baseAPIUrl: 'http://localhost/api.php',
 		_baseAPIUrl: 'http://localhost:8080/api/pdc/',
 
+		getUserSession: function(callback){
+			$.get('http://localhost:3000/api/userdata')
+			.done(function(jsonData){
+			    callback(jsonData);
+			});
+		},
+
 		getGsnName: function(callback){
 			$.get(this._baseAPIUrl + 'fetchgsnname')
 			.done(function(jsonData){

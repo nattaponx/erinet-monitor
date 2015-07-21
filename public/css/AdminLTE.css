@@ -688,8 +688,8 @@ a:focus {
 .control-sidebar-bg,
 .control-sidebar {
   top: 0;
-  right: -230px;
-  width: 230px;
+  right: -100%;
+  width: 100%;
   -webkit-transition: right 0.3s ease-in-out;
   -o-transition: right 0.3s ease-in-out;
   transition: right 0.3s ease-in-out;
@@ -816,7 +816,7 @@ a:focus {
 }
 .control-sidebar-dark,
 .control-sidebar-dark + .control-sidebar-bg {
-  background: #222d32;
+  background: #fffff0;
 }
 .control-sidebar-dark .control-sidebar-tabs {
   border-bottom: #1c2529;
@@ -3077,6 +3077,7 @@ table.text-center th {
   color: #444;
   border-top: 0;
   color: #666;
+  border-radius: 10px;
 }
 .login-box-body .form-control-feedback,
 .register-box-body .form-control-feedback {

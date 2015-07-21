@@ -88,6 +88,10 @@ define(["node_modules/d3/d3.js"], function(d3) {
 			_setPlaceholder('node_id','Select NodeID');
 			_setPlaceholder('report','Select Reports');
 
+
+			////// Admin control sidebar ////////
+			
+
 			////// Output Module ///////
 			var btmrow = outputContainer.append('div').attr('class','row'),
 				btmpane = btmrow.append('div').attr('class','col-xs-12'),
