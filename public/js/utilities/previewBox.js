@@ -20,12 +20,12 @@ define(['node_modules/d3/d3.js',
 
 			eventbus.addListener('resize', function() {
 				resize(this.properties.parent);
-			}.bind(this));
+			});
 
-			this.displayBox(parent);
+			this.createBox(parent);
 		},
 
-		displayBox: function(parent){
+		createBox: function(parent){
 			var type = 'primary';
 
 			//Append box
@@ -44,6 +44,15 @@ define(['node_modules/d3/d3.js',
 				.attr('class', 'box-title')
 				.text(this.properties.netComponent.getName());
 
+			//Append Details Button
+			box_header.append('button')
+				.attr('id', 'pb-detailBtn')
+				.attr('class', 'btn btn-primary')
+				.text('Details')
+				.on('click', function(){
+					console.log('Details clicked');
+				});
+
 			//Append box-tool wrapper
 			var box_tools = box_header.append('div')
 				.attr('class', 'box-tools pull-right');	
@@ -52,10 +61,8 @@ define(['node_modules/d3/d3.js',
 			var remove_btn = box_tools.append('button')
 				.attr('class', 'btn btn-box-tool')
 				.on('click', function() {
-					$('#preview-box').fadeOut('lagom', function() {
-						$('#preview-box').remove();
-					});
-				});
+					this.remove('medium');
+				}.bind(this));
 
 			//Append remove icon
 			remove_btn.append('icon')
@@ -65,7 +72,66 @@ define(['node_modules/d3/d3.js',
 			var box_body = box.append('div')
 				.attr('id', 'preview-box-body')
 				.attr('class', 'box-body');	
+
+			createTabs(box_body, this.properties);
+		},
+
+		remove: function (speed) {
+			if(speed){
+				$('#preview-box').fadeOut(speed, function() {
+					$('#preview-box').remove();
+				});
+			}else{
+				$('#preview-box').remove();
+			}
 		}
+	}
+
+	function createTabs (box_body, properties) {
+		var tabs = ['Bearers', 'CPU-Load', 'Memory-Usage', 'Subscribers'];
+
+		//Add tabbar
+		var tab_bar = box_body.append('ul')
+			.attr('id', 'pb-tab-bar')
+			.attr('class', 'nav nav-tabs');
+
+
+		//Add tab content
+		var tab_content_container = box_body.append('div')
+			.attr('id', 'pb-tab-content')
+			.attr('class', 'tab-content');
+
+		//Add tabs
+		tabs.forEach(function (tabName) {
+			var tab = tab_bar.append('li')
+				.attr('id', 'pb-tab-' + tabName)
+
+			tab.append('a')
+				.attr('data-toggle', 'tab')
+				.attr('href', '#pb-tab-content-' + tabName)
+				.text(tabName);
+
+			var tab_content; 
+		
+			if(tabName == tabs[0]){
+				$('#pb-tab-' + tabName).addClass('active');
+				
+				tab_content = tab_content_container.append('div')
+					.attr('id', 'pb-tab-content-' + tabName)
+					.attr('class', 'tab-pane fade in active');
+			}else{
+				tab_content = tab_content_container.append('div')
+					.attr('id', 'pb-tab-content-' + tabName)
+					.attr('class', 'tab-pane fade');
+			}
+
+			tab_content.append('h3').text(tabName);
+
+		});
+
+		
+		
+
 	}
 
 	function resize (parent) {

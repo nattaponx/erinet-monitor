@@ -111,11 +111,6 @@ require([ 'node_modules/d3/d3.js',
 	function initContainers () {
 		containers.forEach(function(c){
 
-			//var addBtnImg 		   = 'public/img/plus-big-blue.png';
-			//var addBtnImg 		   = 'public/img/plus-big.png';
-			//var addBtnImg 		   = 'public/img/plus-gray-big.png';
-			//var addBtnImg_selected = 'public/img/plus-big-blue-hover.png';
-
 			d3.select('#dashboard-container-' + c.id).append('div')
 				.attr('class', 'addBtn')
 				.attr('id', 'addBtn-' + c.id)

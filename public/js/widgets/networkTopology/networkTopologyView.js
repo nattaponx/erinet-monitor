@@ -204,7 +204,8 @@ define(["node_modules/d3/d3.js",
                     .text(component.getName())
                     .on('click', function(){
                         console.log('clicked ' + component.getName());
-                    })
+                        this.displayPreviewBox('', component);
+                    }.bind(this))
                     .on('mouseover', function(){
                         if(component.getStatus() == 'ACTIVE'){
                         	img.attr('src', component.getHoverImg());
@@ -219,6 +220,8 @@ define(["node_modules/d3/d3.js",
 		},
 
 		displayPreviewBox: function(parent, component) {
+
+			previewBox.remove();
 
 			previewBox.init('content-container', component);
 		}
