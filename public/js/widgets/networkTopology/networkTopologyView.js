@@ -75,7 +75,7 @@ define(["node_modules/d3/d3.js", "topology/connections", "node_modules/eventbus/
 			var margin 		   = 23;
 
       		$("#tw-box").css('height', boxHeight - margin);
-      		$("#tw-box-body").css('height', box_bodyHeight - margin -1);
+      		$("#tw-box-body").css('height', box_bodyHeight - margin - 1);
       		$(".tw-svg-container").css('width', $(".tw-cell-container").width()); 
       		$(".tw-svg-container").css('height', $(".tw-cell-container").height());
 		},

@@ -111,35 +111,42 @@ require([ 'node_modules/d3/d3.js',
 	function initContainers () {
 		containers.forEach(function(c){
 
-			var addBtnImg 		   = 'public/img/plus-small.png';
+			//var addBtnImg 		   = 'public/img/plus-big-blue.png';
 			//var addBtnImg 		   = 'public/img/plus-big.png';
 			//var addBtnImg 		   = 'public/img/plus-gray-big.png';
-			var addBtnImg_selected = 'public/img/plus-big-selected.png';
+			//var addBtnImg_selected = 'public/img/plus-big-blue-hover.png';
 
 			d3.select('#dashboard-container-' + c.id).append('div')
 				.attr('class', 'addBtn')
 				.attr('id', 'addBtn-' + c.id)
 				.on('mouseover', function(){
-					$('#addBtn-' + c.id).css('background-color', '#3c8dbc');
-					$('#addBtn-img-' + c.id).attr('src', addBtnImg_selected);
+					$('#addBtn-' + c.id).css('background-color', '#33779b');
+					//$('#addBtn-img-' + c.id).attr('src', addBtnImg_selected);
 					$('#widgetBtnTxt-' + c.id).css('color', 'white');
 				})
 				.on('mouseout', function(){
-					$('#addBtn-' + c.id).css('background-color', 'white');
-					$('#addBtn-img-' + c.id).attr('src', addBtnImg);
-					$('#widgetBtnTxt-' + c.id).css('color', '#3c8dbc');
+					$('#addBtn-' + c.id).css('background-color', '#3c8dbc');
+					//$('#addBtn-img-' + c.id).attr('src', addBtnImg);
+					//$('#widgetBtnTxt-' + c.id).css('color', '');
 				})
 				.on('click', function(){
 					console.log('clicked addBtn-' + c.id);
 					displayWidgets(c.id);
 				});
 
-			
+			d3.select('#addBtn-' + c.id).append('icon')
+				.attr('class', 'addBtn-icon fa fa-plus')
+				.attr('id', 'addBtn-icon-' + c.id);
+
+			/*
 			d3.select('#addBtn-' + c.id).append('img')
 				.attr('class', 'addBtn-img')
 				.attr('id', 'addBtn-img-' + c.id)
 				.attr('src', addBtnImg);
+			*/
 		});
+
+		$('.addBtn').addClass('roundedEdges');
 	}
 
 	/**
@@ -156,24 +163,30 @@ require([ 'node_modules/d3/d3.js',
 				.attr('class', 'widgetBtn')
 				.attr('id', 'widgetBtn-' + id + widget.pos)
 				.on('mouseover', function(){
-					$('#widgetBtn-' + id + widget.pos).css('background-color', '#3c8dbc');
-					$('#widgetBtnTxt-' + id + widget.pos).css('color', 'white');
+					$('#widgetBtn-' + id + widget.pos).css('background-color', '#33779b');
+					//$('#widgetBtnTxt-' + id + widget.pos).css('color', '#3c8dbc');
+					//$('#widgetBtn-' + id + widget.pos).css('opacity', '0.6');
 				})
 				.on('mouseout', function(){
-					$('#widgetBtn-' + id + widget.pos).css('background-color', 'white');
-					$('#widgetBtnTxt-' + id + widget.pos).css('color', '#3c8dbc');
+					$('#widgetBtn-' + id + widget.pos).css('background-color', '#3c8dbc');
+					$('#widgetBtnTxt-' + id + widget.pos).css('color', 'white');
+					$('#widgetBtn-' + id + widget.pos).css('opacity', '1.0');
 				})
 				.on('click', function(){
 					console.log('clicked ' + widget.name)
 					selectWidget(id, widget);
 				});
 
-			d3.select('#widgetBtn-' + id + widget.pos).append('text')
+			d3.select('#widgetBtn-' + id + widget.pos).append('span')
 				.attr('class', 'widgetBtnTxt')
 				.attr('id', 'widgetBtnTxt-' + id + widget.pos)
 				.text(widget.name);
 		});
 
+		//Rounded edges
+		$('.widgetBtn').addClass('roundedEdges');
+
+		//Animating the widget buttons.
 		$('#widgetBtn-' + id + '-up').animate({top: '15%'},"slow");
 		$('#widgetBtn-' + id + '-down').animate({top: '65%'},"slow");
 		$('#widgetBtn-' + id + '-left').animate({left: '17%'},"slow");
@@ -192,8 +205,17 @@ require([ 'node_modules/d3/d3.js',
 		
 		//Remove all of the other widgetBtns and the image inside the addBtn
 		d3.selectAll('.widgetBtn').remove();
-		d3.select('#addBtn-img-' + id).remove();
-		
+		d3.select('#addBtn-icon-' + id).remove();
+
+		$('#addBtn-' + id).css('background-color', '#3c8dbc');
+
+		d3.select('#addBtn-' + id).on('mouseover', function(){
+			$('#addBtn-' + id).css('background-color', '#33779b');
+		})
+		.on('mouseout', function(){
+			$('#addBtn-' + id).css('background-color', '#3c8dbc');
+		});
+
 		//Append the name of the selected widget inside the addBtn
 		d3.select('#addBtn-' + id).append('text')
 			.attr('class', 'widgetBtnTxt')
