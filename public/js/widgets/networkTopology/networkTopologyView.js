@@ -224,6 +224,12 @@ define(["node_modules/d3/d3.js",
 			}.bind(this));
 		},
 
+		/**
+		 * Displays a preview box if the preview poperty is enabled. 
+		 * 
+		 * @param  {String} parent    [Container for appending]
+		 * @param  {Object} component [Network Component]
+		 */
 		displayPreviewBox: function(parent, component) {
 			if(this.properties.enablePreview){
 				previewBox.remove();

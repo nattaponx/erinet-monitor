@@ -36,6 +36,8 @@ require([ 'node_modules/d3/d3.js',
 	var widgets      = [{name:'Topology', pos:'-up'}, {name:'Network Performance', pos:'-down'},
 						{name:'Node Performance', pos:'-left'}, {name:'Events', pos:'-right'}];
 
+	var populated 	 = false;
+
 	widgetEnum: [{
 		tpy:'Topology', 
 		netp:'Network Performance', 
@@ -68,13 +70,11 @@ require([ 'node_modules/d3/d3.js',
 
 	//Submit-layout-btn Click-event 
 	d3.select('#submit-layout-btn').on('click', function(){
-		console.log('Submit');
 		submitWidgets();
 	});
 
 	//Default-layout-btn Click-event
 	d3.select('#default-layout-btn').on('click', function(){
-		console.log('Default');
 		defaultWidgets();
 	});
 
@@ -125,7 +125,6 @@ require([ 'node_modules/d3/d3.js',
 					//$('#widgetBtnTxt-' + c.id).css('color', '');
 				})
 				.on('click', function(){
-					console.log('clicked addBtn-' + c.id);
 					displayWidgets(c.id);
 				});
 
@@ -168,7 +167,6 @@ require([ 'node_modules/d3/d3.js',
 					$('#widgetBtn-' + id + widget.pos).css('opacity', '1.0');
 				})
 				.on('click', function(){
-					console.log('clicked ' + widget.name)
 					selectWidget(id, widget);
 				});
 
@@ -220,15 +218,13 @@ require([ 'node_modules/d3/d3.js',
 		containers.forEach(function(c){
 			if(c.id == id){
 				c.widget = widget.name;
-				c.empty = false;
 			}
 		});
 	}
 
 	function submitWidgets(){
 		containers.forEach(function(container){
-			if(!container.empty){
-				console.log('widget ' + container.widget);
+			if(container.widget && container.empty){
 				loadWidget(container);
 			}
 		});
@@ -236,15 +232,16 @@ require([ 'node_modules/d3/d3.js',
 	}
 
 	function defaultWidgets(){
-		console.log('defaultWidgets');
-		defaultSetup.forEach(function(container){
-			loadWidget(container);
-		});
+		if(!populated){
+			defaultSetup.forEach(function(container){
+				loadWidget(container);
+			});
+		}
+		populated = true;
 		eventbus.fire('resize');
 	}
 
 	function loadWidget (container) {
-		console.log('loading widget for' + container.id);
 		d3.selectAll('#widgetBtnTxt-' + container.id).remove();
 		d3.selectAll('.widgetBtn').remove();
 		$('#dashboard-container-' + container.id).removeClass('centerContent');
@@ -270,6 +267,8 @@ require([ 'node_modules/d3/d3.js',
 				ec.init('dashboard-container-' + container.id, 'Events');
 				break;
 		}
+
+		container.empty = false;
 	}
 
 });
