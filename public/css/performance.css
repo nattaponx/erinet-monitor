@@ -1,3 +1,8 @@
+/**
+ * PDC Performance view
+ * Author: Nattapon Thathong
+ */
+
 /*@media only screen and (min-width : 768px) {*/
 
 @media only screen and (min-width : 569px) {
@@ -7,6 +12,18 @@
 		height: 100%;	
 	}
 
+	.nav-btns{
+		position: absolute;
+		top: 33%;
+		right: 1.5%;
+	}
+
+	.btn{
+		padding: 2px;
+		width: 30px;
+		height: 25px;
+	}
+
 	.dashboard-container{
 		position: relative;
 		overflow: auto;
@@ -14,14 +31,15 @@
 
 	.chart-position{
 		margin: 5px auto 5px auto;
-		width: 100%;
+		width: 90%;
 		height: 90%;
 	}
+
 	.chart-position-details{
 		margin: 5px auto 5px auto;
 	}
 	.chart-position-master{
-		margin: -30px auto 10px 85px;
+		margin: -30px auto 10px auto;
 		width: 87%;
 		height: 90%;
 	}
@@ -46,17 +64,19 @@
 		text-align: center;
 		color: black;
 		width: 100%;
-		height: 300px;
+		height: 280px;
+		padding: 5px;
 	}
 
 	.dbox-body{
 		text-align: center;
 		color: black;
 		width: 100%;
-		height: 300px;		
+		height: 300px;
+		padding: 10px;		
 	}
 
-	.dbox-body2{
+	.dbox-body-master{
 		text-align: center;
 		color: black;
 		width: 100%;
@@ -67,15 +87,41 @@
 
 /*iphone 4, 5, 6 */
 @media only screen and (min-device-width: 320px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2)  {
+	
 	.chart-position{
 		margin: 0px auto 0px auto;
-		max-width: 95%;
-		height: 200px;
+		max-width: 99%;
+		height: 98%;
 	}
 
+	.chart-position-details{
+		margin: 2px auto 2px auto;
+	}
+	.chart-position-master{
+		margin: -30px auto 10px auto;
+		width: 87%;
+		height: 90%;
+	}
 	.box-body {
-		margin: 5px auto 2px auto;
-		padding: 0px;
+		text-align: center;
+		color: black;
+		width: 100%;
+		height: 200px;
+		padding: 2px;
+	}
+	.dbox-body{
+		text-align: center;
+		color: black;
+		width: 100%;
+		height: 230px;
+		padding: 5px;		
+	}
+
+	.dbox-body-master{
+		text-align: center;
+		color: black;
+		width: 100%;
+		height: 80px;		
 	}
 }
 
@@ -85,6 +131,35 @@
 	.chart-position{
 		margin: 0px auto 0px auto;
 		max-width: 95%;
+		height: 98%;
+	}
+	.chart-position-details{
+		margin: 5px auto 5px auto;
+	}
+	.chart-position-master{
+		margin: -30px auto 10px auto;
+		width: 87%;
+		height: 90%;
+	}
+	.box-body {
+		text-align: center;
+		color: black;
+		width: 100%;
 		height: 200px;
+		padding: 2px;
+	}
+	.dbox-body{
+		text-align: center;
+		color: black;
+		width: 100%;
+		height: 230px;
+		padding: 10px;		
+	}
+
+	.dbox-body-master{
+		text-align: center;
+		color: black;
+		width: 100%;
+		height: 80px;		
 	}
 }

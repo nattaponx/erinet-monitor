@@ -1,4 +1,7 @@
-
+/**
+ * PDC Performance view
+ * Author: Nattapon Thathong
+ */
 define(["node_modules/d3/d3.js", "performance/nodeModel", 
 	"performance/nodeView", "node_modules/eventbus/eventbus.js"],
 	function (d3, nodemodel, nodeview, eventbus) {

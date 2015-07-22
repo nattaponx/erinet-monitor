@@ -1,0 +1,55 @@
+@media only screen and (min-width : 569px) {
+	.dashboard-content-container{
+		width: 100%;
+		height: 100%;	
+	}
+	
+	.nav-btns{
+		position: absolute;
+		top: 33%;
+		right: 1.5%;
+	}
+
+	.btn{
+		padding: 2px;
+		width: 30px;
+		height: 25px;
+	}
+	.dashboard-container{
+		position: relative;
+		overflow: auto;
+	}
+
+	.dashboard-container-1-1{
+		top: 0%;
+		float: left;
+
+		width: 49.5%;
+		height: 50%;
+	}
+
+	.dashboard-container-1-2{
+		top: 0%;
+		margin-left: 50.5%;
+		
+		width: 49%;
+		height: 50%;
+	}
+
+	.dashboard-container-2-1{
+		top: 50%;
+		float: left;
+
+		width: 49.5%;
+		height: 50%;
+	}
+
+	.dashboard-container-2-2{
+		top: 50%;
+		margin-left: 50.5%;
+
+		width: 49%;
+		height: 50%;
+	}
+
+}

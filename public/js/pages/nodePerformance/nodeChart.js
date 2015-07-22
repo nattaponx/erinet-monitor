@@ -1,32 +1,51 @@
+/**
+ * PDC Performance view
+ * Author: Nattapon Thathong
+ */
 define(["performance/nodeModel"], function(nodemodel){
 
 	return{
 
 		init: function(container, chartType, master){
-			console.log('init nodeChart' + container);
+			console.log('init nodeChart >>' + container);
 
 			var placeholder = $("#"+container);
-
-			placeholder.css('height', "90%");
- 			placeholder.css('width', "90%"); 
+			// for time series charts
+			placeholder.css('height', "95%");
+ 			placeholder.css('width', "95%"); 
 
 			//////////////////////////////
 			// realtime line chart config
 			if(chartType == 'realtime_linechart'){
-				var dataR = nodemodel.getRandomData();
-			    var dataSpec = [{ data: dataR }];
+
+				var data = [];
+				var now = new Date().getTime();
+				updateInterval = 1000;
+				var totalPoints = 30;
+
+				function GetData() {
+				    data.shift(); //to remove first item of array
+				 
+				    while (data.length < totalPoints) {     
+				        var y = Math.random() * 100;
+				        var temp = [now += updateInterval, y]; //data format [x, y]
+				 
+				        data.push(temp);
+				    }
+				}
+
+			    var dataSpec = [{ data: data }];
 			    var options = {
 			    	series: {
-				        lines: { show: true, lineWidth: 1.2, fill: true},
-				        shadowSize: 1,
-				        point: { show: true, align: "center"}
+				        lines: { show: true, lineWidth: 2, fill: true, color: '#819FF7'},
+				        shadowSize: 1
 				    },
 				    xaxis: {
 				        mode: "time",
-				        tickSize: [10, "second"],
+				        tickSize: [5, "second"],
 				        tickFormatter: function (v, axis) {
 				            var date = new Date(v);
-				            if (date.getSeconds() % 20 == 0) {
+				            if (date.getSeconds() % 5 == 0) {
 				                var hours = date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
 				                var minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
 				                var seconds = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
@@ -43,16 +62,16 @@ define(["performance/nodeModel"], function(nodemodel){
 				    },
 				    yaxis: {
 				        min: 0,
-				        max: 30,
-				        tickSize: 10,
+				        max: 100,
+				        tickSize: 25,
 				        tickFormatter: function (v, axis) {
-				            if (v % 10 == 0) {
+				            if (v % 25 == 0) {
 				                return v + "";
 				            } else {
 				                return "";
 				            }
 				        },
-				        axisLabel: "Number of Bearers",
+				        //axisLabel: "Number of Bearers",
 				        axisLabelUseCanvas: true,
 				        axisLabelFontSizePixels: 12,
 				        axisLabelFontFamily: 'ericssonFont',
@@ -60,56 +79,23 @@ define(["performance/nodeModel"], function(nodemodel){
 				    },
 				    grid: {
 				    	clickable: true,
-				    	hoverable: true
+				    	hoverable: true,
+				    	borderWidth: {top: 1, right: 1, bottom: 1, left: 1},
+    					borderColor: {top: "#D8D8D8", left: "#D8D8D8"}
 				    },
-				    colors: ['#000000']
+				    colors: ['#A9BCF5']
 			    };
 
-			    var plot = $.plot(placeholder, dataSpec, options);
+
+			    GetData();
+			    $.plot($("#"+container), dataSpec, options);
 
 			    function update(){
-			    	plot.setData([nodemodel.getRandomData()]);
-			    	plot.setupGrid();
-			    	plot.draw();
+			    	GetData();
+					$.plot(placeholder, dataSpec, options)
 					setTimeout(update, updateInterval);
-
 			    }
 			    update();
-
-				//tooltips
-				placeholder.bind("plothover", function (event, pos, item) {
-					var previousPoint = 0;
-                    if (item) {
-                        if (previousPoint != item.dataIndex) {
-
-                            previousPoint = item.dataIndex;
-
-                            $("#tooltip").remove();
-                            var x = item.datapoint[0].toFixed(2),
-                            y = item.datapoint[1].toFixed(0); // decimals
-
-                            showTooltip(item.pageX, item.pageY, "" + y);
-                        }
-                    } else {
-                        $("#tooltip").remove();
-                        previousPoint = null;            
-                    }
-                });
-
-				function showTooltip(x, y, contents) {
-                    $("<div id='tooltip'>" + contents + "</div>").css({
-                        position: "absolute",
-                        display: "none",
-                        top: y - 20,
-                        left: x + 10,
-                        border: "0px solid #fdd",
-                        "border-radius": "2px",
-                        padding: "2px 10px 2px 10px",
-                        color: "#fff",
-                        "background-color": "#000000", //#fee
-                        opacity: 0.80
-                    }).appendTo("body").fadeIn(100);
-                }
 			}
 
 			//////////////////////////////
@@ -154,7 +140,7 @@ define(["performance/nodeModel"], function(nodemodel){
 
 				var detailOptions = {            
 		            series: {
-		                lines: { show: true, lineWidth: 3 },
+		                lines: { show: true, lineWidth: 2 },
 		                shadowSize: 0
 		            },
 		            grid: {
@@ -162,6 +148,8 @@ define(["performance/nodeModel"], function(nodemodel){
 				    	clickable: true,
 				    	hoverable: true,
 				    	borderWidth: 2,
+				    	wborderWidth: {top: 1, right: 1, bottom: 1, left: 1},
+    					borderColor: {top: "#D8D8D8", left: "#D8D8D8"}
 				    },
 		            yaxis:{
 		            },
@@ -186,6 +174,8 @@ define(["performance/nodeModel"], function(nodemodel){
 				    	margin: 5,
 				    	clickable: true,
 				    	hoverable: true,
+				    	borderWidth: {top: 1, right: 1, bottom: 1, left: 1},
+    					borderColor: {top: "#D8D8D8", left: "#D8D8D8"}
 		            },
 		            yaxis:{
 		            	show: false
@@ -222,27 +212,44 @@ define(["performance/nodeModel"], function(nodemodel){
 				$(".chart-position-master").bind("plotselected", function (event, ranges) {
          			plotDetail.setSelection(ranges);
     			});
-
-			    // placeholder.bind("plotselected", function (event, ranges) {
-       //  			plotDetail.setSelection(ranges);
-    			// });
-
-
-
-
-			    // placeholder.bind("plotselected", function (event, ranges) {        
-			    //     plotDetail = $.plot(placeholder, dataDetail,
-			    //                   $.extend(true, {}, detailOptions, {
-			    //                       xaxis: { min: ranges.xaxis.from, max: ranges.xaxis.to }
-			    //                   }));
-
-			    //     plotMaster.setSelection(ranges, true);
-			    // });
-				
-			    // placeholder.bind("plotselected", function (event, ranges) {
-       //  			plotDetail.setSelection(ranges);
-    			// });
 			}
+
+			//////////////
+			// tooltips //
+			//////////////
+			placeholder.bind("plothover", function (event, pos, item) {
+				var previousPoint = 0;
+                if (item) {
+                    if (previousPoint != item.dataIndex) {
+
+                        previousPoint = item.dataIndex;
+
+                        $("#tooltip").remove();
+                        var x = item.datapoint[0].toFixed(2),
+                        y = item.datapoint[1].toFixed(0); // decimals
+
+                        showTooltip(item.pageX, item.pageY, "" + y);
+                    }
+                } else {
+                    $("#tooltip").remove();
+                    previousPoint = null;            
+                }
+            });
+
+			function showTooltip(x, y, contents) {
+                $("<div id='tooltip'>" + contents + "</div>").css({
+                    position: "absolute",
+                    display: "none",
+                    top: y - 20,
+                    left: x + 10,
+                    border: "0px solid #fdd",
+                    "border-radius": "2px",
+                    padding: "2px 10px 2px 10px",
+                    color: "#fff",
+                    "background-color": "#000000", //#fee
+                    opacity: 0.80
+                }).appendTo("body").fadeIn(100);
+            }
 
 
 		// end of init

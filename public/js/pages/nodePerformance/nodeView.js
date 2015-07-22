@@ -1,12 +1,17 @@
 /**
  * PDC Performance view
- * 
+ * Author: Nattapon Thathong
  */
 define(["node_modules/d3/d3.js", 
 	"performance/nodeChart",
-	"node_modules/eventbus/eventbus.js"],function (d3, nodechart, eventbus) {
+	"node_modules/eventbus/eventbus.js",
+	"/public/plugins/gridColumnCarousel/GridColumnCarousel.js"],function (d3, nodechart, eventbus, gcarousel) {
 	return{
-		//Widget properties
+
+		properties: {
+			type: '',
+			dataset: ''
+		},
 
 		init: function(container, type, title, dataset, chartType){
 			console.log('init nodeView for --> ' + title);
@@ -14,6 +19,7 @@ define(["node_modules/d3/d3.js",
 			//////////////
 			// Carousel //
 			//////////////
+
 			var location = d3.select('#' + container);
 
 			var cell = location.append('li')
@@ -38,13 +44,15 @@ define(["node_modules/d3/d3.js",
 				.style('background-color', '#FAFAFA')
 				 .attr('display', 'inline');
 
-			this.createPlaceholder(box_body, title);
+			var chart_placeholder = box_body.append('div')
+				.attr('id', 'chart-container-' +title)
+				.attr('class', 'chart-position');
 
-			nodechart.init('chart-container-' +title, chartType);
+				this.initCarousel();
 
-			/////////////
-			// onclick //
-			/////////////
+			/////////////////
+			// details box //
+			/////////////////
 			var seeDetails = function(){
    				var ok = true;
    				//check if details-box exists
@@ -65,51 +73,112 @@ define(["node_modules/d3/d3.js",
 
 					var dbox_body = dbox.append('div').attr('class', 'dbox-body');
 
-					var dbox_body2 = dbox.append('div').attr('class', 'dbox-body2');
+					var dbox_body_master = dbox.append('div').attr('class', 'dbox-body-master');
 
       				var dbox_position =  dbox_body.append('div')
 						.attr('id', 'id-d-d-'+dataset).attr('class', 'chart-position-details');
 
-					var dbox_position_master =  dbox_body2.append('div')
+					var dbox_position_master =  dbox_body_master.append('div')
 						.attr('id', 'id-d-m-'+dataset).attr('class', 'chart-position-master');
    				}
    				detailsChart(dataset);
+
 			}
 			document.getElementById('cbox-'+dataset).addEventListener('click',seeDetails);
-			
-			// draw details chart
+      
+  			/////////////////
+			// draw charts //
+			/////////////////
+
+			// draw real-time charts		
+      		nodechart.init('chart-container-' +title, chartType);
+
+      		// draw details charts
 			function detailsChart(dataset){
 				nodechart.init('id-d-d-'+dataset, 'timechart', 'id-d-m-'+dataset);
 			}
-
-
-			//carousel options
-			var options = {
-	          elem: document.getElementsByClassName('realtime-performance')[0],
-	          gridColClasses: 'col-sm-12 col-md-6 col-xs-12',
-	          throttleDelay: 10,
-	          //autoplay: true
-	        };
-	        var gCCarousel = new GCCarousel(options);
 
 	        // resize
 			eventbus.addListener('resize', function(){
 				this.resize(); 
 			}.bind(this));
-      
+
+			// fullscreen
+			eventbus.addListener('fullscreen', function(){
+				this.fullscreen(type, dataset, title, chartType); 
+			}.bind(this));
 			// end of init //
 		},
 
-		createPlaceholder: function(placeholder, title){
-			//console.log('nodeview_createPlaceholder for --> '+title);
-			var chartContainer = placeholder.append('div')
-			.attr('id', 'chart-container-' +title).attr('class', 'chart-position');
+		initCarousel: function(){
+			var carouselOptions = {
+	          elem: document.getElementsByClassName('realtime-performance')[0],
+	          gridColClasses: 'col-sm-12 col-md-6 col-xs-12',
+	          //throttleDelay: 10,
+	          //autoplay: true,
+	          // autoplayDelay: 5000
+	        };
+	        var gCCarousel = new GCCarousel(carouselOptions);
 		},
 
-		// resize: function(){
-		// 	console.log('resize');
-		//  $("#carousel-cells").css('width', $(".col-md-12").width()); 
-		// },
+
+		fullscreen: function(type, dataset, title, chartType){
+
+			gCCarousel.remove();
+			document.getElementById('test').style.display = 'none';
+
+			$("#details-container").remove();
+			document.body.className = 'skin-blue sidebar-mini sidebar-collapse';
+
+			var fLocation = d3.select(".row")
+				.append('div').attr('class', 'col-sm-12 col-md-6 col-xs-6');
+
+			var fBox = fLocation.append('div')
+				.attr('class', 'box box-' + type)
+				.attr('id', 'cbox-'+ dataset);
+
+			var fBox_header = fBox.append('div')
+				.attr('class', 'box-header with-border');
+
+			var fBox_header_title = fBox_header.append('h3')
+				.attr('class', 'box-title')
+				.text(title);
+
+			var fBox_body = fBox.append('div')
+				.attr('class', 'box-body')
+				.attr('id', 'box-body-' + dataset)
+				.style('background-color', '#FAFAFA')
+				 .attr('display', 'inline');
+
+			var fChart_placeholder = fBox_body.append('div')
+				.attr('id', 'chart-container-f-' +title)
+				.attr('class', 'chart-position');
+
+			nodechart.init('chart-container-f-' +title, chartType);
+
+		},
+
+
+		resize: function(){
+			//console.log('resize');
+			//this.initCarousel();
+			//d3.select('#ref').remove();
+			var getWidth = document.getElementById("ref").offsetWidth;
+			var elem = document.getElementsByClassName('realtime-performance')[0];
+   			var listElem = elem.getElementsByClassName('grid-column-carousel__list')[0];
+         	var colItems = listElem.getElementsByTagName('li');
+         	//console.log(getWidth);
+        	for(var i = 0; i < colItems.length; i++) {
+        	 	colItems[i].style.width = getWidth + 'px';
+        	 }
+        	 // $('#carousel-item').css('-webkit-transform', 'translateX(-1299px)')
+        	 // .css('transform','translateX(-1299px)');
+        	// var slideWidth = document.getElementById("test").offsetWidth;
+        	// pagesCount = Math.ceil(colItems.length / (slideWidth / getWidth));
+        	// console.log('' + slideWidth + ', ' + pagesCount);
+
+
+		}
 	}
 
 });

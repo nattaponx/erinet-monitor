@@ -62,6 +62,7 @@
         refElem.classList.add(gridColClasses[i]);  
       }
       refElem.classList.add('grid-column-carousel__ref');
+      refElem.id = 'ref';
       elem.appendChild(refElem);
       
       initializeSize();

@@ -27,6 +27,10 @@ router.get('/performance', function(req, res, next) {
   res.sendFile(path.join(__dirname, '../views', 'performance.html'));
 });
 
+router.get('/performance-full', function(req, res, next) {
+  res.sendFile(path.join(__dirname, '../views', 'performance-full.html'));
+});
+
 router.get('/dashboard', function(req, res, next) {
   res.sendFile(path.join(__dirname, '../views', 'dashboard.html'));
 });

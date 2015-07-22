@@ -20,11 +20,11 @@
     <link href="/public/plugins/gridColumnCarousel/main.css" rel="stylesheet" type="text/css" />
     <link href="/public/plugins/gridColumnCarousel/GridColumnCarousel.scss" rel="stylesheet" type="text/css" />
     <!-- Dashboard CSS  -->
-    <link href="/public/css/performance.css" rel="stylesheet" type="text/css" />
+    <link href="/public/css/performance-full.css" rel="stylesheet" type="text/css" />
 
   </head>
  
-  <body class="skin-blue sidebar-mini">
+  <body class="skin-blue sidebar-mini sidebar-collapse">
     <div class="wrapper">
  
  
@@ -168,32 +168,8 @@
 
         <!-- Main content -->
         <section class="content">
-          <div class="dashboard-content-container">
-            <div class="row">
-              <div class="col-xs-12" id="test">
-                <!-- carousel -->
-                <div class="grid-column-carousel row realtime-performance">
-                  <ul class="grid-column-carousel__list" id="carousel-item">
-                    <!-- generated -->
-                  </ul>
-                  <div class="grid-column-carousel__page-indicators">
-                    <ul>
-                        <li class="dot active"></li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
 
-            <!-- detail-box -->
-             <div class="row">
-                <div class="col-xs-12">
-                  <div id='details-container' class="details-custom">
-                    <!-- will be generated -->
-                  </div>
-                </div>
-            </div>
-          </div>
+           
         </section><!-- /.content -->
 
 
@@ -288,7 +264,7 @@
     <script src='/public/plugins/justgage-master/justgage.js'></script>
     <script src='/public/plugins/raphael/raphael-min.js'></script>
     <!-- Performance css -->
-    <script data-main="/public/js/pages/performance.js" src="/node_modules/requirejs/require.js">
+    <script data-main="/public/js/pages/performance-full.js" src="/node_modules/requirejs/require.js">
     </script>
 
 </script>
