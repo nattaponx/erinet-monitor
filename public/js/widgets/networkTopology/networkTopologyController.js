@@ -16,11 +16,11 @@ define(["node_modules/d3/d3.js", "topology/networkTopologyModel",
 		 * @param  {String}    title            [title for the widget]
 		 * 
 		 */
-		init: function(parent_container, type, title){
+		init: function(parent_container, type, title, enablePreview){
 			console.log('init Network Topology Widget');
 
 			ntm.init(parent_container, type, title);
-			ntv.init(parent_container, type, title, ntm.getComponents());
+			ntv.init(parent_container, type, title, ntm.getComponents(), enablePreview);
 
 			//ntv.drawComponents(ntm.getComponents());
 

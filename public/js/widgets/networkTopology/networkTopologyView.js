@@ -9,6 +9,10 @@ define(["node_modules/d3/d3.js",
 	
 	return{
 
+		properties: {
+			enablePreview:''
+		},
+
 		containers: {
 			mme_list: [],
 			sapc_list: [],
@@ -26,7 +30,8 @@ define(["node_modules/d3/d3.js",
 		 * @param  {String}    type             [type of the box]
 		 * @param  {String}    title            [title for the widget]
 		 */
-		init: function (parent_container, type, title, components) {
+		init: function (parent_container, type, title, components, enablePreview) {
+			this.properties.enablePreview = enablePreview;
 
 			var box = d3.select('#' + parent_container)
 				.append('div')
@@ -220,10 +225,10 @@ define(["node_modules/d3/d3.js",
 		},
 
 		displayPreviewBox: function(parent, component) {
-
-			previewBox.remove();
-
-			previewBox.init('content-container', component);
+			if(this.properties.enablePreview){
+				previewBox.remove();
+				previewBox.init('content-container', component);
+			}
 		}
 	}
 });

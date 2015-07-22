@@ -14,7 +14,7 @@ require.config({
 require(["topology/networkTopologyController", "node_modules/eventbus/eventbus.js", "node_modules/d3/d3.js"], 
 	function (ntc, eventbus, d3) {
 	
-	ntc.init('content-container', 'primary', 'Erinet');
+	ntc.init('content-container', 'primary', 'Erinet', true);
 
 	//var interval = setInterval(function(){ update() }, 5000);
 	resize()

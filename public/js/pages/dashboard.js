@@ -255,7 +255,7 @@ require([ 'node_modules/d3/d3.js',
 
 		switch(container.widget){
 			case 'Topology':
-				ntc.init('dashboard-container-' + container.id, 'primary', 'Erinet');
+				ntc.init('dashboard-container-' + container.id, 'primary', 'Erinet', false);
 				break;
 
 			case 'Network Performance':
