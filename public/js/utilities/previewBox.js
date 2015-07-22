@@ -20,7 +20,7 @@ define(['node_modules/d3/d3.js',
 
 			eventbus.addListener('resize', function() {
 				resize(this.properties.parent);
-			});
+			}.bind(this));
 
 			this.createBox(parent);
 		},
@@ -47,7 +47,7 @@ define(['node_modules/d3/d3.js',
 			//Append Details Button
 			box_header.append('button')
 				.attr('id', 'pb-detailBtn')
-				.attr('class', 'btn btn-primary')
+				.attr('class', 'btn btn-primary btn-xs')
 				.text('Details')
 				.on('click', function(){
 					console.log('Details clicked');
