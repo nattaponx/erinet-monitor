@@ -6,7 +6,8 @@ require.config({
     baseUrl: "/public/js",
     paths: {
         "widgets"  : "/public/js/widgets",
-        "topology" : "/public/js/widgets/networkTopology"
+        "topology" : "/public/js/widgets/networkTopology",
+        "utilities": "/public/js/utilities"
     },
  });
 

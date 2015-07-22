@@ -2,7 +2,11 @@
  * Network Topology View
  * Author: Victor Larsson (elarvic)
  */
-define(["node_modules/d3/d3.js", "topology/connections", "node_modules/eventbus/eventbus.js"], function (d3, connections, eventbus) {
+define(["node_modules/d3/d3.js", 
+	"node_modules/eventbus/eventbus.js",
+	"topology/connections", 
+	"utilities/previewBox"], function (d3, eventbus, connections, previewBox) {
+	
 	return{
 
 		containers: {
@@ -11,7 +15,8 @@ define(["node_modules/d3/d3.js", "topology/connections", "node_modules/eventbus/
 			epg_list: [],
 			sasn_list: [],
 			dsc_list: [],
-			undefined_list: []
+			undefined_list: [],
+			previewBox_list: []
 		},
 
 		/**
@@ -180,7 +185,8 @@ define(["node_modules/d3/d3.js", "topology/connections", "node_modules/eventbus/
 					.attr('src', component.getActiveImg())
 					.on('click', function(){
                         console.log('clicked ' + component.getName());
-                    })
+                        this.displayPreviewBox('', component);
+                    }.bind(this))
                     .on('mouseover', function(){
                         if(component.getStatus() == 'ACTIVE'){
                         	img.attr('src', component.getHoverImg());
@@ -211,5 +217,10 @@ define(["node_modules/d3/d3.js", "topology/connections", "node_modules/eventbus/
                     });
 			}.bind(this));
 		},
+
+		displayPreviewBox: function(parent, component) {
+
+			previewBox.init('content-container', component);
+		}
 	}
 });
