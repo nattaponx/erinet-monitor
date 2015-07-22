@@ -45,23 +45,63 @@ define(['node_modules/d3/d3.js','public/js/widgets/pdcModule/pdcModel.js','publi
 	}
 
 	function _runColumnsConfig(){
-		d3.select('#parentTableModule').html('');
-		d3.select('#parentTableModule').append('div').attr('class','box box-primary').style('padding','10px 10px 45px 10px')
-		.append('div').attr('class','box-group').append('div').attr('id','tableModule');
 		var tableName = d3.select('#selectTable').node().value;
+
+		d3.select('#parentTableModule').html('');
+		var tableForm = d3.select('#parentTableModule').append('div').attr('class','box box-primary')
+						.style('padding','10px 10px 45px 10px')
+						.append('div').attr('class','box-group').append('div').attr('id','tableModule');
+		var tableHeader = tableForm.append('div').attr('class','row')
+						  .append('div').attr('class','col-xs-12');
+		tableHeader.append('div').attr('class','tablehead').text(tableName);
+
 		model.getColumnsInfo(tableName, function(jsonData){
-			pdcView.renderAdminTable('#tableModule',jsonData.data,['TableName','ColumnName','ColumnReName','Unit','Formula','Format','Visible']);
-			d3.select('#tableModule').append('div').attr('class','row').append('button')
-			.attr('class','btn btn-primary btn-sm tableright')
+			pdcView.renderAdminTable(tableForm,jsonData.data,['ColumnName','ColumnReName','Unit','Formula','Format','Visible']);
+			$('#responsive-admin-table').stacktable({myClass:'responsive-admin-table-small'});
+
+			tableForm.append('div').attr('class','row').append('div').attr('class','col-xs-12').append('button')
+			.attr('class','btn btn-primary btn-sm right submit-large-only')
 			.attr('id','submitTableModule')
 			.text('Save Configurations');
-			d3.select('#submitTableModule').on('click', _saveData);
-		})
+			tableForm.append('div').attr('class','row').append('div').attr('class','col-xs-12').append('button')
+			.attr('class','btn btn-primary btn-sm right submit-small-only')
+			.attr('id','submitTableModule-small')
+			.text('Save Configurations');
+			d3.select('#submitTableModule').on('click', _postHandleLargeView);
+			d3.select('#submitTableModule-small').on('click', _postHandleSmallView);
+
+
+		});
 
 	}
 
-	function _saveData(){
-		console.log('save!');
+	function _postHandleLargeView(){
+		var values = {};
+		$.each($('#responsive-admin-table :input').serializeArray(), function(idx, field) {
+		    values[field.name] = field.value;
+		});
+
+		console.log(values);
+
+		// $.post( "test.php", datasets)
+  // 		.done(function( data ) {
+  //   		alert("done");
+  // 		});
+
+	}
+
+	function _postHandleSmallView(){
+		var values = {};
+		$.each($('#responsive-admin-table-small :input').serializeArray(), function(idx, field) {
+		    values[field.name] = field.value;
+		});
+
+		console.log(values);
+
+		// $.post( "test.php", datasets)
+  // 		.done(function( data ) {
+  //   		alert("done");
+  // 		});
 	}
 
 	function _runGsnName(){

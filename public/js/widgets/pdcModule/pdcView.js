@@ -120,22 +120,24 @@ define(["node_modules/d3/d3.js"], function(d3) {
 
 			var sidebarDiv = d3.select('#pdc-sidebar').append('div').attr('class','content');
 
-			sidebarDiv.append('div').attr('class','box box-primary').style('padding','10px')
+			sidebarDiv.append('div').attr('class','box box-primary').style('padding','10px 10px 0px 10px')
 			.append('div').attr('class','box-group').append('div').attr('class','row')
-			.append('div').attr('class','box from-group').style('width','240px').style('margin-left','10px')
+			.append('div').attr('class','box from-group').style('width','240px').style('margin-left','15px')
 			.append('select').attr('class','form-control').attr('id','selectTable');
 			_setPlaceholder('#selectTable','Select Tables');
 
 			sidebarDiv.append('div').attr('id','parentTableModule');
 
 		},
-		renderAdminTable: function(divId, records, columns){
-			var divObj = d3.select(divId);
+
+		renderAdminTable: function(selectedObj, records, columns){
+			var divObj = selectedObj;
 			var table = divObj.append('div').attr('class','row')
 							.append('div').attr('class','col-xs-12')
 							.append('div').attr('class','box')
-							.append('div').attr('class','box-body table-responsive no-padding')
-							.append('table').attr('class','table table-hover');
+							.append('div').attr('class','box-body no-padding')
+							.append('table').attr('class','table table-hover')
+							.attr('id','responsive-admin-table');
 
 			var thead = table.append('thead'),
 				tbody = table.append('tbody');
@@ -152,32 +154,32 @@ define(["node_modules/d3/d3.js"], function(d3) {
 	                return {column: d, value: row[d], id: row['Id']};
 	            });
 	        }).enter().append("td").html(function(d,idx) { 
-	        	if(idx == 2){
+	        	if(idx == 1){
 	        		//ColumnReName
-	        		return "<input type='text' name='' value='" + d.value + "' placeholder='" + d.column + "'>";
+	        		return "<input type='text' name='data["+ d.id +"][ColumnReName]' value='" + d.value + "' placeholder='" + d.column + "'>";
+	        	}
+	        	else if(idx == 2){
+	        		//Unit
+	        		return "<input type='text' name='data["+ d.id +"][Unit]' value='" + d.value + "' placeholder='" + d.column + "' size='8'>";
+
 	        	}
 	        	else if(idx == 3){
-	        		//Unit
-	        		return "<input type='text' name='' value='" + d.value + "' placeholder='" + d.column + "' size='8'>";
+	        		//Formula
+	        		return "<input type='text' name='data["+ d.id +"][Formula]' value='" + d.value + "' placeholder='" + d.column + "' size='8'>";
 
 	        	}
 	        	else if(idx == 4){
-	        		//Formula
-	        		return "<input type='text' name='' value='" + d.value + "' placeholder='" + d.column + "' size='8'>";
+	        		//Format
+	        		return "<input type='text' name='data["+ d.id +"][Format]' value='" + d.value + "' placeholder='" + d.column + "' size='8'>";
 
 	        	}
 	        	else if(idx == 5){
-	        		//Format
-	        		return "<input type='text' name='' value='" + d.value + "' placeholder='" + d.column + "' size='8'>";
-
-	        	}
-	        	else if(idx == 6){
 	        		//Visible
 	        		if(d.value){
-	        			return "<input type='checkbox' name='' value='1' checked>";
+	        			return "<input type='checkbox' name='data["+ d.id +"][Visible]' value='1' checked>";
 	        		}
 	        		else{
-	        			return "<input type='checkbox' name='' value='1'>";
+	        			return "<input type='checkbox' name='data["+ d.id +"][Visible]' value='1'>";
 	        		}
 	        	}
 	        	else 
