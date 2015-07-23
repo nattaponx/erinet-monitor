@@ -18,6 +18,7 @@ define(function(){
 		            o[fieldName] = this.value || '';
 		        }
 		    });
+		    console.log(o);
 
 			$.get(this._baseAPIUrl + 'updatecolumnsinfo', 
 			{dataSet: JSON.stringify(o)})

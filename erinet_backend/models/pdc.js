@@ -1,3 +1,38 @@
+exports.updateColumnsInfo = function(dataSet, callback) {
+    var connection = require('./lib/connection.js');
+    var sql = "UPDATE pdccolumnsinfo SET ColumnReName = CASE Id ";
+    dataSet['ColumnReName'].forEach(function(d, idx){
+    	sql += "WHEN '"+ dataSet['Id'][idx] +"' THEN '"+ d +"' ";
+    });
+    sql += "END, Unit = CASE Id ";
+    dataSet['Unit'].forEach(function(d, idx){
+    	sql += "WHEN '"+ dataSet['Id'][idx] +"' THEN '"+ d +"' ";
+    });
+    sql += "END, Formula = CASE Id ";
+    dataSet['Formula'].forEach(function(d, idx){
+    	sql += "WHEN '"+ dataSet['Id'][idx] +"' THEN '"+ d +"' ";
+    });
+    sql += "END, Format = CASE Id ";
+    dataSet['Format'].forEach(function(d, idx){
+    	sql += "WHEN '"+ dataSet['Id'][idx] +"' THEN '"+ d +"' ";
+    });
+    sql += "END, Visible = CASE Id ";
+    dataSet['Visible'].forEach(function(d, idx){
+    	sql += "WHEN '"+ dataSet['Id'][idx] +"' THEN '"+ d +"' ";
+    });
+    sql += "END WHERE Id IN ("+ dataSet['Id'].join() +")";
+
+    console.log(sql);
+    connection.connectMysql(sql, function(jsonData){
+    	if(jsonData.affectedRows){
+    		//Success
+    		callback({'data':jsonData});
+    	}
+    	else
+    		callback({'error':jsonData});
+    });
+}
+
 exports.fetchColumnsInfo = function(tableName, callback) {
     var connection = require('./lib/connection.js');
     var sql = "SELECT * FROM pdccolumnsinfo" +

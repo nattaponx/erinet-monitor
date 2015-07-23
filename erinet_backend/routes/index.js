@@ -97,14 +97,18 @@ router.get('/pdc/:function_id', function(req, res) {
   var nodeIds = req.param('nodeId');
   var tableName = req.param('tableName');
   var dataSet = req.param('dataSet');
-  console.log(dataSet);
-  if(dataSet){
-    var parsed = JSON.parse(dataSet);
-    console.log(parsed);
-  }
+
 
 
 	switch(fid){
+    case 'updatecolumnsinfo':
+        if(dataSet){
+          var parsed = JSON.parse(dataSet);
+          pdc_model.updateColumnsInfo(parsed, function(jsonData){
+            res.json(jsonData);
+          });
+        }
+      break;  
     case 'fetchcolumnsinfo':
         pdc_model.fetchColumnsInfo(tableName, function(jsonData){
           res.json(jsonData);

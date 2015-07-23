@@ -78,16 +78,40 @@ define(['node_modules/d3/d3.js','public/js/widgets/pdcModule/pdcModel.js','publi
 
 	function _postHandle(tableId){
    		var serialObj = $(tableId).serializeArray();
-	    model.postColumnsInfo(serialObj, function(jsonData){
-			d3.select('#parentTableModule').html('');
-			d3.select('#selectTable :first-child').attr({'disabled':'','selected':''});
-			$('.control-sidebar').removeClass('control-sidebar-open');
-			pdcView.renderModalView('#pdc-container', 'admin_modal', 'Success!!', 'Data has been saved succesfully');
-			$("#admin_modal").modal('show');
-			setTimeout(function(){ 
-				$("#admin_modal").modal('hide');
-				d3.select('#admin_modal').remove();
-			}, 2000);
+   		var trimObj = [];
+   		serialObj.forEach(function(obj, idx){
+   			// filter out for checkbox default value 0
+   			if(obj.name == "Visible[]" && obj.value == "1"){
+   				trimObj.pop();
+   				trimObj.push(obj);
+   			}
+   			else{
+   				trimObj.push(obj);
+   			}
+   		});
+	    model.postColumnsInfo(trimObj, function(jsonData){
+	    	if(jsonData.data){
+				// Success
+				d3.select('#parentTableModule').html('');
+				d3.select('#selectTable :first-child').attr({'disabled':'','selected':''});
+				$('.control-sidebar').removeClass('control-sidebar-open');
+				pdcView.renderModalView('#pdc-container', 'admin_modal', 'Success!!','text-green', 'Data has been saved succesfully');
+				$("#admin_modal").modal('show');
+				setTimeout(function(){ 
+					$("#admin_modal").modal('hide');
+					d3.select('#admin_modal').remove();
+				}, 2000);
+	    	}
+	    	else {
+	    		// Failed
+				pdcView.renderModalView('#pdc-container', 'admin_modal', 'Failed!!','text-red', 'Server busy please try again!');
+				$("#admin_modal").modal('show');
+				setTimeout(function(){ 
+					$("#admin_modal").modal('hide');
+					d3.select('#admin_modal').remove();
+				}, 2000);
+	    	}
+
 
 		});
 

@@ -174,12 +174,14 @@ define(["node_modules/d3/d3.js"], function(d3) {
 
 	        	}
 	        	else if(idx == 5){
+	        		// Checkbox trick to make unchecked box always 0
+	        		var checkbox ="<input type='hidden' name='Visible[]' value='0'>";
 	        		//Visible
 	        		if(d.value){
-	        			return "<input type='checkbox' name='Visible[]' value='1' checked>";
+	        			return checkbox + "<input type='checkbox' name='Visible[]' value='1' checked>";
 	        		}
 	        		else{
-	        			return "<input type='checkbox' name='Visible[]' value='1'>";
+	        			return checkbox + "<input type='checkbox' name='Visible[]' value='1'>";
 	        		}
 	        	}
 	        	else{
@@ -193,7 +195,7 @@ define(["node_modules/d3/d3.js"], function(d3) {
 		    });
 		},
 
-		renderModalView: function(parent_container, modal_Id, title, body){
+		renderModalView: function(parent_container, modal_Id, title, title_color, body){
 			var container = d3.select(parent_container);
 			var modal_content = container.append('div').attr('id', modal_Id).attr('class','modal fade')
 								.append('div').attr('class','modal-dialog')
@@ -201,7 +203,7 @@ define(["node_modules/d3/d3.js"], function(d3) {
 			var modal_header = modal_content.append('div').attr('class','modal-header');	
 			modal_header.append('button').attr('class','close').attr('data-dismiss',',modal')
 			.attr('aria-hidden','true').html('&times;');
-			modal_header.append('h4').attr('class','modal-title').text(title);			 	  
+			modal_header.append('h4').attr('class','modal-title '+title_color).text(title);			 	  
 			modal_content.append('div').attr('class','modal-body').append('p').text(body);
 
 		}
