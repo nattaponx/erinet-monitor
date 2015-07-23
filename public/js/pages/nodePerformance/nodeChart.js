@@ -7,7 +7,7 @@ define(["performance/nodeModel"], function(nodemodel){
 	return{
 
 		init: function(container, chartType, master){
-			console.log('init nodeChart >>' + container);
+			//console.log('init nodeChart >>' + container);
 
 			var placeholder = $("#"+container);
 			// for time series charts

@@ -31,15 +31,13 @@ require(['performance/nodeView',
 	});
 
 	d3.select('#fullscreen-btn').on('click', function(){
-		setTimeout(function() {
 			eventbus.fire('fullscreen');
-		},10);
 	});
 
 	pdccontroller.init('carousel-item', 'primary', 'Bearers', 'data_bearers', 'realtime_linechart');
 	pdccontroller.init('carousel-item', 'primary', 'CPU Loads', 'data_cpuloads', 'realtime_gaugechart');
 	pdccontroller.init('carousel-item', 'primary', 'Packets', 'data_packets', 'realtime_linechart');
-	//pdccontroller.init('carousel-item', 'primary', 'Throughput', 'data_throughput', 'realtime_linechart');
+	pdccontroller.init('carousel-item', 'primary', 'Throughput', 'data_throughput', 'realtime_linechart');
 
 
 });

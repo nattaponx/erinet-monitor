@@ -9,46 +9,17 @@ define(["node_modules/d3/d3.js",
 	return{
 
 		properties: {
-			type: '',
-			dataset: ''
+			//type: '',
+			//dataset: [],
+			//container: []
 		},
 
 		init: function(container, type, title, dataset, chartType){
 			console.log('init nodeView for --> ' + title);
-			
-			//////////////
-			// Carousel //
-			//////////////
 
-			var location = d3.select('#' + container);
+			//this.properties.container.push(container);
 
-			var cell = location.append('li')
-				.attr('class', 'col-sm-12 col-md-6 col-xs-12')
-				.attr('id', 'carousel-cells');
-
-			var box = cell.append('div')
-				.attr('class', 'box box-' + type)
-				.attr('id', 'cbox-'+ dataset)
-				.append('a').attr('href', '#');
-
-			var box_header = box.append('div')
-				.attr('class', 'box-header with-border');
-
-			var box_header_title = box_header.append('h3')
-				.attr('class', 'box-title')
-				.text(title);
-
-			var box_body = box.append('div')
-				.attr('class', 'box-body')
-				.attr('id', 'box-body-' + dataset)
-				.style('background-color', '#FAFAFA')
-				 .attr('display', 'inline');
-
-			var chart_placeholder = box_body.append('div')
-				.attr('id', 'chart-container-' +title)
-				.attr('class', 'chart-position');
-
-				this.initCarousel();
+			this.initCarousel(container, type, title, dataset, chartType);
 
 			/////////////////
 			// details box //
@@ -107,10 +78,41 @@ define(["node_modules/d3/d3.js",
 			eventbus.addListener('fullscreen', function(){
 				this.fullscreen(type, dataset, title, chartType); 
 			}.bind(this));
+
 			// end of init //
 		},
 
-		initCarousel: function(){
+
+		initCarousel: function(container, type, title, dataset, chartType){
+
+			var location = d3.select('#' + container);
+
+			var cell = location.append('li')
+				.attr('class', 'col-sm-12 col-md-6 col-xs-12')
+				.attr('id', 'carousel-cells');
+
+			var box = cell.append('div')
+				.attr('class', 'box box-' + type)
+				.attr('id', 'cbox-'+ dataset)
+				.append('a').attr('href', '#');
+
+			var box_header = box.append('div')
+				.attr('class', 'box-header with-border');
+
+			var box_header_title = box_header.append('h3')
+				.attr('class', 'box-title')
+				.text(title);
+
+			var box_body = box.append('div')
+				.attr('class', 'box-body')
+				.attr('id', 'box-body-' + dataset)
+				.style('background-color', '#FAFAFA')
+				 .attr('display', 'inline');
+
+			var chart_placeholder = box_body.append('div')
+				.attr('id', 'chart-container-' +title)
+				.attr('class', 'chart-position');
+
 			var carouselOptions = {
 	          elem: document.getElementsByClassName('realtime-performance')[0],
 	          gridColClasses: 'col-sm-12 col-md-6 col-xs-12',
@@ -124,38 +126,36 @@ define(["node_modules/d3/d3.js",
 
 		fullscreen: function(type, dataset, title, chartType){
 
-			gCCarousel.remove();
-			document.getElementById('test').style.display = 'none';
+			console.log(type + ', ' + dataset + ', ' + title + ', ' + chartType);
+			d3.select("#dashboard").html('');
 
-			$("#details-container").remove();
-			document.body.className = 'skin-blue sidebar-mini sidebar-collapse';
+			d3.select(".dashboard-content-container").attr("id", "dashboard-1");
 
-			var fLocation = d3.select(".row")
-				.append('div').attr('class', 'col-sm-12 col-md-6 col-xs-6');
+			var containerDiv = d3.select('#dashboard-1')
+				.append('div').attr('class', 'f-grid');
 
-			var fBox = fLocation.append('div')
+			var box = containerDiv.append('div')
 				.attr('class', 'box box-' + type)
 				.attr('id', 'cbox-'+ dataset);
 
-			var fBox_header = fBox.append('div')
+			var box_header = box.append('div')
 				.attr('class', 'box-header with-border');
 
-			var fBox_header_title = fBox_header.append('h3')
+			var box_header_title = box_header.append('h3')
 				.attr('class', 'box-title')
 				.text(title);
 
-			var fBox_body = fBox.append('div')
+			var box_body = box.append('div')
 				.attr('class', 'box-body')
 				.attr('id', 'box-body-' + dataset)
 				.style('background-color', '#FAFAFA')
 				 .attr('display', 'inline');
 
-			var fChart_placeholder = fBox_body.append('div')
-				.attr('id', 'chart-container-f-' +title)
+			var bhart_placeholder = box_body.append('div')
+				.attr('id', 'chart-container-' +title)
 				.attr('class', 'chart-position');
-
-			nodechart.init('chart-container-f-' +title, chartType);
-
+			
+			nodechart.init('chart-container-' +title, chartType);
 		},
 
 
