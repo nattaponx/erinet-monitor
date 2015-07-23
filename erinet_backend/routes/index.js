@@ -99,7 +99,8 @@ router.get('/pdc/:function_id', function(req, res) {
   var dataSet = req.param('dataSet');
   console.log(dataSet);
   if(dataSet){
-    var items = dataSet.data;
+    var parsed = JSON.parse(dataSet);
+    console.log(parsed);
   }
 
 

@@ -9,7 +9,6 @@ define(['node_modules/d3/d3.js','public/js/widgets/pdcModule/pdcModel.js','publi
 			_runGsnName();
 			_setAdminControl();
 
-
 		}
 
 	}
@@ -32,7 +31,7 @@ define(['node_modules/d3/d3.js','public/js/widgets/pdcModule/pdcModel.js','publi
 				d3.select('#pdc-sidebar-btn').html('');
 			}
 			else{
-				pdcView.renderAdminModule();
+				pdcView.renderAdminModule('#pdc-sidebar');
 				_runAdminController();
 			}
 		});
@@ -67,35 +66,30 @@ define(['node_modules/d3/d3.js','public/js/widgets/pdcModule/pdcModel.js','publi
 			.attr('class','btn btn-primary btn-sm right submit-small-only')
 			.attr('id','submitTableModule-small')
 			.text('Save Configurations');
-			d3.select('#submitTableModule').on('click', _postHandleLargeView);
-			d3.select('#submitTableModule-small').on('click', _postHandleSmallView);
+			d3.select('#submitTableModule')
+			.on('click', function() {  _postHandle('#responsive-admin-table :input'); });
+			d3.select('#submitTableModule-small')
+			.on('click', function() {  _postHandle('#responsive-admin-table-small :input'); });
 
 
 		});
 
 	}
 
-	function _postHandleLargeView(){
-		var values = {};
-		$.each($('#responsive-admin-table :input').serializeArray(), function(idx, field) {
-		    values[field.name] = field.value;
+	function _postHandle(tableId){
+   		var serialObj = $(tableId).serializeArray();
+	    model.postColumnsInfo(serialObj, function(jsonData){
+			d3.select('#parentTableModule').html('');
+			d3.select('#selectTable :first-child').attr({'disabled':'','selected':''});
+			$('.control-sidebar').removeClass('control-sidebar-open');
+			pdcView.renderModalView('#pdc-container', 'admin_modal', 'Success!!', 'Data has been saved succesfully');
+			$("#admin_modal").modal('show');
+			setTimeout(function(){ 
+				$("#admin_modal").modal('hide');
+				d3.select('#admin_modal').remove();
+			}, 2000);
+
 		});
-		// var values = $("#responsive-admin-table :input" ).serialize()
-
-		$.getJSON('http://localhost:8080/api/pdc/something', {dataSet: values})
-  		.done(function( data ) {
-    		alert("done");
-  		});
-
-	}
-
-	function _postHandleSmallView(){
-		var values = {};
-		$.each($('#responsive-admin-table-small :input').serializeArray(), function(idx, field) {
-		    values[field.name] = field.value;
-		});
-
-		console.log(values);
 
 	}
 

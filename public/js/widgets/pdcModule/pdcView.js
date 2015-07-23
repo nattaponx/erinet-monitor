@@ -113,12 +113,12 @@ define(["node_modules/d3/d3.js"], function(d3) {
 
 		},
 
-		renderAdminModule: function(){
+		renderAdminModule: function(parent_container){
 			////// Admin control sidebar ////////
-			d3.select('#pdc-sidebar').append('section').attr('class','content-header')
+			d3.select(parent_container).append('section').attr('class','content-header')
 			.append('h1').text('PDC Admin Panel');
 
-			var sidebarDiv = d3.select('#pdc-sidebar').append('div').attr('class','content');
+			var sidebarDiv = d3.select(parent_container).append('div').attr('class','content');
 
 			sidebarDiv.append('div').attr('class','box box-primary').style('padding','10px 10px 0px 10px')
 			.append('div').attr('class','box-group').append('div').attr('class','row')
@@ -156,34 +156,34 @@ define(["node_modules/d3/d3.js"], function(d3) {
 	        }).enter().append("td").html(function(d,idx) { 
 	        	if(idx == 1){
 	        		//ColumnReName
-	        		return "<input type='text' name='data["+ d.id +"][ColumnReName]' value='" + d.value + "' placeholder='" + d.column + "'>";
+	        		return "<input type='text' name='ColumnReName[]' value='" + d.value + "' placeholder='" + d.column + "'>";
 	        	}
 	        	else if(idx == 2){
 	        		//Unit
-	        		return "<input type='text' name='data["+ d.id +"][Unit]' value='" + d.value + "' placeholder='" + d.column + "' size='8'>";
+	        		return "<input type='text' name='Unit[]' value='" + d.value + "' placeholder='" + d.column + "' size='8'>";
 
 	        	}
 	        	else if(idx == 3){
 	        		//Formula
-	        		return "<input type='text' name='data["+ d.id +"][Formula]' value='" + d.value + "' placeholder='" + d.column + "' size='8'>";
+	        		return "<input type='text' name='Formula[]' value='" + d.value + "' placeholder='" + d.column + "' size='8'>";
 
 	        	}
 	        	else if(idx == 4){
 	        		//Format
-	        		return "<input type='text' name='data["+ d.id +"][Format]' value='" + d.value + "' placeholder='" + d.column + "' size='8'>";
+	        		return "<input type='text' name='Format[]' value='" + d.value + "' placeholder='" + d.column + "' size='8'>";
 
 	        	}
 	        	else if(idx == 5){
 	        		//Visible
 	        		if(d.value){
-	        			return "<input type='checkbox' name='data["+ d.id +"][Visible]' value='1' checked>";
+	        			return "<input type='checkbox' name='Visible[]' value='1' checked>";
 	        		}
 	        		else{
-	        			return "<input type='checkbox' name='data["+ d.id +"][Visible]' value='1'>";
+	        			return "<input type='checkbox' name='Visible[]' value='1'>";
 	        		}
 	        	}
 	        	else{
-	        		return d.value + "<input type='hidden' name='data["+ d.id +"][Id]' value='"+ d.id +"'>"; 
+	        		return d.value + "<input type='hidden' name='Id[]' value='"+ d.id +"'>"; 
 	        	}
 	        });
 
@@ -191,6 +191,19 @@ define(["node_modules/d3/d3.js"], function(d3) {
 		    .text(function(d) {
 		        return d.charAt(0).toUpperCase() + d.substr(1);
 		    });
+		},
+
+		renderModalView: function(parent_container, modal_Id, title, body){
+			var container = d3.select(parent_container);
+			var modal_content = container.append('div').attr('id', modal_Id).attr('class','modal fade')
+								.append('div').attr('class','modal-dialog')
+							 	.append('div').attr('class','modal-content');
+			var modal_header = modal_content.append('div').attr('class','modal-header');	
+			modal_header.append('button').attr('class','close').attr('data-dismiss',',modal')
+			.attr('aria-hidden','true').html('&times;');
+			modal_header.append('h4').attr('class','modal-title').text(title);			 	  
+			modal_content.append('div').attr('class','modal-body').append('p').text(body);
+
 		}
 
 

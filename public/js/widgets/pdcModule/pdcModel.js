@@ -5,6 +5,26 @@ define(function(){
 		// baseAPIUrl: 'http://localhost/api.php',
 		_baseAPIUrl: 'http://localhost:8080/api/pdc/',
 
+		postColumnsInfo: function(serialObj, callback){
+			var o = {};
+		    $.each(serialObj, function() {
+		    	var fieldName = this.name.slice(0, -2);
+		        if (o[fieldName] !== undefined) {
+		            if (!o[fieldName].push) {
+		                o[fieldName] = [o[fieldName]];
+		            }
+		            o[fieldName].push(this.value || '');
+		        } else {
+		            o[fieldName] = this.value || '';
+		        }
+		    });
+
+			$.get(this._baseAPIUrl + 'updatecolumnsinfo', 
+			{dataSet: JSON.stringify(o)})
+			.done(function(jsonData){
+			    callback(jsonData);
+			});
+		},
 
 		getColumnsInfo: function(tableName, callback){
 			$.get(this._baseAPIUrl + 'fetchcolumnsinfo', 
