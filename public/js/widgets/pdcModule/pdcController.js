@@ -80,13 +80,12 @@ define(['node_modules/d3/d3.js','public/js/widgets/pdcModule/pdcModel.js','publi
 		$.each($('#responsive-admin-table :input').serializeArray(), function(idx, field) {
 		    values[field.name] = field.value;
 		});
+		// var values = $("#responsive-admin-table :input" ).serialize()
 
-		console.log(values);
-
-		// $.post( "test.php", datasets)
-  // 		.done(function( data ) {
-  //   		alert("done");
-  // 		});
+		$.getJSON('http://localhost:8080/api/pdc/something', {dataSet: values})
+  		.done(function( data ) {
+    		alert("done");
+  		});
 
 	}
 
@@ -98,10 +97,6 @@ define(['node_modules/d3/d3.js','public/js/widgets/pdcModule/pdcModel.js','publi
 
 		console.log(values);
 
-		// $.post( "test.php", datasets)
-  // 		.done(function( data ) {
-  //   		alert("done");
-  // 		});
 	}
 
 	function _runGsnName(){

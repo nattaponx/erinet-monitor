@@ -96,6 +96,12 @@ router.get('/pdc/:function_id', function(req, res) {
   var dates = req.param('date');
   var nodeIds = req.param('nodeId');
   var tableName = req.param('tableName');
+  var dataSet = req.param('dataSet');
+  console.log(dataSet);
+  if(dataSet){
+    var items = dataSet.data;
+  }
+
 
 	switch(fid){
     case 'fetchcolumnsinfo':

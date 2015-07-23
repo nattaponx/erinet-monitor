@@ -182,8 +182,9 @@ define(["node_modules/d3/d3.js"], function(d3) {
 	        			return "<input type='checkbox' name='data["+ d.id +"][Visible]' value='1'>";
 	        		}
 	        	}
-	        	else 
-	        		return d.value; 
+	        	else{
+	        		return d.value + "<input type='hidden' name='data["+ d.id +"][Id]' value='"+ d.id +"'>"; 
+	        	}
 	        });
 
 			table.selectAll("thead th")
