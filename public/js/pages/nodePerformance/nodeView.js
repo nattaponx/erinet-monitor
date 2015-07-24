@@ -4,22 +4,15 @@
  */
 define(["node_modules/d3/d3.js", 
 	"performance/nodeChart",
-	"node_modules/eventbus/eventbus.js",
-	"/public/plugins/gridColumnCarousel/GridColumnCarousel.js"],function (d3, nodechart, eventbus, gcarousel) {
+	"node_modules/eventbus/eventbus.js"],function (d3, nodechart, eventbus) {
 	return{
-
-		properties: {
-			//type: '',
-			//dataset: [],
-			//container: []
-		},
 
 		init: function(container, type, title, dataset, chartType){
 			console.log('init nodeView for --> ' + title);
 
-			//this.properties.container.push(container);
+			$('#content-2').hide();
 
-			this.initCarousel(container, type, title, dataset, chartType);
+			this.createCarousel(container, type, title, dataset, chartType);
 
 			/////////////////
 			// details box //
@@ -30,6 +23,7 @@ define(["node_modules/d3/d3.js",
    				if(d3.select('#detail-box')){
    					d3.select("#detail-box").remove();
    				}
+
    				if (ok === true) {
    					var selectObjectDetails = d3.select('#details-container');
 
@@ -52,38 +46,33 @@ define(["node_modules/d3/d3.js",
 					var dbox_position_master =  dbox_body_master.append('div')
 						.attr('id', 'id-d-m-'+dataset).attr('class', 'chart-position-master');
    				}
-   				detailsChart(dataset);
+
+   				createDetailsChart(dataset);
 
 			}
+
 			document.getElementById('cbox-'+dataset).addEventListener('click',seeDetails);
       
-  			/////////////////
-			// draw charts //
-			/////////////////
-
 			// draw real-time charts		
       		nodechart.init('chart-container-' +title, chartType);
 
       		// draw details charts
-			function detailsChart(dataset){
+			function createDetailsChart(dataset){
 				nodechart.init('id-d-d-'+dataset, 'timechart', 'id-d-m-'+dataset);
 			}
 
-	        // resize
-			eventbus.addListener('resize', function(){
-				this.resize(); 
+			// fullscreen mdoe
+			eventbus.addListener('fullscreenMode', function(){
+				this.fullscreenMode(type, dataset, title, chartType); 
 			}.bind(this));
 
-			// fullscreen
-			eventbus.addListener('fullscreen', function(){
-				this.fullscreen(type, dataset, title, chartType); 
-			}.bind(this));
-
-			// end of init //
+			
 		},
+		/////////////////// end of init ///////////////////
 
 
-		initCarousel: function(container, type, title, dataset, chartType){
+
+		createCarousel: function(container, type, title, dataset, chartType){
 
 			var location = d3.select('#' + container);
 
@@ -117,26 +106,35 @@ define(["node_modules/d3/d3.js",
 	          elem: document.getElementsByClassName('realtime-performance')[0],
 	          gridColClasses: 'col-sm-12 col-md-6 col-xs-12',
 	          //throttleDelay: 10,
-	          //autoplay: true,
+	          autoplay: true
 	          // autoplayDelay: 5000
 	        };
 	        var gCCarousel = new GCCarousel(carouselOptions);
+
 		},
+		/////////////////// end of createCarousel ///////////////////
 
+		fullscreenMode: function(type, dataset, title, chartType){
 
-		fullscreen: function(type, dataset, title, chartType){
+			if(this._isFullScreen()){
+				this._cancelFullScreen();
+				document.body.className = 'skin-blue sidebar-mini';
+				this._dashboardExitFull();
+			}else{
+				this._launchFullScreen(document.documentElement);
+				document.body.className = 'skin-blue sidebar-mini sidebar-collapse';
+				this._dashboardFull(type, dataset, title, chartType);
+			}
+		},
+		/////////////////// end of fullscreenMode ///////////////////
 
-			console.log(type + ', ' + dataset + ', ' + title + ', ' + chartType);
-			d3.select("#dashboard").html('');
-
-			d3.select(".dashboard-content-container").attr("id", "dashboard-1");
-
-			var containerDiv = d3.select('#dashboard-1')
-				.append('div').attr('class', 'f-grid');
+		createDashboard: function(type, dataset, title, chartType){
+			var containerDiv = d3.select("#dashboard-c-c-2")
+				.append('div').attr('class', 'col-sm-12 col-md-6 col-xs-6');
 
 			var box = containerDiv.append('div')
 				.attr('class', 'box box-' + type)
-				.attr('id', 'cbox-'+ dataset);
+				.attr('id', 'dbox-'+ dataset);
 
 			var box_header = box.append('div')
 				.attr('class', 'box-header with-border');
@@ -147,38 +145,59 @@ define(["node_modules/d3/d3.js",
 
 			var box_body = box.append('div')
 				.attr('class', 'box-body')
-				.attr('id', 'box-body-' + dataset)
+				.attr('id', 'dbox-body-' + dataset)
 				.style('background-color', '#FAFAFA')
 				 .attr('display', 'inline');
 
 			var bhart_placeholder = box_body.append('div')
-				.attr('id', 'chart-container-' +title)
+				.attr('id', 'd-chart-container-' +title)
 				.attr('class', 'chart-position');
 			
-			nodechart.init('chart-container-' +title, chartType);
+			nodechart.init('d-chart-container-' +title, chartType);
+		},
+		/////////////////// end of createDashboard ///////////////////
+
+		// toggle
+		_dashboardFull: function(type, dataset, title, chartType){
+			$('#content-1').hide();
+			$('#content-2').show();
+			this.createDashboard(type, dataset, title, chartType);
 		},
 
+		_dashboardExitFull: function(){
+			$('#content-1').show();
+			$('#dashboard-c-c-2').html('');
+		},
 
-		resize: function(){
-			//console.log('resize');
-			//this.initCarousel();
-			//d3.select('#ref').remove();
-			var getWidth = document.getElementById("ref").offsetWidth;
-			var elem = document.getElementsByClassName('realtime-performance')[0];
-   			var listElem = elem.getElementsByClassName('grid-column-carousel__list')[0];
-         	var colItems = listElem.getElementsByTagName('li');
-         	//console.log(getWidth);
-        	for(var i = 0; i < colItems.length; i++) {
-        	 	colItems[i].style.width = getWidth + 'px';
-        	 }
-        	 // $('#carousel-item').css('-webkit-transform', 'translateX(-1299px)')
-        	 // .css('transform','translateX(-1299px)');
-        	// var slideWidth = document.getElementById("test").offsetWidth;
-        	// pagesCount = Math.ceil(colItems.length / (slideWidth / getWidth));
-        	// console.log('' + slideWidth + ', ' + pagesCount);
+		// check fullscreen
+		_launchFullScreen: function(element) {
+			if(element.requestFullScreen){
+				element.requestFullScreen(); 
+			}else if(element.mozRequestFullScreen){
+				element.mozRequestFullScreen();
+			}else if(element.webkitRequestFullScreen){
+				element.webkitRequestFullScreen(); 
+			}
+		},
 
+		_cancelFullScreen: function() {
+		    if(document.cancelFullScreen){
+		    	document.cancelFullScreen();
+		    }else if(document.mozCancelFullScreen){
+		    	document.mozCancelFullScreen();
+		    }else if(document.webkitCancelFullScreen){
+		    	document.webkitCancelFullScreen(); 
+		    }
+		},
 
-		}
+		_isFullScreen: function() {
+		    fullScreen = document.fullscreenEnabled || document.mozFullscreenEnabled || document.webkitIsFullScreen ? true : false;
+		    if(this.debug){
+		    	console.log('Fullscreen enabled? ' + fullScreen);
+		    };
+		    return fullScreen;
+		},
+
 	}
 
 });
