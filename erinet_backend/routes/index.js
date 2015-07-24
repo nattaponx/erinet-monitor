@@ -97,6 +97,7 @@ router.get('/pdc/:function_id', function(req, res) {
   var nodeIds = req.param('nodeId');
   var tableName = req.param('tableName');
   var dataSet = req.param('dataSet');
+  var Id = req.param('Id');
 
 
 
@@ -163,7 +164,12 @@ router.get('/pdc/:function_id', function(req, res) {
    			pdc_model.fetchReport(gsnName, gsnVersions, hardwares, regions, countries, customers, dates, nodeIds, function(jsonData){
    				res.json(jsonData);
    			});
-			break;						
+			break;
+    case 'fetchpayload':
+        pdc_model.fetchPayload(Id, function(jsonData){
+          res.json(jsonData);
+        });
+      break;  						
 		default:
 			res.json({ error: "error invalid request" });   
 

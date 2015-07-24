@@ -61,7 +61,7 @@ define(["node_modules/d3/d3.js"], function(d3) {
 				.attr('class','col-md-6 col-sm-6 col-xs-12').append('div')					
 				.attr('class','box box-primary').style('padding','10px 10px 10px 10px');
 				
-				rightpane.append('h5').attr('class','box-title').text('select view');
+				rightpane.append('h5').attr('class','box-title').text('export data');
 			
 			var innerRight = rightpane.append('div').attr('class','box-body').append('div').attr('class','row');
 				
@@ -130,14 +130,14 @@ define(["node_modules/d3/d3.js"], function(d3) {
 
 		},
 
-		renderAdminTable: function(selectedObj, records, columns){
+		renderAdminTable: function(selectedObj, table_Id,records, columns){
 			var divObj = selectedObj;
 			var table = divObj.append('div').attr('class','row')
 							.append('div').attr('class','col-xs-12')
 							.append('div').attr('class','box')
 							.append('div').attr('class','box-body no-padding')
 							.append('table').attr('class','table table-hover')
-							.attr('id','responsive-admin-table');
+							.attr('id',table_Id);
 
 			var thead = table.append('thead'),
 				tbody = table.append('tbody');
@@ -187,6 +187,40 @@ define(["node_modules/d3/d3.js"], function(d3) {
 	        	else{
 	        		return d.value + "<input type='hidden' name='Id[]' value='"+ d.id +"'>"; 
 	        	}
+	        });
+
+			table.selectAll("thead th")
+		    .text(function(d) {
+		        return d.charAt(0).toUpperCase() + d.substr(1);
+		    });
+		},
+
+		renderGenericTable: function(selectedObj, table_Id, records, columns){
+			var divObj = selectedObj;
+			var table = divObj.append('div').attr('class','row')
+							.append('div').attr('class','col-xs-12')
+							.append('div').attr('class','box')
+							.append('div').attr('class','box-body no-padding')
+							.append('table').attr('class','table table-hover')
+							.attr('id',table_Id);
+
+			var thead = table.append('thead'),
+				tbody = table.append('tbody');
+
+			thead.append('tr').selectAll('th').data(columns).enter().append('th')
+			.text(function(d) {
+				return d;
+			});
+
+			var rows = tbody.selectAll('tr').data(records).enter().append('tr');
+
+			var cells = rows.selectAll("td").data(function(row) {
+	            return columns.map(function(d) {
+	                return {column: d, value: row[d], id: row['Id']};
+	            });
+	        }).enter().append("td").html(function(d,idx){ 
+
+	        		return d.value;
 	        });
 
 			table.selectAll("thead th")

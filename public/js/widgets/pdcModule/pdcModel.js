@@ -2,7 +2,6 @@ define(function(){
 
 	return {
 
-		// baseAPIUrl: 'http://localhost/api.php',
 		_baseAPIUrl: 'http://localhost:8080/api/pdc/',
 
 		postColumnsInfo: function(serialObj, callback){
@@ -117,6 +116,14 @@ define(function(){
 			    callback(jsonData);
 			});
 		},
+		getPayload: function(Id, callback){
+			$.get(this._baseAPIUrl + 'fetchpayload', 
+			{Id: Id})
+			.done(function(jsonData){
+			    callback(jsonData);
+			});
+		},
+
 
 	}
 

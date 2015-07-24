@@ -7,7 +7,8 @@ define(['node_modules/d3/d3.js','public/js/widgets/pdcModule/pdcModel.js','publi
 			pdcView.renderUserModule(parent_container);
 			_initToggleButton(toggleBtn);
 			_runGsnName();
-			_setAdminControl();
+			_setAdminController();
+			_setOutputController();
 
 		}
 
@@ -23,7 +24,23 @@ define(['node_modules/d3/d3.js','public/js/widgets/pdcModule/pdcModel.js','publi
 		});
 	}
 
-	function _setAdminControl(){
+	function _setOutputController(){
+		d3.select('#summaryBtn').on('click',_runSummaryController);
+	}
+
+	function _runSummaryController(){
+		var placeholder = $('#report option[disabled]:selected').val();
+		var reportId = $('#report option:selected').val();
+
+		if(placeholder != reportId){		
+			model.getPayload(reportId, function(jsonData){
+				console.log(jsonData);
+			});
+		}
+
+	}
+
+	function _setAdminController(){
 		model.getUserSession(function(jsonData){
 			var profile = jsonData.userdata;
 			var role = profile[0].Role;
@@ -55,7 +72,7 @@ define(['node_modules/d3/d3.js','public/js/widgets/pdcModule/pdcModel.js','publi
 		tableHeader.append('div').attr('class','tablehead').text(tableName);
 
 		model.getColumnsInfo(tableName, function(jsonData){
-			pdcView.renderAdminTable(tableForm,jsonData.data,['ColumnName','ColumnReName','Unit','Formula','Format','Visible']);
+			pdcView.renderAdminTable(tableForm,'responsive-admin-table',jsonData.data,['ColumnName','ColumnReName','Unit','Formula','Format','Visible']);
 			$('#responsive-admin-table').stacktable({myClass:'responsive-admin-table-small'});
 
 			tableForm.append('div').attr('class','row').append('div').attr('class','col-xs-12').append('button')
