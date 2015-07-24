@@ -11,8 +11,8 @@ define(["performance/nodeModel"], function(nodemodel){
 
 			var placeholder = $("#"+container);
 			// for time series charts
-			placeholder.css('height', "95%");
- 			placeholder.css('width', "95%"); 
+			placeholder.css('height', "90%");
+ 			placeholder.css('width', "90%"); 
 
 			//////////////////////////////
 			// realtime line chart config
