@@ -59,11 +59,9 @@ define(['node_modules/d3/d3.js','public/js/widgets/pdcModule/pdcModel.js','publi
 				          	"bSort": true,
 				          	"bInfo": false,
 				          	"bAutoWidth": false,
-				          	"scrollX": true
+				          	"responsive": true
 				        });
 				        
-				        // $(".dataTables_scrollHeadInner").css("width","100%");
-				        // $(".table.table-hover.dataTable.no-footer").css("width","100%");
 
 					});
 				}
