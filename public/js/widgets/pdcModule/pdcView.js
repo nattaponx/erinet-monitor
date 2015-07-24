@@ -99,16 +99,16 @@ define(["node_modules/d3/d3.js"], function(d3) {
 		    _initTabWidget(bodybtmDiv, tabs);
 		    
 
-		    var records = [
-			    {id: 12, user: 'test', date:'2015-07-08', reason:'hello world'},
-			    {id: 13, user: 'test', date:'2015-07-08', reason:'hello world'},
-			    {id: 14, user: 'test', date:'2015-07-08', reason:'hello world'},
-			    {id: 15, user: 'test', date:'2015-07-08', reason:'hello world'}
-			];
+		 //    var records = [
+			//     {id: 12, user: 'test', date:'2015-07-08', reason:'hello world'},
+			//     {id: 13, user: 'test', date:'2015-07-08', reason:'hello world'},
+			//     {id: 14, user: 'test', date:'2015-07-08', reason:'hello world'},
+			//     {id: 15, user: 'test', date:'2015-07-08', reason:'hello world'}
+			// ];
 
-		    for(var key in tabs){
-		    	_initTable(tabs[key], records, ['id','user','date','reason']);
-		    }	    	
+		 //    for(var key in tabs){
+		 //    	_initTable(tabs[key], records, ['id','user','date','reason']);
+		 //    }	    	
 
 
 		},
@@ -195,14 +195,16 @@ define(["node_modules/d3/d3.js"], function(d3) {
 		    });
 		},
 
-		renderGenericTable: function(selectedObj, table_Id, records, columns){
-			var divObj = selectedObj;
+		renderGenericTable: function(divId, table_Id, records, columns){
+			var divObj = d3.select(divId);
+			divObj.html('');
 			var table = divObj.append('div').attr('class','row')
 							.append('div').attr('class','col-xs-12')
 							.append('div').attr('class','box')
 							.append('div').attr('class','box-body no-padding')
 							.append('table').attr('class','table table-hover')
-							.attr('id',table_Id);
+							.attr('id',table_Id)
+							.style('width','100%');
 
 			var thead = table.append('thead'),
 				tbody = table.append('tbody');
@@ -276,10 +278,10 @@ define(["node_modules/d3/d3.js"], function(d3) {
 		})
 		.attr('id', function(d){
 			return d;
-		}).style('margin-top','10px')
-		.text(function(d){
-			return d;
-		});
+		}).style('margin-top','10px');
+		// .text(function(d){
+		// 	return d;
+		// });
 	
 	}
 

@@ -165,8 +165,8 @@ router.get('/pdc/:function_id', function(req, res) {
    				res.json(jsonData);
    			});
 			break;
-    case 'fetchpayload':
-        pdc_model.fetchPayload(Id, function(jsonData){
+    case 'fetchsummary':
+        pdc_model.fetchSummary(Id, function(jsonData){
           res.json(jsonData);
         });
       break;  						

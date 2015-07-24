@@ -29,14 +29,53 @@ define(['node_modules/d3/d3.js','public/js/widgets/pdcModule/pdcModel.js','publi
 	}
 
 	function _runSummaryController(){
+		var nodeType = d3.select('#node').node().value;
 		var placeholder = $('#report option[disabled]:selected').val();
 		var reportId = $('#report option:selected').val();
 
-		if(placeholder != reportId){		
-			model.getPayload(reportId, function(jsonData){
-				console.log(jsonData);
-			});
+		switch(nodeType.trim()){
+			case 'GGSN':				
+				if(placeholder != reportId){		
+					model.getSummary(reportId, function(jsonData){
+						console.log(jsonData);
+						var payload_config = jsonData.erinetggsnpdcpayloadpersec_config
+											.filter(function(obj){ return obj.Visible; })
+											.map(function(obj){ return obj.ColumnName; });
+						var nodestatus_config = jsonData.erinetggsnpdcnodestatusall_config
+											.filter(function(obj){ return obj.Visible; })
+											.map(function(obj){ return obj.ColumnName; });											
+						console.log(payload_config);
+
+						pdcView.renderGenericTable(
+							'#Network_Information',
+							'summary-table',
+							jsonData.erinetggsnpdcnodestatusall_data,
+							nodestatus_config
+						);
+						$('#summary-table').dataTable({
+				          	"bPaginate": true,
+				          	"bLengthChange": false,
+				          	"bFilter": false,
+				          	"bSort": true,
+				          	"bInfo": false,
+				          	"bAutoWidth": false,
+				          	"scrollX": true
+				        });
+				        
+				        // $(".dataTables_scrollHeadInner").css("width","100%");
+				        // $(".table.table-hover.dataTable.no-footer").css("width","100%");
+
+					});
+				}
+
+				break;
+			case 'SGSN':
+				console.log('sgsn')
+				break
+			default:
+				console.log('error nodetype');
 		}
+
 
 	}
 

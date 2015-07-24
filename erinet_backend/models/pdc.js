@@ -22,7 +22,6 @@ exports.updateColumnsInfo = function(dataSet, callback) {
     });
     sql += "END WHERE Id IN ("+ dataSet['Id'].join() +")";
 
-    console.log(sql);
     connection.connectMysql(sql, function(jsonData){
     	if(jsonData.affectedRows){
     		//Success
@@ -204,28 +203,41 @@ exports.fetchReport = function(gsnName, gsnVersions, hardwares, regions, countri
     });
 }
 
-exports.fetchPayload = function(Id, callback) {
+exports.fetchSummary = function(Id, callback) {
     var connection = require('./lib/connection.js');
-    var sql = "SELECT * FROM erinetggsnpdcpayloadpersec" +
+
+    var config1 = "select * from pdccolumnsinfo where TableName = 'erinetggsnpdcnodestatusall'";		  
+    var config2 = "select * from pdccolumnsinfo where TableName = 'erinetggsnpdcpayloadpersec'";		  
+
+    var data1 = "SELECT * FROM erinetggsnpdcnodestatusall" +
     		  " where Id = '" + Id + "' order by Time desc";
 
-    var sql2 = "select * from pdccolumnsinfo where TableName = 'erinetggsnpdcpayloadpersec'";		  
+    var data2 = "SELECT * FROM erinetggsnpdcpayloadpersec" +
+    		  " where Id = '" + Id + "' order by Time desc";
+
 
    	var Workpool = require('./lib/workpool.js');
-   	var workpoolInstance = new Workpool(2, function(datalist){
-   		console.log('alldone');
+   	var workpoolInstance = new Workpool(4, function(datalist){
    		callback(datalist);
    	});
  		  
-    connection.connectMysql(sql, function(jsonData){
-    	console.log('large');
-    	workpoolInstance.done('data',jsonData);
+
+    connection.connectMysql(config1, function(jsonData){
+    	workpoolInstance.done('erinetggsnpdcnodestatusall_config',jsonData);
     });
 
-    connection.connectMysql(sql2, function(jsonData){
-    	console.log('small');
-    	workpoolInstance.done('config',jsonData);
-	});		
+   	connection.connectMysql(config2, function(jsonData){
+    	workpoolInstance.done('erinetggsnpdcpayloadpersec_config',jsonData);
+    });
+
+    connection.connectMysql(data1, function(jsonData){
+    	workpoolInstance.done('erinetggsnpdcnodestatusall_data',jsonData);
+    });
+
+    connection.connectMysql(data2, function(jsonData){
+    	workpoolInstance.done('erinetggsnpdcpayloadpersec_data',jsonData);
+	});	
+
 }
 
 

@@ -116,8 +116,8 @@ define(function(){
 			    callback(jsonData);
 			});
 		},
-		getPayload: function(Id, callback){
-			$.get(this._baseAPIUrl + 'fetchpayload', 
+		getSummary: function(Id, callback){
+			$.get(this._baseAPIUrl + 'fetchsummary', 
 			{Id: Id})
 			.done(function(jsonData){
 			    callback(jsonData);
