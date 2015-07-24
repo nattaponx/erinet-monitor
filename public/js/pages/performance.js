@@ -15,6 +15,7 @@ require(['performance/nodeView',
 		"node_modules/d3/d3.js", 
 		"node_modules/eventbus/eventbus.js"],function (pdcview, pdccontroller, d3, eventbus) {
 
+	// eventbus
 	d3.select('#header-toggle-btn').on('click', function(){
 		setTimeout(function() {
 			eventbus.fire('resize');
@@ -22,12 +23,8 @@ require(['performance/nodeView',
 	});
 
 	d3.select('#fullscreen-btn').on('click', function(){
-			eventbus.fire('fullscreenMode');
+		eventbus.fire('fullscreenMode');
 	});
-
-	// d3.select('#autoplay-btn').on('click', function(){
-	// 		eventbus.fire('autoplay');
-	// });
 
 	pdccontroller.init('carousel-item', 'primary', 'Bearers', 'data_bearers', 'realtime_linechart');
 	pdccontroller.init('carousel-item', 'primary', 'CPU Loads', 'data_cpuloads', 'realtime_gaugechart');

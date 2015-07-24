@@ -7,6 +7,9 @@ define(["node_modules/d3/d3.js",
 	"node_modules/eventbus/eventbus.js"],function (d3, nodechart, eventbus) {
 	return{
 
+		properties: {
+		},
+
 		init: function(container, type, title, dataset, chartType){
 			console.log('init nodeView for --> ' + title);
 
@@ -28,13 +31,19 @@ define(["node_modules/d3/d3.js",
    					var selectObjectDetails = d3.select('#details-container');
 
    					var dbox = selectObjectDetails.append('div')
-   						.attr('class', 'box box-' +type).attr('id', 'detail-box');
+   						.attr('class', 'box box-default').attr('id', 'detail-box');
 
    					var dbox_header = dbox.append('div')
    					.attr('class', 'box-header with-border');
 
       				var dbox_title = dbox_header.append('h3')
       					.attr('class', 'box-title').text(title);
+
+      // 				var dbox_tools = dbox_header.append('div')
+						// .attr('class', 'box-tools pull-right')
+						// .append('button').attr('class', 'btn btn-box-tool')
+						// .attr('id', 'close-btn').attr('data-widget', 'remove')
+						// .append('i').attr('class', 'fa fa-times');
 
 					var dbox_body = dbox.append('div').attr('class', 'dbox-body');
 
@@ -66,11 +75,8 @@ define(["node_modules/d3/d3.js",
 				this.fullscreenMode(type, dataset, title, chartType); 
 			}.bind(this));
 
-			
 		},
 		/////////////////// end of init ///////////////////
-
-
 
 		createCarousel: function(container, type, title, dataset, chartType){
 
@@ -106,8 +112,8 @@ define(["node_modules/d3/d3.js",
 	          elem: document.getElementsByClassName('realtime-performance')[0],
 	          gridColClasses: 'col-sm-12 col-md-6 col-xs-12',
 	          //throttleDelay: 10,
-	          autoplay: true
-	          // autoplayDelay: 5000
+	          // autoplay: true,
+	          // autoplayDelay: 7000
 	        };
 	        var gCCarousel = new GCCarousel(carouselOptions);
 
@@ -120,6 +126,7 @@ define(["node_modules/d3/d3.js",
 				this._cancelFullScreen();
 				document.body.className = 'skin-blue sidebar-mini';
 				this._dashboardExitFull();
+				$('#content-2').hide();
 			}else{
 				this._launchFullScreen(document.documentElement);
 				document.body.className = 'skin-blue sidebar-mini sidebar-collapse';
@@ -201,5 +208,3 @@ define(["node_modules/d3/d3.js",
 	}
 
 });
-
-
