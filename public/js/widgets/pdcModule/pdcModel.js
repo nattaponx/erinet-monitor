@@ -2,9 +2,51 @@ define(function(){
 
 	return {
 
-
-		// baseAPIUrl: 'http://localhost/api.php',
 		_baseAPIUrl: 'http://localhost:8080/api/pdc/',
+
+		postColumnsInfo: function(serialObj, callback){
+			var o = {};
+		    $.each(serialObj, function() {
+		    	var fieldName = this.name.slice(0, -2);
+		        if (o[fieldName] !== undefined) {
+		            if (!o[fieldName].push) {
+		                o[fieldName] = [o[fieldName]];
+		            }
+		            o[fieldName].push(this.value || '');
+		        } else {
+		            o[fieldName] = this.value || '';
+		        }
+		    });
+		    console.log(o);
+
+			$.get(this._baseAPIUrl + 'updatecolumnsinfo', 
+			{dataSet: JSON.stringify(o)})
+			.done(function(jsonData){
+			    callback(jsonData);
+			});
+		},
+
+		getColumnsInfo: function(tableName, callback){
+			$.get(this._baseAPIUrl + 'fetchcolumnsinfo', 
+			{tableName: tableName})
+			.done(function(jsonData){
+			    callback(jsonData);
+			});
+		},
+
+		getUserSession: function(callback){
+			$.get('http://localhost:3000/api/userdata')
+			.done(function(jsonData){
+			    callback(jsonData);
+			});
+		},
+
+		getTableName: function(callback){
+			$.get(this._baseAPIUrl + 'fetchtablename')
+			.done(function(jsonData){
+			    callback(jsonData);
+			});
+		},
 
 		getGsnName: function(callback){
 			$.get(this._baseAPIUrl + 'fetchgsnname')
@@ -74,6 +116,14 @@ define(function(){
 			    callback(jsonData);
 			});
 		},
+		getSummary: function(Id, callback){
+			$.get(this._baseAPIUrl + 'fetchsummary', 
+			{Id: Id})
+			.done(function(jsonData){
+			    callback(jsonData);
+			});
+		},
+
 
 	}
 

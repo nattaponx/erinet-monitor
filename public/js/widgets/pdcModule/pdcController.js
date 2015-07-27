@@ -1,38 +1,179 @@
-define(['node_modules/d3/d3.js','public/js/widgets/pdcModule/pdcModel.js'], function(d3,model){
+define(['node_modules/d3/d3.js','public/js/widgets/pdcModule/pdcModel.js','public/js/widgets/pdcModule/pdcView.js']
+	, function(d3, model, pdcView){
 
 	return {
 
-		initController: function(){
+		initController: function(parent_container,toggleBtn){
+			pdcView.renderUserModule(parent_container);
+			_initToggleButton(toggleBtn);
 			_runGsnName();
+			_setAdminController();
+			_setOutputController();
 
-
-		},
-
-		initToggleButton: function(btnId){
-			$(btnId).click(function(){
-			    var $target = $('#searchModule'),
-			        $toggle = $(this);
-			        $target.slideToggle( 500, function () {
-			              $toggle.text(($target.is(':visible') ? 'Hide' : 'Show') + ' Panel');
-			        });
-			});
 		}
+
+	}
+
+	function _initToggleButton(btnId){
+		$(btnId).click(function(){
+		var $target = $('#searchModule'),
+			$toggle = $(this);
+			$target.slideToggle( 500, function () {
+			    $toggle.text(($target.is(':visible') ? 'Hide' : 'Show') + ' Panel');
+			});
+		});
+	}
+
+	function _setOutputController(){
+		d3.select('#summaryBtn').on('click',_runSummaryController);
+	}
+
+	function _runSummaryController(){
+		var nodeType = d3.select('#node').node().value;
+		var placeholder = $('#report option[disabled]:selected').val();
+		var reportId = $('#report option:selected').val();
+
+		switch(nodeType.trim()){
+			case 'GGSN':				
+				if(placeholder != reportId){		
+					model.getSummary(reportId, function(jsonData){
+						console.log(jsonData);
+						var payload_config = jsonData.erinetggsnpdcpayloadpersec_config
+											.filter(function(obj){ return obj.Visible; })
+											.map(function(obj){ return obj.ColumnName; });
+						var nodestatus_config = jsonData.erinetggsnpdcnodestatusall_config
+											.filter(function(obj){ return obj.Visible; })
+											.map(function(obj){ return obj.ColumnName; });											
+						console.log(payload_config);
+
+						pdcView.renderGenericTable(
+							'#Network_Information',
+							'summary-table',
+							jsonData.erinetggsnpdcnodestatusall_data,
+							nodestatus_config
+						);
+						$('#summary-table').dataTable({
+				          	"bPaginate": true,
+				          	"bLengthChange": false,
+				          	"bFilter": false,
+				          	"bSort": true,
+				          	"bInfo": false,
+				          	"bAutoWidth": false,
+				          	"responsive": true
+				        });
+				        
+
+					});
+				}
+
+				break;
+			case 'SGSN':
+				console.log('sgsn')
+				break
+			default:
+				console.log('error nodetype');
+		}
+
+
+	}
+
+	function _setAdminController(){
+		model.getUserSession(function(jsonData){
+			var profile = jsonData.userdata;
+			var role = profile[0].Role;
+			if(role == 0){
+				d3.select('#pdc-sidebar-btn').html('');
+			}
+			else{
+				pdcView.renderAdminModule('#pdc-sidebar');
+				_runAdminController();
+			}
+		});
+	}
+
+	function _runAdminController(){
+		model.getTableName(function(jsonData){
+			_setupFilterData('#selectTable', 'Select Tables', jsonData.data, 'TableName', _runColumnsConfig);
+		});
+	}
+
+	function _runColumnsConfig(){
+		var tableName = d3.select('#selectTable').node().value;
+
+		d3.select('#parentTableModule').html('');
+		var tableForm = d3.select('#parentTableModule').append('div').attr('class','box box-primary')
+						.style('padding','10px 10px 45px 10px')
+						.append('div').attr('class','box-group').append('div').attr('id','tableModule');
+		var tableHeader = tableForm.append('div').attr('class','row')
+						  .append('div').attr('class','col-xs-12');
+		tableHeader.append('div').attr('class','tablehead').text(tableName);
+
+		model.getColumnsInfo(tableName, function(jsonData){
+			pdcView.renderAdminTable(tableForm,'responsive-admin-table',jsonData.data,['ColumnName','ColumnReName','Unit','Formula','Format','Visible']);
+			$('#responsive-admin-table').stacktable({myClass:'responsive-admin-table-small'});
+
+			tableForm.append('div').attr('class','row').append('div').attr('class','col-xs-12').append('button')
+			.attr('class','btn btn-primary btn-sm right submit-large-only')
+			.attr('id','submitTableModule')
+			.text('Save Configurations');
+			tableForm.append('div').attr('class','row').append('div').attr('class','col-xs-12').append('button')
+			.attr('class','btn btn-primary btn-sm right submit-small-only')
+			.attr('id','submitTableModule-small')
+			.text('Save Configurations');
+			d3.select('#submitTableModule')
+			.on('click', function() {  _postHandle('#responsive-admin-table :input'); });
+			d3.select('#submitTableModule-small')
+			.on('click', function() {  _postHandle('#responsive-admin-table-small :input'); });
+
+
+		});
+
+	}
+
+	function _postHandle(tableId){
+   		var serialObj = $(tableId).serializeArray();
+   		var trimObj = [];
+   		serialObj.forEach(function(obj, idx){
+   			// filter out for checkbox default value 0
+   			if(obj.name == "Visible[]" && obj.value == "1"){
+   				trimObj.pop();
+   				trimObj.push(obj);
+   			}
+   			else{
+   				trimObj.push(obj);
+   			}
+   		});
+	    model.postColumnsInfo(trimObj, function(jsonData){
+	    	if(jsonData.data){
+				// Success
+				d3.select('#parentTableModule').html('');
+				d3.select('#selectTable :first-child').attr({'disabled':'','selected':''});
+				$('.control-sidebar').removeClass('control-sidebar-open');
+				pdcView.renderModalView('#pdc-container', 'admin_modal', 'Success!!','text-green', 'Data has been saved succesfully');
+				$("#admin_modal").modal('show');
+				setTimeout(function(){ 
+					$("#admin_modal").modal('hide');
+					d3.select('#admin_modal').remove();
+				}, 2000);
+	    	}
+	    	else {
+	    		// Failed
+				pdcView.renderModalView('#pdc-container', 'admin_modal', 'Failed!!','text-red', 'Server busy please try again!');
+				$("#admin_modal").modal('show');
+				setTimeout(function(){ 
+					$("#admin_modal").modal('hide');
+					d3.select('#admin_modal').remove();
+				}, 2000);
+	    	}
+
+
+		});
 
 	}
 
 	function _runGsnName(){
 		model.getGsnName(function(jsonData){
-			var nodeDiv = d3.select('#node');
-			nodeDiv.html("");
-			nodeDiv.selectAll('option').data(jsonData.data).enter().append('option')
-			.attr('value', function(d){
-				return d.GsnName;
-			})
-			.text(function(d){
-				return d.GsnName;
-			});
-			nodeDiv.insert('option',':first-child').attr({'disabled':'','selected':''}).text('Select Nodes');
-			nodeDiv.on('change', _runGsnVersion);
+			_setupFilterData('#node', 'Select Nodes', jsonData.data, 'GsnName', _runGsnVersion);
 		});
 	}
 
@@ -49,17 +190,7 @@ define(['node_modules/d3/d3.js','public/js/widgets/pdcModule/pdcModel.js'], func
 		_resetFields(list);
 		var gsnName = d3.select('#node').node().value;
 		model.getGsnVersion(gsnName, function(jsonData){
-			var gsnVersionDiv = d3.select('#gsn_version');
-			gsnVersionDiv.html("");
-			gsnVersionDiv.selectAll('option').data(jsonData.data).enter().append('option')
-			.attr('value', function(d){
-				return d.GsnVersion;
-			})
-			.text(function(d){
-				return d.GsnVersion;
-			});
-			gsnVersionDiv.insert('option',':first-child').attr({'disabled':'','selected':''}).text('Select Releases');
-			gsnVersionDiv.on('change', _runHardware);
+			_setupFilterData('#gsn_version','Select Releases',jsonData.data,'GsnVersion',_runHardware);
 		});
 	}
 
@@ -76,17 +207,7 @@ define(['node_modules/d3/d3.js','public/js/widgets/pdcModule/pdcModel.js'], func
 		var gsnName = d3.select('#node').node().value;
 		var gsnVersions = $('#gsn_version').val();
 		model.getHardware(gsnName, gsnVersions, function(jsonData){
-			var hardwareDiv = d3.select('#hardware');
-			hardwareDiv.html("");
-			hardwareDiv.selectAll('option').data(jsonData.data).enter().append('option')
-			.attr('value', function(d){
-				return d.Hardware;
-			})
-			.text(function(d){
-				return d.Hardware;
-			});
-			hardwareDiv.insert('option',':first-child').attr({'disabled':'','selected':''}).text('Select Hardwares');
-			hardwareDiv.on('change', _runRegion);
+			_setupFilterData('#hardware','Select Hardwares',jsonData.data,'Hardware',_runRegion);
 		});
 	}
 
@@ -104,17 +225,7 @@ define(['node_modules/d3/d3.js','public/js/widgets/pdcModule/pdcModel.js'], func
 		var gsnVersions = $('#gsn_version').val();
 		var hardwares = $('#hardware').val();
 		model.getRegion(gsnName, gsnVersions, hardwares, function(jsonData){
-			var regionDiv = d3.select('#region');
-			regionDiv.html("");
-			regionDiv.selectAll('option').data(jsonData.data).enter().append('option')
-			.attr('value', function(d){
-				return d.Region;
-			})
-			.text(function(d){
-				return d.Region;
-			});
-			regionDiv.insert('option',':first-child').attr({'disabled':'','selected':''}).text('Select Regions');
-			regionDiv.on('change', _runCountry);
+			_setupFilterData('#region','Select Regions',jsonData.data,'Region',_runCountry);
 		});
 	}
 
@@ -131,17 +242,7 @@ define(['node_modules/d3/d3.js','public/js/widgets/pdcModule/pdcModel.js'], func
 		var hardwares = $('#hardware').val();
 		var regions = $('#region').val();
 		model.getCountry(gsnName, gsnVersions, hardwares, regions, function(jsonData){
-			var countryDiv = d3.select('#country');
-			countryDiv.html("");
-			countryDiv.selectAll('option').data(jsonData.data).enter().append('option')
-			.attr('value', function(d){
-				return d.Country;
-			})
-			.text(function(d){
-				return d.Country;
-			});
-			countryDiv.insert('option',':first-child').attr({'disabled':'','selected':''}).text('Select Countries');
-			countryDiv.on('change', _runCustomer);
+			_setupFilterData('#country','Select Countries',jsonData.data,'Country',_runCustomer);
 		});
 	}
 
@@ -158,17 +259,7 @@ define(['node_modules/d3/d3.js','public/js/widgets/pdcModule/pdcModel.js'], func
 		var regions = $('#region').val();
 		var conuntries = $('#country').val();
 		model.getCustomer(gsnName, gsnVersions, hardwares, regions, conuntries, function(jsonData){
-			var customerDiv = d3.select('#customer_name');
-			customerDiv.html("");
-			customerDiv.selectAll('option').data(jsonData.data).enter().append('option')
-			.attr('value', function(d){
-				return d.CustomerName;
-			})
-			.text(function(d){
-				return d.CustomerName;
-			});
-			customerDiv.insert('option',':first-child').attr({'disabled':'','selected':''}).text('Select Customers');
-			customerDiv.on('change', _runDate);
+			_setupFilterData('#customer_name','Select Customers',jsonData.data,'CustomerName',_runDate);
 		});
 	}
 
@@ -212,17 +303,7 @@ define(['node_modules/d3/d3.js','public/js/widgets/pdcModule/pdcModel.js'], func
 		var customers = $('#customer_name').val();
 		var dates = $('#timespan').val();
 		model.getNodeId(gsnName, gsnVersions, hardwares, regions, countries, customers, dates, function(jsonData){
-			var nodeIdDiv = d3.select('#node_id');
-			nodeIdDiv.html("");
-			nodeIdDiv.selectAll('option').data(jsonData.data).enter().append('option')
-			.attr('value', function(d){
-				return d.NodeId;
-			})
-			.text(function(d){
-				return d.NodeId;
-			});
-			nodeIdDiv.insert('option',':first-child').attr({'disabled':'','selected':''}).text('Select NodeID');
-			nodeIdDiv.on('change', _runReport);
+			_setupFilterData('#node_id','Select NodeID',jsonData.data,'NodeId',_runReport);
 		});
 	}
 
@@ -236,18 +317,22 @@ define(['node_modules/d3/d3.js','public/js/widgets/pdcModule/pdcModel.js'], func
 		var dates = $('#timespan').val();
 		var nodeIds = $('#node_id').val();
 		model.getReport(gsnName, gsnVersions, hardwares, regions, countries, customers, dates, nodeIds, function(jsonData){
-			var reportDiv = d3.select('#report');
-			reportDiv.html("");
-			reportDiv.selectAll('option').data(jsonData.data).enter().append('option')
-			.attr('value', function(d){
-				return d.Id;
-			})
-			.text(function(d){
-				return d.Id;
-			});
-			reportDiv.insert('option',':first-child').attr({'disabled':'','selected':''}).text('Select Reports');
-			// nodeIdDiv.on('change', runReport);
+			_setupFilterData('#report','Select Reports',jsonData.data,'Id',null);
 		});
+	}
+
+	function _setupFilterData(divId, placeholder, jsonData, property, fn){
+		var div = d3.select(divId);
+		div.html("");
+		div.selectAll('option').data(jsonData).enter().append('option')
+		.attr('value', function(d){
+			return d[property];
+		})
+		.text(function(d){
+			return d[property];
+		});
+		div.insert('option',':first-child').attr({'disabled':'','selected':''}).text(placeholder);
+		div.on('change', fn);
 	}
 
 	function _resetFields(divIds){
@@ -260,4 +345,3 @@ define(['node_modules/d3/d3.js','public/js/widgets/pdcModule/pdcModel.js'], func
 
 });
 
-// console.log($('#gsn_version').val()); 

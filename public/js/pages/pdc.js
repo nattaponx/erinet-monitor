@@ -1,6 +1,5 @@
-require(['public/js/widgets/pdcModule/pdcView.js','public/js/widgets/pdcModule/pdcController.js'], 
-	function(pdcView, pdcCtrl){
-		pdcView.initModule('#pdc-container','#toggleModule');
-		pdcCtrl.initToggleButton('#toggleModule');
-		pdcCtrl.initController();
+require(['public/js/widgets/pdcModule/pdcController.js','public/js/widgets/authuser.js'], 
+	function(pdcCtrl, user){
+		pdcCtrl.initController('#pdc-container','#toggleModule');
+		user.initProfile();
 });

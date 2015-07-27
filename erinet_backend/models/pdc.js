@@ -1,3 +1,54 @@
+exports.updateColumnsInfo = function(dataSet, callback) {
+    var connection = require('./lib/connection.js');
+    var sql = "UPDATE pdccolumnsinfo SET ColumnReName = CASE Id ";
+    dataSet['ColumnReName'].forEach(function(d, idx){
+    	sql += "WHEN '"+ dataSet['Id'][idx] +"' THEN '"+ d +"' ";
+    });
+    sql += "END, Unit = CASE Id ";
+    dataSet['Unit'].forEach(function(d, idx){
+    	sql += "WHEN '"+ dataSet['Id'][idx] +"' THEN '"+ d +"' ";
+    });
+    sql += "END, Formula = CASE Id ";
+    dataSet['Formula'].forEach(function(d, idx){
+    	sql += "WHEN '"+ dataSet['Id'][idx] +"' THEN '"+ d +"' ";
+    });
+    sql += "END, Format = CASE Id ";
+    dataSet['Format'].forEach(function(d, idx){
+    	sql += "WHEN '"+ dataSet['Id'][idx] +"' THEN '"+ d +"' ";
+    });
+    sql += "END, Visible = CASE Id ";
+    dataSet['Visible'].forEach(function(d, idx){
+    	sql += "WHEN '"+ dataSet['Id'][idx] +"' THEN '"+ d +"' ";
+    });
+    sql += "END WHERE Id IN ("+ dataSet['Id'].join() +")";
+
+    connection.connectMysql(sql, function(jsonData){
+    	if(jsonData.affectedRows){
+    		//Success
+    		callback({'data':jsonData});
+    	}
+    	else
+    		callback({'error':jsonData});
+    });
+}
+
+exports.fetchColumnsInfo = function(tableName, callback) {
+    var connection = require('./lib/connection.js');
+    var sql = "SELECT * FROM pdccolumnsinfo" +
+    		  " where TableName = '" + tableName+ "'";
+    connection.connectMysql(sql, function(jsonData){
+      callback({'data':jsonData});
+    });
+}
+
+exports.fetchTableName = function(callback) {
+    var connection = require('./lib/connection.js');
+    var sql = 'SELECT distinct TableName FROM pdccolumnsinfo';
+    connection.connectMysql(sql, function(jsonData){
+      callback({'data':jsonData});
+    });
+}
+
 exports.fetchGsnName = function(callback) {
     var connection = require('./lib/connection.js');
     var sql = 'SELECT distinct GsnName FROM pdccontent';
@@ -19,7 +70,7 @@ exports.fetchHardware = function(gsnName, gsnVersions, callback) {
 	var connection = require('./lib/connection.js');
 	var sql = "SELECT distinct Hardware FROM pdccontent" +
 			  " where GsnName = '" + gsnName + "' and ";
-		sql += convertToSQL('GsnVersion', gsnVersions);
+		sql += _convertToSQL('GsnVersion', gsnVersions);
 		sql += " and Hardware != '' and Hardware is not null";
     connection.connectMysql(sql, function(jsonData){
       callback({'data':jsonData});
@@ -30,9 +81,9 @@ exports.fetchRegion = function(gsnName, gsnVersions, hardwares, callback) {
 	var connection = require('./lib/connection.js');
 	var sql = "SELECT distinct Region FROM pdccontent" +
 		  	  " where GsnName = '" + gsnName + "' and ";
-		sql += convertToSQL('GsnVersion', gsnVersions);
+		sql += _convertToSQL('GsnVersion', gsnVersions);
 		sql += " and ";
-		sql += convertToSQL('Hardware', hardwares);
+		sql += _convertToSQL('Hardware', hardwares);
 		sql += " and Region != '' and Region is not null";
     connection.connectMysql(sql, function(jsonData){
       callback({'data':jsonData});
@@ -43,11 +94,11 @@ exports.fetchCountry = function(gsnName, gsnVersions, hardwares, regions, callba
 	var connection = require('./lib/connection.js');
 	var sql = "SELECT distinct Country FROM pdccontent" +
 			  " where GsnName = '" + gsnName + "' and ";
-		sql += convertToSQL('GsnVersion', gsnVersions);
+		sql += _convertToSQL('GsnVersion', gsnVersions);
 		sql += " and ";
-		sql += convertToSQL('Hardware', hardwares);
+		sql += _convertToSQL('Hardware', hardwares);
 		sql += " and ";
-		sql += convertToSQL('Region', regions);
+		sql += _convertToSQL('Region', regions);
 		sql += " and Country != '' and Country is not null";
     connection.connectMysql(sql, function(jsonData){
       callback({'data':jsonData});
@@ -58,13 +109,13 @@ exports.fetchCustomer = function(gsnName, gsnVersions, hardwares, regions, count
 	var connection = require('./lib/connection.js');
 	var sql = "SELECT distinct CustomerName FROM pdccontent" +
 			  " where GsnName = '" + gsnName + "' and ";
-		sql += convertToSQL('GsnVersion', gsnVersions);
+		sql += _convertToSQL('GsnVersion', gsnVersions);
 		sql += " and ";
-		sql += convertToSQL('Hardware', hardwares);
+		sql += _convertToSQL('Hardware', hardwares);
 		sql += " and ";
-		sql += convertToSQL('Region', regions);
+		sql += _convertToSQL('Region', regions);
 		sql += " and ";
-  		sql += convertToSQL('Country', countries);
+  		sql += _convertToSQL('Country', countries);
 		sql += " and CustomerName != '' and CustomerName is not null";
     connection.connectMysql(sql, function(jsonData){
       callback({'data':jsonData});
@@ -75,15 +126,15 @@ exports.fetchDate = function(gsnName, gsnVersions, hardwares, regions, countries
 	var connection = require('./lib/connection.js');
 	var sql = "SELECT distinct Year, Month FROM pdccontent" + 
 			  " where GsnName = '" + gsnName + "' and ";	
-		sql += convertToSQL('GsnVersion', gsnVersions);
+		sql += _convertToSQL('GsnVersion', gsnVersions);
 		sql += " and ";
-		sql += convertToSQL('Hardware', hardwares);
+		sql += _convertToSQL('Hardware', hardwares);
 		sql += " and ";
-		sql += convertToSQL('Region', regions);
+		sql += _convertToSQL('Region', regions);
 		sql += " and ";
-  		sql += convertToSQL('Country', countries);	 
+  		sql += _convertToSQL('Country', countries);	 
   		sql += " and ";
-  		sql += convertToSQL('CustomerName', customers);		
+  		sql += _convertToSQL('CustomerName', customers);		
 		sql += " and Year != '' and Year is not null and Month != '' and Month is not null";
     connection.connectMysql(sql, function(jsonData){
       callback({'data':jsonData});
@@ -94,15 +145,15 @@ exports.fetchNodeId = function(gsnName, gsnVersions, hardwares, regions, countri
 	var connection = require('./lib/connection.js');
 	var	sql = "SELECT distinct NodeId FROM pdccontent" +
 			  " where GsnName = '" + gsnName + "' and ";
-		sql += convertToSQL('GsnVersion', gsnVersions);
+		sql += _convertToSQL('GsnVersion', gsnVersions);
 		sql += " and ";
-		sql += convertToSQL('Hardware', hardwares);
+		sql += _convertToSQL('Hardware', hardwares);
 		sql += " and ";
-		sql += convertToSQL('Region', regions);
+		sql += _convertToSQL('Region', regions);
 		sql += " and ";
-  		sql += convertToSQL('Country', countries);	 
+  		sql += _convertToSQL('Country', countries);	 
   		sql += " and ";
-  		sql += convertToSQL('CustomerName', customers);	
+  		sql += _convertToSQL('CustomerName', customers);	
   		sql += " and (";
 		dates.forEach(function(val,idx){
 			var splited = val.split("-");
@@ -124,15 +175,15 @@ exports.fetchReport = function(gsnName, gsnVersions, hardwares, regions, countri
 	var connection = require('./lib/connection.js');
 	var sql = "SELECT distinct Id FROM pdccontent" +
 			  " where GsnName = '" + gsnName + "' and ";
-		sql += convertToSQL('GsnVersion', gsnVersions);
+		sql += _convertToSQL('GsnVersion', gsnVersions);
 		sql += " and ";
-		sql += convertToSQL('Hardware', hardwares);
+		sql += _convertToSQL('Hardware', hardwares);
 		sql += " and ";
-		sql += convertToSQL('Region', regions);
+		sql += _convertToSQL('Region', regions);
 		sql += " and ";
-  		sql += convertToSQL('Country', countries);	 
+  		sql += _convertToSQL('Country', countries);	 
   		sql += " and ";
-  		sql += convertToSQL('CustomerName', customers);
+  		sql += _convertToSQL('CustomerName', customers);
   		sql += " and (";
   		dates.forEach(function(val,idx){
 			var splited = val.split("-");
@@ -145,14 +196,52 @@ exports.fetchReport = function(gsnName, gsnVersions, hardwares, regions, countri
 			}
 		});
 		sql += ") and ";
-		sql += convertToSQL('NodeId', nodeIds);
+		sql += _convertToSQL('NodeId', nodeIds);
 		sql += " and Id != '' and Id is not null";
     connection.connectMysql(sql, function(jsonData){
       callback({'data':jsonData});
     });
 }
 
-function convertToSQL(tag, objs){
+exports.fetchSummary = function(Id, callback) {
+    var connection = require('./lib/connection.js');
+
+    var config1 = "select * from pdccolumnsinfo where TableName = 'erinetggsnpdcnodestatusall'";		  
+    var config2 = "select * from pdccolumnsinfo where TableName = 'erinetggsnpdcpayloadpersec'";		  
+
+    var data1 = "SELECT * FROM erinetggsnpdcnodestatusall" +
+    		  " where Id = '" + Id + "' order by Time desc";
+
+    var data2 = "SELECT * FROM erinetggsnpdcpayloadpersec" +
+    		  " where Id = '" + Id + "' order by Time desc";
+
+
+   	var Workpool = require('./lib/workpool.js');
+   	var workpoolInstance = new Workpool(4, function(datalist){
+   		callback(datalist);
+   	});
+ 		  
+
+    connection.connectMysql(config1, function(jsonData){
+    	workpoolInstance.done('erinetggsnpdcnodestatusall_config',jsonData);
+    });
+
+   	connection.connectMysql(config2, function(jsonData){
+    	workpoolInstance.done('erinetggsnpdcpayloadpersec_config',jsonData);
+    });
+
+    connection.connectMysql(data1, function(jsonData){
+    	workpoolInstance.done('erinetggsnpdcnodestatusall_data',jsonData);
+    });
+
+    connection.connectMysql(data2, function(jsonData){
+    	workpoolInstance.done('erinetggsnpdcpayloadpersec_data',jsonData);
+	});	
+
+}
+
+
+function _convertToSQL(tag, objs){
 	var temp = "(";
 	objs.forEach(function(val,idx){
 		if(idx == 0)

@@ -25,7 +25,7 @@ SET time_zone = "+00:00";
 --
 -- โครงสร้างตาราง `erinetggsnpdcnodestatusall`
 --
-
+DROP TABLE IF EXISTS `erinetggsnpdcnodestatusall`;
 CREATE TABLE IF NOT EXISTS `erinetggsnpdcnodestatusall` (
   `Id` varchar(96) DEFAULT NULL,
   `Time` varchar(96) DEFAULT NULL,
@@ -1059,7 +1059,7 @@ INSERT INTO `erinetggsnpdcnodestatusall` (`Id`, `Time`, `internal-address`, `pea
 --
 -- โครงสร้างตาราง `erinetggsnpdcpayloadpersec`
 --
-
+DROP TABLE IF EXISTS `erinetggsnpdcpayloadpersec`;
 CREATE TABLE IF NOT EXISTS `erinetggsnpdcpayloadpersec` (
   `Id` varchar(96) DEFAULT NULL,
   `Time` varchar(96) DEFAULT NULL,
@@ -2081,7 +2081,7 @@ INSERT INTO `erinetggsnpdcpayloadpersec` (`Id`, `Time`, `Uplink-traffic`, `Downl
 --
 -- โครงสร้างตาราง `etvnodeinformation`
 --
-
+DROP TABLE IF EXISTS `etvnodeinformation`;
 CREATE TABLE IF NOT EXISTS `etvnodeinformation` (
   `Id` varchar(30) DEFAULT NULL,
   `Name` varchar(30) DEFAULT NULL,
@@ -2104,9 +2104,54 @@ INSERT INTO `etvnodeinformation` (`Id`, `Name`, `Status`) VALUES
 -- --------------------------------------------------------
 
 --
--- โครงสร้างตาราง `pdccontent`
+-- โครงสร้างตาราง `pdccolumnsinfo`
+--
+DROP TABLE IF EXISTS `pdccolumnsinfo`;
+CREATE TABLE IF NOT EXISTS `pdccolumnsinfo` (
+  `Id` int(11) NOT NULL AUTO_INCREMENT,
+  `TableName` varchar(128) NOT NULL,
+  `ColumnName` varchar(128) NOT NULL,
+  `ColumnReName` varchar(128) NOT NULL,
+  `Unit` varchar(10) DEFAULT NULL,
+  `Formula` varchar(30) DEFAULT NULL,
+  `Format` varchar(30) DEFAULT NULL,
+  `Visible` int(11) NOT NULL,
+  `Tag` varchar(30) DEFAULT NULL,
+  PRIMARY KEY (`Id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=21 ;
+
+--
+-- dump ตาราง `pdccolumnsinfo`
 --
 
+INSERT INTO `pdccolumnsinfo` (`Id`, `TableName`, `ColumnName`, `ColumnReName`, `Unit`, `Formula`, `Format`, `Visible`, `Tag`) VALUES
+(1, 'erinetggsnpdcnodestatusall', 'Id', 'Id', 'null', 'null', 'null', 0, NULL),
+(2, 'erinetggsnpdcnodestatusall', 'Time', 'Time', 'null', 'null', 'null', 1, NULL),
+(3, 'erinetggsnpdcnodestatusall', 'internal-address', 'internal-address', 'null', 'null', 'null', 1, NULL),
+(4, 'erinetggsnpdcnodestatusall', 'peakCpuUsage', 'peakCpuUsage', 'null', 'null', 'null', 1, NULL),
+(5, 'erinetggsnpdcnodestatusall', 'averageCpuUsage', 'averageCpuUsage', 'null', 'null', 'null', 1, NULL),
+(6, 'erinetggsnpdcnodestatusall', 'memory', 'memory', 'null', 'null', 'null', 1, NULL),
+(7, 'erinetggsnpdcnodestatusall', 'memoryUsed', 'memoryUsed', 'null', 'null', 'null', 1, NULL),
+(8, 'erinetggsnpdcnodestatusall', 'start-time', 'start-time', 'null', 'null', 'null', 1, NULL),
+(9, 'erinetggsnpdcnodestatusall', 'Global-Session-Controller-function-name', 'Global-Session-Controller-function-name', 'null', 'null', 'null', 0, NULL),
+(10, 'erinetggsnpdcnodestatusall', 'Global-Session-Controller-status', 'Global-Session-Controller-status', 'null', 'null', 'null', 0, NULL),
+(11, 'erinetggsnpdcnodestatusall', 'SGW-Session-Controller-function-name', 'SGW-Session-Controller-function-name', 'null', 'null', 'null', 0, NULL),
+(12, 'erinetggsnpdcnodestatusall', 'SGW-Session-Controller-status', 'SGW-Session-Controller-status', 'null', 'null', 'null', 0, NULL),
+(13, 'erinetggsnpdcnodestatusall', 'SGW-Session-Controller-number-of-bearers', 'SGW-Session-Controller-number-of-bearers', 'null', 'null', 'null', 0, NULL),
+(14, 'erinetggsnpdcnodestatusall', 'SGW-Session-Controller-number-of-pdn-connections', 'SGW-Session-Controller-number-of-pdn-connections', 'null', 'null', 'null', 0, NULL),
+(15, 'erinetggsnpdcpayloadpersec', 'Id', 'Id', '', 'null', 'null', 0, NULL),
+(16, 'erinetggsnpdcpayloadpersec', 'Time', 'Time', 'null', 'null', 'null', 1, NULL),
+(17, 'erinetggsnpdcpayloadpersec', 'Uplink-traffic', 'Uplink-traffic', 'null', 'null', 'null', 1, NULL),
+(18, 'erinetggsnpdcpayloadpersec', 'Downlink-traffic', 'Downlink-traffic', 'null', 'null', 'null', 1, NULL),
+(19, 'erinetggsnpdcpayloadpersec', 'uplink_packets', 'uplink_packets', 'null', 'null', 'null', 0, NULL),
+(20, 'erinetggsnpdcpayloadpersec', 'downlink_packets', 'downlink_packets', 'null', 'null', 'null', 0, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- โครงสร้างตาราง `pdccontent`
+--
+DROP TABLE IF EXISTS `pdccontent`;
 CREATE TABLE IF NOT EXISTS `pdccontent` (
   `Id` varchar(250) NOT NULL,
   `GsnName` varchar(10) DEFAULT NULL,
@@ -2335,6 +2380,30 @@ INSERT INTO `pdccontent` (`Id`, `GsnName`, `GsnVersion`, `DBName`, `CustomerName
 ('999_920_SGSN_sgsn1379_20150620                                                                                                                                                                                                                            ', 'SGSN      ', '2015A                                             ', 'erinetdb            ', 'EriNet                                            ', 'PCN                           ', 'PCN                           ', 'PC   ', '                                                                                                                                                                                                                                                          ', 'sgsn1379                                          ', 'virtual                       ', 2015, 'Jun', '2015-06-10 08:15:00.000', '2015-06-20 01:25:00.000', 999, 920, 'CXS101289_R47A39                                  ', '15A CP00 Beta16                                   ', '                                                  ', '                                                                                                                                ', '                                                                                                                                                                                                                                                          ', 'Reza Sepehrinejad                                                                               ', '2015-06-24 18:53:08.000', 'sgsnl                         ', 0, '', ''),
 ('999_920_SGSN_sgsn1379_20150621                                                                                                                                                                                                                            ', 'SGSN      ', '2015A                                             ', 'erinetdb            ', 'EriNet                                            ', 'PCN                           ', 'PCN                           ', 'PC   ', '                                                                                                                                                                                                                                                          ', 'sgsn1379                                          ', 'virtual                       ', 2015, 'Jun', '2015-06-21 00:40:00.000', '2015-06-21 01:30:00.000', 999, 920, 'CXS101289_R47A39                                  ', '15A CP00 Beta16                                   ', '                                                  ', '                                                                                                                                ', '                                                                                                                                                                                                                                                          ', 'Reza Sepehrinejad                                                                               ', '2015-06-25 11:14:22.000', 'sgsnl                         ', 0, '', ''),
 ('999_920_SGSN_sgsn1379_20150710                                                                                                                                                                                                                            ', 'SGSN      ', '2015A                                             ', 'erinetdb            ', 'EriNet                                            ', 'PCN                           ', 'PCN                           ', 'PC   ', '                                                                                                                                                                                                                                                          ', 'sgsn1379                                          ', 'virtual                       ', 2015, 'jul', '2015-07-08 08:00:00.000', '2015-07-10 01:25:00.000', 999, 920, 'CXS101289_R47A39                                  ', '15A CP00 Beta19                                   ', '                                                  ', '                                                                                                                                ', '                                                                                                                                                                                                                                                          ', 'Reza Sepehrinejad                                                                               ', '2015-07-10 12:55:58.000', 'sgsnl                         ', 0, '', '');
+
+-- --------------------------------------------------------
+
+--
+-- โครงสร้างตาราง `users`
+--
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE IF NOT EXISTS `users` (
+  `Id` int(11) NOT NULL AUTO_INCREMENT,
+  `Username` varchar(30) NOT NULL,
+  `Password` varchar(30) NOT NULL,
+  `Firstname` varchar(30) NOT NULL,
+  `Lastname` varchar(30) NOT NULL,
+  `Role` int(11) NOT NULL,
+  PRIMARY KEY (`Id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+--
+-- dump ตาราง `users`
+--
+
+INSERT INTO `users` (`Id`, `Username`, `Password`, `Firstname`, `Lastname`, `Role`) VALUES
+(1, 'admin', 'admin', 'first', 'admin', 1),
+(2, 'user', 'user', 'first', 'user', 0);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

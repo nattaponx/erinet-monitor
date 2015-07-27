@@ -11,7 +11,8 @@ exports.connectMysql = function(queryString, callback) {
      
     connection.query(queryString, function(err, rows, fields) {
       if (err) throw err;
-      callback(rows);
+      else
+        callback(rows);
     });
      
     connection.end();

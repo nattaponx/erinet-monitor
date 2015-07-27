@@ -18,3 +18,20 @@
 .button100 {
 	width: 100%;
 }
+
+.tablehead {
+  margin-bottom: 5px;
+  height: 35px;
+  line-height: 35px;
+  padding-left: 8px;
+  font-weight: bold;
+  background-color: #e6e6e6;
+}
+
+.submit-large-only { visibility: visible; }
+.submit-small-only { visibility: hidden; }
+
+@media (max-width: 768px) {
+  .submit-large-only { visibility: hidden; }
+  .submit-small-only { visibility: visible; }
+}
