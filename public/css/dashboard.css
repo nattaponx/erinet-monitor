@@ -67,6 +67,15 @@
 		font-size: 0.8em;
 	  	margin-top: 33%;
 	}
+
+	.widgetBtnTxt-wide{
+		margin-top: 17%;
+
+	}
+
+	.order-layout-btns{
+		right: 20%;
+	}
 }
 
 /* Medium devices, desktops */
@@ -84,6 +93,15 @@
 	.widgetBtnTxt{
 		font-size: 1.3em;
 		margin-top: 20%;
+	}
+
+	.widgetBtnTxt-wide{
+		margin-top: 12%;
+		font-size: 1.3em;
+	}
+
+	.order-layout-btns{
+		right: 14%;
 	}
 
 	/* Topology Widget */
@@ -111,6 +129,10 @@
 	.widgetBtnTxt{
 		font-size: 1.6em;
 		margin-top: 23%;
+	}
+
+	.widgetBtnTxt-wide{
+		margin-top: 12%;
 	}
 
 	/* Topology Widget */
@@ -181,7 +203,12 @@
 	color: white;
 }
 
-.nav-btns{
+.order-layout-btns{
+	position: absolute;
+	top: 28%;
+}
+
+.submit-layout-btns{
 	position: absolute;
 	top: 28%;
 	right: 2%;

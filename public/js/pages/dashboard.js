@@ -26,17 +26,32 @@ require([ 'node_modules/d3/d3.js',
 	'event/eventController'
 	], function (d3, eventbus, ntc, netpc, nodepc, ec) {
 	
-	//Variables
-	var containers   = [{id:'1-1', widget:'', empty:true},{id:'1-2', widget:'', empty:true},
+	/* Variables */
+	var layout         = 4; 
+
+	var c_layout_2	  = [{id:'1-1', widget:'', empty:true},{id:'2-1', widget:'', empty:true}];
+	
+	var c_layout_3	  = [{id:'1-1', widget:'', empty:true},{id:'2-1', widget:'', empty:true},{id:'2-2', widget:'', empty:true}];
+	
+	var c_layout_4	  = [{id:'1-1', widget:'', empty:true},{id:'1-2', widget:'', empty:true},
 			  		 	{id:'2-1', widget:'', empty:true},{id:'2-2', widget:'', empty:true}];
 
-	var defaultSetup = [{id:'1-1', widget:'Topology'},{id:'1-2', widget:'Network Performance'},
+	var containers    = c_layout_4;
+
+
+	var d_layout_2	  = [{id:'1-1', widget:'Topology'}, {id:'2-1', widget:'Node Performance'}];
+	
+	var d_layout_3	  = [{id:'1-1', widget:'Topology'},{id:'2-1', widget:'Node Performance'},{id:'2-2', widget:'Events'}];
+
+	var d_layout_4	  = [{id:'1-1', widget:'Topology'},{id:'1-2', widget:'Network Performance'},
 			  			{id:'2-1', widget:'Node Performance'},{id:'2-2', widget:'Events'}];
 
-	var widgets      = [{name:'Topology', pos:'-up'}, {name:'Network Performance', pos:'-down'},
+	var widgets       = [{name:'Topology', pos:'-up'}, {name:'Network Performance', pos:'-down'},
 						{name:'Node Performance', pos:'-left'}, {name:'Events', pos:'-right'}];
 
-	var populated 	 = false;
+	var defaultLayout = d_layout_4;
+
+	var populated 	  = false;
 
 	widgetEnum: [{
 		tpy:'Topology', 
@@ -78,6 +93,21 @@ require([ 'node_modules/d3/d3.js',
 		defaultWidgets();
 	});
 
+	//2-layout-btn Click-event
+	d3.select('#two-layout-btn').on('click', function(){
+		changeLayout('2');
+	});
+
+	//3-layout-btn Click-event
+	d3.select('#three-layout-btn').on('click', function(){
+		changeLayout('3');
+	});
+
+	//4-layout-btn Click-event
+	d3.select('#four-layout-btn').on('click', function(){
+		changeLayout('4');
+	});
+
 
 	/**** Functions ******/
 	
@@ -94,6 +124,10 @@ require([ 'node_modules/d3/d3.js',
 	 * Resizes the dashboard-content-container.
 	 */
 	function resize(){
+		if($(window).width() < 480){
+			d3.select('.order-layout-btns').remove();
+		}
+
 		var head_foot 			  = $('.main-header').outerHeight() + $('.main-footer').outerHeight();
       	var window_height 	      = $(window).height();
       	var sidebar_height 		  = $(".sidebar").height();
@@ -143,13 +177,74 @@ require([ 'node_modules/d3/d3.js',
 		$('.addBtn').addClass('roundedEdges');
 	}
 
+	function changeLayout (order) {
+
+		layout = order;
+
+		if(!populated){
+			
+			var speed = 'slow';
+			var pos   = ['up','down','left','right'];
+
+			switch(order){
+				case '2':
+					console.log('2');
+					$('#dashboard-container-1-2').fadeOut(speed, function(){
+						$('#dashboard-container-1-2').remove();
+
+						$('#dashboard-container-1-1').animate({width: '98%'},speed);
+						$('#addBtn-icon-1-1').animate({'margin-top': '5%'},speed);
+					});
+
+					$('#dashboard-container-2-2').fadeOut(speed, function(){
+						$('#dashboard-container-2-2').remove();
+
+						$('#dashboard-container-2-1').animate({width: '98%'},speed);
+						$('#addBtn-icon-2-1').animate({'margin-top': '5%'},speed);
+					});
+
+					containers 	  = c_layout_2
+					defaultLayout = d_layout_2;
+					break;
+
+				case '3':
+					console.log('3');
+					$('#dashboard-container-1-2').fadeOut(speed, function(){
+						$('#dashboard-container-1-2').remove();
+
+						$('#dashboard-container-1-1').animate({width: '98%'},speed);
+						$('#addBtn-icon-1-1').animate({'margin-top': '5%'},speed);
+						
+						pos.forEach(function(p){
+							$('#widgetBtnTxt-1-1-' + p).css('margin-top', '13%');
+						});
+						
+
+					});
+
+					containers 	  = c_layout_3
+					defaultLayout = d_layout_3;
+					break;
+
+				case '4':
+					console.log('4');
+
+					containers 	  = c_layout_4
+					defaultLayout = d_layout_4;
+					break;
+			}
+
+			eventbus.fire('resize');
+		}	
+	}
+
 	/**
 	 * Displays the available widgets for selection.
 	 * Animates the buttons, spawning from the addBtn.
 	 * 
 	 * @param  {String} id [id of the dashboard-container]
 	 */
-	function displayWidgets(id) {
+	function displayWidgets(id, wide) {
 		d3.selectAll('.widgetBtn').remove();
 
 		widgets.forEach(function(widget){
@@ -158,8 +253,6 @@ require([ 'node_modules/d3/d3.js',
 				.attr('id', 'widgetBtn-' + id + widget.pos)
 				.on('mouseover', function(){
 					$('#widgetBtn-' + id + widget.pos).css('background-color', '#33779b');
-					//$('#widgetBtnTxt-' + id + widget.pos).css('color', '#3c8dbc');
-					//$('#widgetBtn-' + id + widget.pos).css('opacity', '0.6');
 				})
 				.on('mouseout', function(){
 					$('#widgetBtn-' + id + widget.pos).css('background-color', '#3c8dbc');
@@ -171,13 +264,29 @@ require([ 'node_modules/d3/d3.js',
 				});
 
 			d3.select('#widgetBtn-' + id + widget.pos).append('span')
-				.attr('class', 'widgetBtnTxt')
+				.attr('class', 'widgetBtnTxt widgetBtnTxt-'+ id)
 				.attr('id', 'widgetBtnTxt-' + id + widget.pos)
 				.text(widget.name);
 		});
 
 		//Rounded edges
 		$('.widgetBtn').addClass('roundedEdges');
+
+		//Check layout
+		switch(layout){
+			case '2':
+				console.log('set wide 2');
+				$('.widgetBtnTxt-1-1').addClass('widgetBtnTxt-wide');
+				$('.widgetBtnTxt-2-1').addClass('widgetBtnTxt-wide');
+				break;
+
+			case '3':
+				break;
+
+			case '4':
+				break;
+
+		}
 
 		//Animating the widget buttons.
 		$('#widgetBtn-' + id + '-up').animate({top: '15%'},"slow");
@@ -233,7 +342,7 @@ require([ 'node_modules/d3/d3.js',
 
 	function defaultWidgets(){
 		if(!populated){
-			defaultSetup.forEach(function(container){
+			defaultLayout.forEach(function(container){
 				loadWidget(container);
 			});
 		}
