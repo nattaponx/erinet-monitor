@@ -116,7 +116,6 @@ define(["node_modules/d3/d3.js",
 	          // autoplayDelay: 7000
 	        };
 	        var gCCarousel = new GCCarousel(carouselOptions);
-
 		},
 		/////////////////// end of createCarousel ///////////////////
 

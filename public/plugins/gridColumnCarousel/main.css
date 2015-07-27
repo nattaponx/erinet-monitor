@@ -18,7 +18,7 @@ ul {
   .grid-column-carousel__page-indicators li {
     background: #bbb;
     padding: 10px;
-    border-radius: 50%;
+    border-radius: 15%;
     display: inline-block;
     margin-left: 4px;
     margin-right: 4px;
