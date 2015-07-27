@@ -1,70 +1,151 @@
-/*@media only screen and (min-width : 768px) {*/
+/**
+ * PDC Performance view
+ * Author: Nattapon Thathong
+ */
 
-@media only screen and (min-width : 569px) {
+.dashboard-container{
+	position: relative;
+	overflow: auto;
+}
+.dashboard-content-container{
+	width: 100%;
+	height: 100%;
+}
 
-	.dashboard-content-container{
-		width: 100%;
-		height: 100%;	
+@media only screen and (min-width : 569px){
+	.btn-right{
+		float: right;
+		margin-right: 15px;
+		position: absolute;
+		top: 10px;
+		right: 0px;
 	}
-
-	.dashboard-container{
-		position: relative;
-		overflow: auto;
-	}
-
-	.chart-position{
-		margin: 5px auto 10px auto;
-		width: 400px;
-		height: 200px;
-	}
-		.chart-position-details{
-		margin: 5px auto 10px auto;
-		width: 400px;
-		height: 200px;
-	}
-	.details-custom{
-		/*display: none;*/
-		width: 100%;
-		height: 100%;
-	}
-
 	.box{
-		margin-bottom: 5px;
+		margin-bottom: 25px;
 	}
-
 	.box:hover {
 		-webkit-box-shadow: 3px 3px 3px 0px rgba(0,0,0,0.5);
 		-moz-box-shadow: 3px 5px 3px 0px rgba(0,0,0,0.5);
 		box-shadow: 3px 3px 3px 0px rgba(0,0,0,0.5);
 	}
-
 	.box-body{
 		text-align: center;
 		color: black;
+		width: 100%;
+		height: 280px;
+		padding: 5px;
 	}
-
+	.dbox-body{
+		text-align: center;
+		color: black;
+		width: 100%;
+		height: 300px;
+		padding: 10px;		
+	}
+	.dbox-body-master{
+		text-align: center;
+		color: black;
+		width: 100%;
+		height: 80px;
+		padding-bottom: 10px;		
+	}
+	.chart-position{
+		margin: 5px auto 5px auto;
+		width: 90%;
+		height: 90%;
+	}
+	.chart-position-details{
+		margin: 5px auto 5px auto;
+	}
+	.chart-position-master{
+		margin: -30px auto 10px auto;
+		width: 87%;
+		height: 90%;
+	}
+	.details-custom{
+		width: 100%;
+		height: 100%;
+		padding-left: 15px;
+		padding-right: 15px;
+	}
 }
 
 /*iphone 4, 5, 6 */
-@media only screen and (min-device-width: 320px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2)  {
+@media only screen and (min-device-width: 320px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2){
+	#fullscreen-btn{
+		display: none;
+	}
+	.box-body{
+		text-align: center;
+		color: black;
+		width: 100%;
+		height: 180px;
+		padding: 2px;
+	}
+	.dbox-body{
+		text-align: center;
+		color: black;
+		width: 100%;
+		height: 180px;
+		padding: 5px;		
+	}
+	.dbox-body-master{
+		text-align: center;
+		color: black;
+		width: 100%;
+		height: 50px;		
+	}
 	.chart-position{
 		margin: 0px auto 0px auto;
-		max-width: 95%;
-		height: 200px;
+		width: 90%;
+		height: 90%;
 	}
-
-	.box-body {
-		margin: 5px auto 2px auto;
-		padding: 0px;
+	.chart-position-details{
+		margin: 2px auto 2px auto;
+	}
+	.chart-position-master{
+		margin: -30px auto 10px auto;
+		width: 87%;
+		height: 90%;
 	}
 }
 
-/* ipad */
-@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (-webkit-min-device-pixel-ratio: 1) {
-	
+/* iPad & Galaxy Nexus 10 */
+@media only screen and (min-device-width: 768px) and (max-device-width: 1280px) and (-webkit-min-device-pixel-ratio: 1){
+	#fullscreen-btn{
+		display: none;
+	}
+	.box-body {
+		text-align: center;
+		color: black;
+		width: 100%;
+		height: 200px;
+		padding: 2px;
+	}
+	.dbox-body{
+		text-align: center;
+		color: black;
+		width: 100%;
+		height: 230px;
+		padding: 10px;		
+	}
+	.dbox-body-master{
+		text-align: center;
+		color: black;
+		width: 100%;
+		height: 80px;		
+	}
 	.chart-position{
 		margin: 0px auto 0px auto;
 		max-width: 95%;
-		height: 200px;
+		height: 98%;
+	}
+	.chart-position-details{
+		margin: 5px auto 5px auto;
+	}
+	.chart-position-master{
+		margin: -30px auto 10px auto;
+		width: 87%;
+		height: 90%;
 	}
 }

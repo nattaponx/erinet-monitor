@@ -18,18 +18,23 @@
     <!-- gridColumnCarousel -->
     <link href="/public/plugins/gridColumnCarousel/GridColumnCarousel.min.css" rel="stylesheet" type="text/css" />
     <link href="/public/plugins/gridColumnCarousel/main.css" rel="stylesheet" type="text/css" />
-    <link href="/public/plugins/gridColumnCarousel/GridColumnCarousel.scss" rel="stylesheet" type="text/scss" />
+    <link href="/public/plugins/gridColumnCarousel/GridColumnCarousel.scss" rel="stylesheet" type="text/css" />
     <!-- Dashboard CSS  -->
-    <link href="/public/css/performance.css" rel="stylesheet" type="text/css" />
+    <link href="/public/css/performance-full.css" rel="stylesheet" type="text/css" />
 
   </head>
  
-  <body class="skin-blue sidebar-mini">
+  <body class="skin-blue sidebar-mini sidebar-collapse">
     <div class="wrapper">
-
+ 
+ 
+ 
+ 
  
       <!-- Main Header -->
       <header class="main-header">
+ 
+ 
  
         <!-- Logo -->
         <a href="#" class="logo">
@@ -39,6 +44,10 @@
           <span class="logo-lg"><b>ERINet</b>Monitor</span>
         </a>
  
+ 
+ 
+ 
+ 
         <!-- Header Navbar -->
         <nav class="navbar navbar-static-top" role="navigation">
           <!-- Sidebar toggle button-->
@@ -46,9 +55,12 @@
             <span class="sr-only">Toggle navigation</span>
           </a>
  
+ 
           <!-- Navbar Right Menu -->
           <div class="navbar-custom-menu">
             <ul class="nav navbar-nav">
+ 
+ 
  
               <!-- User Account Menu -->
               <li class="dropdown user user-menu">
@@ -80,6 +92,7 @@
                 </ul>
               </li>
  
+ 
               <!-- Control Sidebar Toggle Button -->
               <li>
                 <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
@@ -90,6 +103,10 @@
           </div>
         </nav>
       </header>
+ 
+ 
+ 
+ 
  
       <!-- Left side column. contains the logo and sidebar -->
       <aside class="main-sidebar">
@@ -141,11 +158,8 @@
             Performance
             <small>EPG01</small>
           </h1>
-          <div class="btn-right">
-<!--             <button type="button" id="autoplay-btn" class="btn btn-block-tools btn-primary">
-              Autoplay
-            </button> -->
-            <button type="button" id="fullscreen-btn" class="btn btn-block-tools btn-default">
+          <div class="btn-group nav-btns" role="group" aria-label="...">
+            <button type="button" id="fullscreen-btn" class="btn btn-block btn-default">
               <i class="glyphicon glyphicon-fullscreen"></i>
             </button>
           </div>
@@ -153,36 +167,15 @@
  
 
         <!-- Main content -->
-        <section class="content" id='content-1'>
-            <div class="dashboard-content-container" id='dashboard-c-c-1'>
+        <section class="content">
 
-            <!-- carousel -->
-              <div class="grid-column-carousel realtime-performance" id="carousel-performance">
-                <ul class="grid-column-carousel__list" id="carousel-item">
-                  <!-- will be generated -->
-                </ul>
-                <div class="grid-column-carousel__page-indicators">
-                  <!-- will be generated -->
-                </div>
-              </div>
-
-              <!-- detail-box -->    
-              <div class="details-custom" id='details-container'>
-                <!-- will be generated -->
-            </div>
-          </div>
+           
         </section><!-- /.content -->
 
 
-        <!-- Dashboard content -->       
-        <section class="content" id='content-2'>
-          <div class="dashboard-container" id="dashboard-c-2">
-            <div class="dashboard-content-container" id='dashboard-c-c-2'>
-            </div>
-          </div>
-        </section><!-- /.content -->
 
       </div><!-- /.content-wrapper -->
+ 
  
       <!-- Control Sidebar -->      
       <aside class="control-sidebar control-sidebar-dark">                
@@ -252,6 +245,7 @@
  
 
     <!-- REQUIRED JS SCRIPTS -->
+ 
     <!-- jQuery 2.1.4 -->
     <script src="/node_modules/jQuery/dist/jquery.min.js"></script>
     <!-- Bootstrap 3.3.2 JS -->
@@ -270,7 +264,7 @@
     <script src='/public/plugins/justgage-master/justgage.js'></script>
     <script src='/public/plugins/raphael/raphael-min.js'></script>
     <!-- Performance css -->
-    <script data-main="/public/js/pages/performance.js" src="/node_modules/requirejs/require.js">
+    <script data-main="/public/js/pages/performance-full.js" src="/node_modules/requirejs/require.js">
     </script>
 
 </script>

@@ -46,7 +46,8 @@
         listElem = elem.getElementsByClassName('grid-column-carousel__list')[0],   //The list element
         colItems = listElem.getElementsByTagName('li');     //A list of all the column items
 
-    initialize();
+      initialize();
+
 
     if(autoplay) {
       setAutomaticSlideChange();
@@ -62,10 +63,12 @@
         refElem.classList.add(gridColClasses[i]);  
       }
       refElem.classList.add('grid-column-carousel__ref');
+      refElem.id = 'ref';
       elem.appendChild(refElem);
       
+
       initializeSize();
-      
+
       if (displayPageIndicators) {
         initializeDots();
       }
@@ -73,7 +76,14 @@
       listElem.classList.add('initialized');
       
       //When the window resizes recalculate the width of the carousel
-      window.addEventListener('resize', _.throttle(reinitialize, throttleDelay, {'leading': true}));
+      //window.addEventListener('resize', _.throttle(reinitialize, throttleDelay, {'leading': true}));
+
+      //To reinitialize() when #ref is resized ::: Nattapon Thathong
+      $("#ref").resize(function(){
+        setTimeout(initializeSize, 300);
+        setTimeout(self.slide('first'), 100);
+      });
+
     }
 
     //Gets the size of the reference element and sets it as the size of the col items
@@ -87,7 +97,6 @@
 
       //Get the width of a slide
       slideWidth = elem.getBoundingClientRect().width;
-      
       //Calculate how many pages are necessary
       pagesCount = Math.ceil(colItems.length / (slideWidth / colItemWidth));
     }
@@ -180,6 +189,7 @@
     }
     
     function onIndicatorClick(e) {
+      initializeSize(); // Nattapon Thathong
       slideToPage(getIndex(e.currentTarget));
     }
     
